@@ -1,0 +1,61 @@
+<% include ../partials/header.ejs %>
+<link rel="stylesheet" href="/stylesheets/Forms.css">
+
+    <div class='well' id='add-product-well'>
+      <h2 style="text-align: center;">Update User Details</h2>
+      <div class='inputForms'>
+          <form method="post">
+      
+            <div class="form-group">
+              <label="name">Name: </label>
+              <input type="text" class="form-control" value="<%= currentUser.username %>" name="name">
+            </div>
+            <div class="form-group">
+              <label="name">Mobile Number: </label>
+              <input type="text" class="form-control" value="<%= currentUser.address.mobile %>" name="mobile">
+            </div>
+            <div class="form-group">
+              <h4>Address</h4>
+              <!--Room No-->
+              <label="name">Room No: </label>
+              <input type="text" class="form-control" value="<%= currentUser.address.room_no %>" name="room_no">
+              
+              <!--Floor-->
+              <label="name">Floor: </label>
+              <input type="text" class="form-control" value="<%= currentUser.address.floor %>" name="floor">
+              
+              <!--Building No-->
+              <label="name">Build No: </label>
+              <input type="text" class="form-control" value="<%= currentUser.address.building_no %>" name="building_no">
+              
+              <!--Street-->
+              <label="name">Street: </label>
+              <input type="text" class="form-control" value="<%= currentUser.address.street %>" name="street">
+              
+              <!--Ward-->
+              <label="name">Ward: </label>
+              <input type="text" class="form-control" value="<%= currentUser.address.ward %>" name="ward">
+              
+              <!--Township-->
+              <label="name">Township: </label>
+              <input type="text" class="form-control" value="<%= currentUser.address.township %>" name="township">
+              
+              <!--City-->
+              <label="name">City: </label>
+              <input type="text" class="form-control" value="<%= currentUser.address.city %>" name="city">
+              
+              <!--Zip-->
+              <label="name">Postal Code: </label>
+              <input type="text" class="form-control" value="<%= currentUser.address.zip %>" name="zip">
+            </div>
+      
+            <button type="submit" class="btn btn-success">Submit</button>
+      
+          </form>
+      </div>
+    </div>
+
+
+
+
+<% include ../partials/footer.ejs %>

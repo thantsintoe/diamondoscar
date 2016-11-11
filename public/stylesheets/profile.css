@@ -1,0 +1,91 @@
+.row.row-profile-page {
+    width: 100%;
+    margin: 20px auto;
+    padding: 0px;
+}
+
+#profile-picture {
+    width: 200px;
+    height: 200px;
+    margin: 10px auto;
+    margin-top: 15px;
+    padding: 0px;
+}
+
+.panel-profile .btn {
+    width: auto;
+    text-align: center;
+    background-color: rgba(208,208,208,0.6);
+    color: #4A4A4A;
+    border: 2px solid rgba(208,208,208,0.6);
+    border-radius: 16px;
+    margin-left: 5px;
+    outline:none;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    transition: 0.2s;
+}
+
+.panel-profile .btn:hover {
+    background: transparent;
+    border: 2px solid #4A4A4A;
+    color: #4A4A4A;
+}
+
+
+.panel.panel-info {
+    padding-bottom: 20px;
+    border: 1px solid rgba(208,208,208,0.6);
+   
+}
+
+.panel-info.panel-favourite {
+    margin-top: 70px;
+}
+
+.panel.panel-info label,p,img,a {
+   padding-left: 20px;
+   
+}
+
+.panel.panel-info a {
+   margin-left: 20px;
+   
+}
+.panel-info .panel-heading {
+    height:50px;
+    background-color: rgba(208,208,208,0.6);
+    border: 1px solid rgba(208,208,208,0.6);
+    color: #363939;
+}
+.panel-heading h2 {
+    font-size: 1.6em;
+    font-weight: bold;
+    width: 100%;
+    margin: 0px auto;
+    padding: 0px;
+    text-align: center;
+}
+
+.row td {
+    vertical-align: middle;
+    margin: 5px auto;
+    padding: 0px;
+}
+
+
+.panel-info td img {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+.panel-favourite td .btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.6em;
+    margin: 0px;
+    
+    /*color: red;*/
+}

@@ -1,0 +1,168 @@
+<% include ../partials/header.ejs %>
+
+<div class='row mybreadcrumb'>
+        <div class='col-md-12'>
+            <ol class="breadcrumb">
+              <li><a href="#">Product</a></li>
+              <li class="active">All Products</li>
+            </ol>
+            <hr>
+        </div>
+</div>
+    
+    
+<div class='row text-center'>
+    <aside class='col-md-2 col-xs-0'>
+            <div class='shop-by-categories'>
+                <p class='shop-by-categories-title'>Shop by Categories</p>
+                <ul>
+                         
+                    <li class='list-category'><a href="/category/all/1">All Categories</a></li>
+                    
+                    <!--Men's Clothing-->
+                    <li class='list-category'>Men's Clothing <i class='glyphicon glyphicon-plus-sign pull-right' id='men-plus-button'></i></li>
+                    <div id='men-plus-group'>
+                        <% categories.forEach(function(category) { %>
+    					    <% if(!category.main_category) { %>
+    					        <% if(category.parent_category.name === "Men's Clothing") { %>
+    						        <li class='list-category-submenu'><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+    						    <% } %>
+    					    <% } %>
+    					<% }); %>
+					</div>
+					
+					<!--Women's Clothing-->
+                    <li class='list-category'>Women's Clothing<i class='glyphicon glyphicon-plus-sign pull-right' id='women-plus-button'></i></li>
+                    <div id='women-plus-group'>
+                        <% categories.forEach(function(category) { %>
+    					    <% if(!category.main_category) { %>
+    					        <% if(category.parent_category.name === "Women's Clothing") { %>
+    						        <li class='list-category-submenu'><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+    						    <% } %>
+    					    <% } %>
+    					<% }); %>
+					</div>
+					
+					<!--Bags-->
+                    <li class='list-category'>Bags<i class='glyphicon glyphicon-plus-sign pull-right' id='bags-plus-button'></i></li>
+                    <div id='bags-plus-group'>
+                        <% categories.forEach(function(category) { %>
+    					    <% if(!category.main_category) { %>
+    					        <% if(category.parent_category.name === "Bags") { %>
+    						        <li class='list-category-submenu'><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+    						    <% } %>
+    					    <% } %>
+    					<% }); %>
+					</div>
+					
+					<!--Shoes-->
+                    <li class='list-category'>Shoes<i class='glyphicon glyphicon-plus-sign pull-right' id='shoes-plus-button'></i></li>
+                    <div id='shoes-plus-group'>
+                        <% categories.forEach(function(category) { %>
+    					    <% if(!category.main_category) { %>
+    					        <% if(category.parent_category.name === "Shoes") { %>
+    						        <li class='list-category-submenu'><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+    						    <% } %>
+    					    <% } %>
+    					<% }); %>
+					</div>
+					
+					<!--Jewellery-->
+                    <li class='list-category'>Jewellery<i class='glyphicon glyphicon-plus-sign pull-right' id='jewellery-plus-button'></i></li>
+                    <div id='jewellery-plus-group'>
+                        <% categories.forEach(function(category) { %>
+    					    <% if(!category.main_category) { %>
+    					        <% if(category.parent_category.name === "Jewellery") { %>
+    						        <li class='list-category-submenu'><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+    						    <% } %>
+    					    <% } %>
+    					<% }); %>
+					</div>
+                </ul>
+            </div><!-- End of shop-by-categories-->
+            
+            
+            <!--Shop By Brand-->
+            <div class='shop-by-categories'>
+                <p class='shop-by-categories-title'>Shop by Brands</p>
+                <ul>
+                         
+                         <li class='list-category'><a href="/category/all/1">All Brands</a></li>
+                    <% brandArray.forEach(function(brand) { %>
+                        <li class='list-category'><a href="/category/<%= brand%>/1"><%= brand%></a></li>
+                    <% }); %>
+                </ul>
+            </div><!-- End of shop-by-brands-->
+            
+           
+            
+    </aside>
+        
+    
+    <div class='col-md-10 thumbnail-container'>
+            <% products.forEach(function(product) { %>
+            <div class='col-lg-3 col-md-4 col-sm-6'>
+                    <div class='thumbnail'>
+                        <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><img src='<%=product.image[0]%>'></a>
+                        <div class='caption'>
+                            <div class='product-name-container'>
+                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="burmese product-name"><%=product.name%></h4></a>
+                            </div>
+                            <p class='product-price'>$ <%=product.price%></p>
+                            <div class="rating-stars">
+                                <table>
+                                  <tr>
+                                    <td>
+                                      <input id="input-3" name="input-3" value="<%= product.rating%>" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
+                                    </td>
+                                  </tr>
+                                </table>
+                                <script>
+                                // $(document).on('ready', function(){
+                                    $('.input-3').rating({displayOnly: true, step: 0.1});
+                                // });
+                                </script>
+                                <br>
+                            </div>
+                        
+                            <div class='seemore-addtocart'>
+                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>' class='btn btn-primary btn-sm see-more'>See Detail</a>
+                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>' class='btn btn-primary btn-sm add-to-cart'>Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        <% }); %> 
+        
+    </div> <!--End Thumbnail Container-->
+    
+    <!--Pagination-->
+    <nav class='text-center' aria-label="Page navigation">
+          <ul class="pagination">
+            <li>
+              <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+                <% for (var i=1;i<=totalPages;i++) { %>
+                    <%if (i == currentPage) {%> 
+                        <li class='active'><a href="/category/<%= category %>/<%= i %>"><%= i %></a></li>
+                    <% } else {%>
+                        <li><a href="/category/<%= category %>/<%= i %>"><%= i %></a></li>
+                    <% } %>
+                <% } %>
+            <li>
+              <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+    </nav>
+</div>
+
+
+
+
+
+<% include ../partials/footer.ejs%>
+

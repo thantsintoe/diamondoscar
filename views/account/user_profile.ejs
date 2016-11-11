@@ -1,0 +1,103 @@
+<% include ../partials/header.ejs %>
+<link rel="stylesheet" href="/stylesheets/profile.css">
+
+
+  <div class="row row-profile-page">
+    <div class="col-sm-4 col-md-4">
+        <div class='panel panel-info panel-profile'>
+              <div class="panel-heading"><h2>User Profile</h2></div>
+              <img class="img-circle img-responsive img-center" id='profile-picture' src="<%= user.picture %>" alt="">
+    
+              <br />
+              <label>Username:</label>
+              <p><%= user.username %></p>
+              <label>Email:</label>
+              <p><%= user.email %></p>
+              <label>Mobile:</label>
+              <p><%= user.address.mobile %></p>
+        
+              <% if (user.address.city === "" || typeof user.address.city === 'undefined')  { %>
+                <p>Address: <span style="color: #c0392b; font-weight: bold">You haven't updated your address.</span></p>
+        
+              <% } else { %>
+              <label>Address:</label>
+              <p>Room No: <%= user.address.room_no %></p>
+              <p>Floor: <%= user.address.floor %></p>
+              <p>Building: <%= user.address.building_no %></p>
+              <p>Street: <%= user.address.street %>, <%= user.address.ward %>, <%= user.address.township %></p>
+              <p>City: <%= user.address.city %></p>
+        
+              <% } %>
+        
+              <a href="/edit-profile" class="btn">Update Profile</a>
+        </div> <!--End of Well-->
+      
+    </div>
+
+    <div class="col-sm-8 col-md-8">
+      <div class='panel panel-info panel-history'>
+          
+          <div class="panel-heading"><h2>Order History</h2></div>
+          <table class="table table-striped sticky-header">
+            <thead>
+            <tr>
+              <th>Item</th>
+              <th>Item's Name</th>
+              <th>Paid</th>
+              <th>Order Status</th>
+            </tr>
+            <tbody>
+              <% if (user.history.length > 0 && user.history.item !== 'undefined') { %>
+                  <% for(var i = 0; i < user.history.length; i++) {%>
+                    <tr>
+                      <td><img class="media-object" src="<%= user.history[i].item.image[0]%>" style="width: 72px; height: 72px;"></td>
+                      <td><%= user.history[i].item.name %></td>
+                      <td>$ <%= parseFloat(user.history[i].paid).toFixed(1) %></td>
+                      <td>Processing Order</td>
+                    </tr>
+                  <% } %>
+              <% } %>
+              
+            </tbody>
+            </thead>
+          </table>
+      </div><!--End of Well-->
+      
+      <div class='panel panel-info panel-favourite'>
+          <div class="panel-heading"><h2>Favourite Items</h2></div>
+
+          <table class="table table-striped sticky-header">
+            <thead>
+            <tr>
+              <th>Item</th>
+              <th>Item's Name</th>
+              <th>Price</th>
+            </tr>
+            <tbody>
+              <% for(var i = 0; i < user.favourite.length; i++) {%>
+                <tr>
+                  <td><img class="media-object" src="<%= user.favourite[i].image[0]%>" style="width: 72px; height: 72px;"></td>
+                  <td><%= user.favourite[i].name %></td>
+                  <td>$ <%= parseFloat(user.favourite[i].price).toFixed(1) %></td>
+                  <td>
+                    <form action='/remove-wishlist/<%= user.favourite[i]._id %>?_method=DELETE' method='POST'>
+                        <input type=hidden name='favourite-item-name' value='<%= user.favourite[i].name %>'>
+                        <button class='btn'><span class="glyphicon glyphicon-remove-circle"></span></button>
+                    </form>
+                  </td>
+                </tr>
+              <% } %>
+            </tbody>
+            </thead>
+          </table>
+      </div><!--End of Well-->
+      
+      
+    </div><!--End of Panel-->
+  </div>
+
+
+
+
+
+<% include ../partials/footer.ejs %>

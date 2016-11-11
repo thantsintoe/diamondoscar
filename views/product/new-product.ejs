@@ -1,0 +1,135 @@
+<% include ../partials/header.ejs %>
+<link rel="stylesheet" href="/stylesheets/Forms.css">
+
+
+    <div class='well' id='add-product-well'>
+            <h2 style="text-align: center;">Add a New Product</h2>
+            <div class='inputForms'>
+                <form ref='uploadForm' id='uploadForm' class='form-group' action='/product/add' method='POST' encType="multipart/form-data">
+                <!--Product ID-->
+                        <div class='input-group'>
+                            <label>Product ID</label>
+                            <input type='text' class='form-control' name='product_serial' placeholder='Product ID' required>
+                        </div>
+                <!--Name-->
+                        <div class='input-group'>
+                            <label>Product Name</label>
+                            <input type='text' class='form-control' name='name' placeholder='Name of Product' required>
+                        </div>
+                <!--Brand-->
+                        <div class='input-group'>
+                            <label>Product Brand</label>
+                            <input type='text' class='form-control' name='brand' placeholder='Brand Name' required>
+                        </div>
+                <!--Price-->            
+                        <div class='input-group'>
+                            <label>Price</label>
+                            <input type='text' class='form-control' name='price' placeholder='Original Price' required>
+                        </div>
+                <!--Discount-Price-->            
+                        <div class='input-group'>
+                            <label>Discount Price</label>
+                            <input type='text' class='form-control' name='discount_price' placeholder='Discount Price' required>
+                        </div>
+                        
+                <!--Image-->
+                        <div class='input-group' id='picture-input'>
+                            <input type='hidden' id='image_quantity' name='image_quantity' value='1'>
+                            <label>Image File</label>
+                            <input type="file" name='newImage1' required multiple/>
+                            
+                        </div>
+                        <button type="button" id='plus-image' class='btn btn-default'>+</button>
+                <!--Rating-->
+                        <div class='input-group'>
+                            <label>Initial Rating</label>
+                            <input type='text' class='form-control' name='rating' value='4.0' required>
+                        </div>
+                <!--Size-->
+                        <div class='input-group'>
+                            <label>Size</label>
+                            <div>
+                                <div class='size-checkbox'>
+                                     <p>XS</p>
+                                     <input type='checkbox' name='size_xs' value="ON" unchecked>
+                                </div>
+                                <div class='size-checkbox'>
+                                     <p>S</p>
+                                     <input type='checkbox' name='size_s' value="ON" unchecked>
+                                </div>
+                                <div class='size-checkbox'>
+                                     <p>M</p>
+                                     <input type='checkbox' name='size_m' value="ON" checked>
+                                </div>
+                                <div class='size-checkbox'>
+                                     <p>L</p>
+                                     <input type='checkbox' name='size_l' value="ON" unchecked>
+                                </div>
+                                <div class='size-checkbox'>
+                                     <p>XL</p>
+                                     <input type='checkbox' name='size_xl' value="ON" unchecked>
+                                </div>
+                                <div class='size-checkbox'>
+                                     <p>N/A</p>
+                                     <input type='checkbox' name='size_na' value="ON" unchecked>
+                                </div>
+                            </div>
+                            
+                        </div>  
+                <!--Color-->
+                        <div class='input-group'>
+                            <label>Available Colors</label>
+                            <div class='color-selector'>
+                                <input type='hidden' id='color_quantity' name='color_quantity' value='1'>
+                                <div class='color-group'>
+                                    <input type="color" name="color1" value='#ffffff'>
+                                    <input type="text" class='color_name' name="color_name1" value='white'>
+                                </div>
+                            </div>
+                            <button type="button" id='plus-color' class='btn btn-default'>+</button>
+                        </div>
+                <!--Dropdown Category-->
+                        <div class='input-group'>
+                            <label>Main Category</label>
+                            <select class='form-control' id='category-selector' name='category'>
+                              <% categories.forEach(function(category) { %>
+                                  <% if(category.main_category) { %>
+                                      <option name="table2" value="<%= category.name%>"><%= category.name%></option>
+                                  <% } %>
+                              <% }); %>
+                            </select>
+                        </div>
+                        <div class='input-group'>    
+                            <label>Sub Category</label>
+                            <select class='form-control' id='category-selector' name='category'>
+                              <% categories.forEach(function(category) { %>
+                                    <% if(!category.main_category) { %>
+                                      <option name="table1" value="<%= category.name%>"><%= category.name%></option>
+                                    <% } %>
+                              <% }); %>
+                            </select>
+                        </div>
+                <!--Description-->
+                        <div class='input-group'>
+                            <label>Description</label>
+                            <textarea class='form-control' name='description'></textarea>
+                        </div>
+                        <button id='add-product-button'>Add New Product</button>
+                        
+                        
+                </form>
+                <a href='/'>Go Back To Home Page</a>
+            </div>
+
+    </div>
+
+
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src='/js/custom.js'></script>
+<script src='/js/add-picture.js'></script>
+
+<script src='/js/jquery.jcarousel.min.js'></script>
+    <script src='/js/jcarousel.connected-carousels.js'></script>
+</body>
+</html>

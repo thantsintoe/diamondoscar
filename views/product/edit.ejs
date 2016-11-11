@@ -1,0 +1,159 @@
+<% include ../partials/header.ejs %>
+<link rel="stylesheet" href="/stylesheets/Forms.css">
+    <div class='well' id='add-product-well'>
+            <h1 style="text-align: center;">Edit <%= product.name %></h1>
+            <div class='inputForms'>
+                <form ref='uploadForm' id='uploadForm' class='form-group' action='/category/<%=category.name%>/product/<%= product._id %>?_method=PUT' method='POST' encType="multipart/form-data">
+                    <!--Product ID-->
+                        <div class='input-group'>
+                            <label>Product ID</label>
+                            <input type='text' class='form-control' name='product_serial' value='<%= product.detail.serial_num%>' required>
+                        </div>
+                    <!--Name-->
+                            <div class='input-group'>
+                                <label>Product Name</label>
+                                <input type='text' class='form-control' name='name' value='<%= product.name%>' required>
+                            </div>
+                    <!--Brand-->
+                            <div class='input-group'>
+                                <label>Product Brand</label>
+                                <input type='text' class='form-control' name='brand' value='<%= product.detail.brand%>' required>
+                            </div>
+                    <!--Price-->            
+                            <div class='input-group'>
+                                <label>Price</label>
+                                <input type='text' class='form-control' name='price' value='<%= product.price%>' required>
+                            </div>
+                    <!--Discount-Price-->            
+                            <div class='input-group'>
+                                <label>Discount Price</label>
+                                <input type='text' class='form-control' name='discount_price' value='<%= product.discountPrice%>' required>
+                            </div>
+                            
+                    <!--Image-->
+                            <div class='input-group' id='picture-input'>
+                                <input type='hidden' id='image_quantity' name='image_quantity' value='1'>
+                                <label>Image File</label>
+                                <input type="file" name='newImage1' multiple/>
+                                
+                            </div>
+                            <button type="button" id='plus-image' class='btn btn-default'>+</button>
+                    <!--Rating-->
+                            <div class='input-group'>
+                                <label>Initial Rating</label>
+                                <input type='text' class='form-control' name='rating' value='<%= product.rating%>' required>
+                            </div>
+                    <!--Size-->
+                            <div class='input-group'>
+                                <label>Size</label>
+                                <div>
+                                    <div class='size-checkbox'>
+                                         <p>XS</p>
+                                         <% if(product.sizes.indexOf('XS') < 0) { %>
+                                             <input type='checkbox' name='size_xs' value="ON" unchecked>
+                                         <% } else { %>
+                                             <input type='checkbox' name='size_xs' value="ON" checked>
+                                         <% } %>
+                                    </div>
+                                    <div class='size-checkbox'>
+                                         <p>S</p>
+                                         <% if(product.sizes.indexOf('S') < 0) { %>
+                                             <input type='checkbox' name='size_s' value="ON" unchecked>
+                                         <% } else { %>
+                                             <input type='checkbox' name='size_s' value="ON" checked>
+                                         <% } %>
+                                    </div>
+                                    <div class='size-checkbox'>
+                                         <p>M</p>
+                                         <% if(product.sizes.indexOf('M') < 0) { %>
+                                             <input type='checkbox' name='size_m' value="ON" unchecked>
+                                         <% } else { %>
+                                             <input type='checkbox' name='size_m' value="ON" checked>
+                                         <% } %>
+                                    </div>
+                                    <div class='size-checkbox'>
+                                         <p>L</p>
+                                         <% if(product.sizes.indexOf('L') < 0) { %>
+                                             <input type='checkbox' name='size_l' value="ON" unchecked>
+                                         <% } else { %>
+                                             <input type='checkbox' name='size_l' value="ON" checked>
+                                         <% } %>
+                                    </div>
+                                    <div class='size-checkbox'>
+                                         <p>XL</p>
+                                         <% if(product.sizes.indexOf('XL') < 0) { %>
+                                             <input type='checkbox' name='size_xl' value="ON" unchecked>
+                                         <% } else { %>
+                                             <input type='checkbox' name='size_xl' value="ON" checked>
+                                         <% } %>
+                                    </div>
+                                    <div class='size-checkbox'>
+                                         <p>N/A</p>
+                                         <% if(product.sizes.indexOf('N/A') < 0) { %>
+                                             <input type='checkbox' name='size_na' value="ON" unchecked>
+                                         <% } else { %>
+                                             <input type='checkbox' name='size_na' value="ON" checked>
+                                         <% } %>
+                                    </div>
+                                </div>
+                                
+                            </div>  
+                    <!--Color-->
+                            <div class='input-group'>
+                                <label>Available Colors</label>
+                                <div class='color-selector'>
+                                    <input type='hidden' id='color_quantity' name='color_quantity' value='1'>
+                                    <% for(var i=0; i<product.colors.length; i++) { %>
+                                        <div class='color-group'>
+                                            <input type="color" name="color<%= i+1%>" value='<%= product.colors[i].hex_code%>'>
+                                            <input type="text" class='color_name' name="color_name<%= i+1%>" value='<%= product.colors[i].name%>'>
+                                        </div>
+                                    <% } %>
+                                </div>
+                                <button type="button" id='plus-color' class='btn btn-default'>+</button>
+                            </div>
+                    <!--Dropdown Category-->
+                            <div class='input-group'>
+                                <label>Main Category</label>
+                                <select class='form-control' id='category-selector' name='category'>
+                                  <% categories.forEach(function(category) { %>
+                                      <% if(category.main_category) { %>
+                                          <% if(product.category.parent_category.equals(category._id)) { %>
+                                              <option name="table2" value="<%= category.name%>" selected="selected"><%= category.name%></option>
+                                          <% } else { %>
+                                              <option name="table2" value="<%= category.name%>"><%= category.name%></option>
+                                          <% } %>
+                                      <% } %>
+                                  <% }); %>
+                                </select>
+                            </div>
+                            <div class='input-group'>    
+                                <label>Sub Category</label>
+                                <select class='form-control' id='category-selector' name='category'>
+                                  <% categories.forEach(function(category) { %>
+                                        <% if(!category.main_category) { %>
+                                          <% if(category.name === product.category.name) { %>
+                                              <option name="table2" value="<%= category.name%>" selected="selected"><%= category.name%></option>
+                                          <% } else { %>
+                                              <option name="table2" value="<%= category.name%>"><%= category.name%></option>
+                                          <% } %>
+                                        <% } %>
+                                  <% }); %>
+                                </select>
+                            </div>
+                    <!--Description-->
+                            <div class='input-group'>
+                                <label>Description</label>
+                                <textarea class='form-control' name='description'><%= product.description%></textarea>
+                            </div>
+                            <button id='add-product-button'>Update Product</button>
+                        
+                </form>
+                <a href='/'>Go Back To Home Page</a>
+            </div>
+
+    </div>
+
+
+
+<% include ../partials/footer.ejs %>

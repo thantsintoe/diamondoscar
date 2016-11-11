@@ -1,0 +1,125 @@
+html,body
+{
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden; 
+}
+
+body {
+    width: 100%;
+}
+
+body {
+  /*background: url(https://dl.dropboxusercontent.com/u/23299152/Wallpapers/wallpaper-22705.jpg) no-repeat center center fixed; */
+  /*-webkit-background-size: cover;*/
+  /*-moz-background-size: cover;*/
+  /*-o-background-size: cover;*/
+  background-size: cover;
+  font-family: 'Roboto', sans-serif;
+  
+  
+
+
+
+background: #003973; /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #003973 , #E5E5BE); /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #003973 , #E5E5BE); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                
+}
+
+#add-product-well {
+    width: 50%;
+    margin: 30px auto;
+    padding: 0px;
+    border-radius: 15px;
+    border: 1px solid lightgray;
+    box-shadow: 0px 6px 2px rgba(0, 0, 0, 0.3);
+}
+
+#add-product-well .inputForms {
+    width: 80%;
+    margin: 0 auto;
+}
+
+#add-product-well .inputForms input {
+    margin-left: 0px;
+}
+
+#add-product-well .inputForms label {
+    font-weight: lighter;
+}
+
+.form-group label {
+    margin-top: 10px;
+}
+
+#uploadForm .form-control {
+    border-radius: 7px;
+}
+
+#category-selector {
+    border-radius: 7px;
+    margin-left: 0px;
+}
+#category-selector option {
+    border-radius: 7px;
+    margin-left: 0px;
+}
+
+.size-checkbox {
+    font-size: 1.0em;
+    /*color: blue;*/
+    margin-right: 20px;
+    float: left;
+}
+
+.size-checkbox input {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.size-checkbox p {
+    margin-bottom: 0px;
+}
+
+.color-selector input {
+    margin-right: 20px;
+    float: left;
+    width: 30px;
+    height: 30px;
+    border:none;
+}
+
+.color-group {
+    display: block;
+    margin: 20px;
+}
+
+.color-selector .color_name {
+    margin-right: 20px;
+    float: left;
+    width: 120px;
+    height: 30px;
+    border-radius: 5px;
+    padding-left: 5px;
+    margin-bottom: 10px
+}
+
+
+textarea.form-control {
+    height: 300px;
+}
+
+#add-product-button{
+  display: block;
+  height: 40px;
+  width: 30%;
+  margin: 20px auto;
+  border-radius: 9px;
+  border: 0px;
+  color: #fff;
+  text-shadow: 0 1px rgba(0,0,0,0.1); 
+  background-color: rgba(0, 83, 111,0.8);
+}
+

@@ -1,0 +1,29 @@
+<% include ../partials/header.ejs %>
+
+    <div class='row'>
+            <h1 style="text-align: center;">Add a New Category</h1>
+            <div class='inputForms'>
+                <form class='form-group' action='/category' method='POST'>
+                        <label>New Category</label>
+                        <input type='text' class='form-control' name='name' placeholder='Name of Category'>
+                        <!--<input type='text' class='form-control' name='parent_name' placeholder='Parent Category'>-->
+                        <!--Dropdown Category-->
+                        <div class='input-group'>
+                            <label>Parent Category</label>
+                            <select class='form-control' name='parent_name'>
+                                  <option name="table1" value=""></option>
+                              <% categories.forEach(function(category) { %>
+                                  <option name="table1" value="<%= category.name%>"><%= category.name%></option>
+                              <% }); %>
+                            </select>
+                        </div>
+                        <button class='btn btn-primary'>Add New Category</button>
+                        
+                </form>
+                <a href='/'>Go Back To Home Page</a>
+            </div>
+
+    </div>
+
+
+<% include ../partials/footer.ejs %>

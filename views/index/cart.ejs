@@ -1,0 +1,138 @@
+<% include ../partials/header %>
+    <link rel="stylesheet" href="/stylesheets/cart.css">
+    <link rel="stylesheet" href="/stylesheets/payment_form.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
+
+    <div class="login-card">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th class="text-center">Unit Price</th>
+                            <th class="text-center">Total</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--===============-->
+                        <% order.line_items.forEach(function(lineItem) { %>
+                            <tr>
+                                <td class="col-sm-8 col-md-6">
+                                    <div class="media">
+                                        <a class="thumbnail pull-left" href="#"> <img class="media-object" src="<%=  lineItem.item.image[0] %>" style="width: 72px; height: 72px;"> </a>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">
+                                                <a href="#">
+                                                    <%= lineItem.item.name%>
+                                                </a>
+                                            </h4>
+                                            <h5 class="media-heading"> by
+                                                <a href="#">
+                                                    <%= lineItem.item.detail.brand%>
+                                                </a>
+                                            </h5>
+                                            <span>Size : </span><span class="text-success"><strong><%= lineItem.size%></strong></span>
+                                            <span>Color : </span><span class="text-success"><strong><%= lineItem.item.colors[0].name%></strong></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="col-sm-1 col-md-1" style="text-align: center">
+                                    <input type="text" class="form-control" id="exampleInputEmail1" value="<%= lineItem.quantity%>">
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong><%=lineItem.item.price%></strong></td>
+                                <td class="col-sm-1 col-md-1 text-center"><strong><%=  lineItem.price %></strong></td>
+                                <td class="col-sm-1 col-md-1">
+                                    <form action='/cart?_method=DELETE' method='POST'>
+                                        <input type=hidden name='item' value='<%= lineItem._id %>'>
+                                        <input type=hidden name='price' value='<%= lineItem.price %>'>
+                                        <button class='btn btn-danger btn-sm'><span class="glyphicon glyphicon-remove"></span></button>
+                                    </form>
+
+                                </td>
+                            </tr>
+                            <% }); %>
+
+
+                                <!--=======================-->
+
+                                <tr>
+                                    <td>   </td>
+                                    <td>   </td>
+                                    <td>   </td>
+                                    <td>
+                                        <h5>Subtotal</h5>
+                                    </td>
+                                    <td class="text-right">
+                                        <h5><strong><%= order.total_price%></strong></h5>
+                                    </td>
+                                </tr>
+                                <!--<tr>-->
+                                <!--    <td>   </td>-->
+                                <!--    <td>   </td>-->
+                                <!--    <td>   </td>-->
+                                <!--    <td><h5>Estimated shipping</h5></td>-->
+                                <!--    <td class="text-right"><h5><strong>$6.94</strong></h5></td>-->
+                                <!--</tr>-->
+                                <tr>
+                                    <td>   </td>
+                                    <td>   </td>
+                                    <td>   </td>
+                                    <td>
+                                        <h3>Total</h3>
+                                    </td>
+                                    <td class="text-right">
+                                        <h3><strong><%= order.total_price%></strong></h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>   </td>
+                                    <td>   </td>
+                                    <td>   </td>
+                                    <td>
+                                        <a href='/category/all/1'><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping</button></a>
+                                    </td>
+                                    <td>
+                                         <form action="/payment" method="POST">
+                                            <input type="hidden" name="stripeMoney" value="<%= order.total_price%>">
+                                            <script
+                                              src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                              data-key="pk_test_3TqEp6gxWAhM8EG56oNnzknH"
+                                              data-amount="<%= order.total_price * 100%>"
+                                              data-name="MZK Ecommerce"
+                                              data-description="Online Fashion Store"
+                                              data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                              data-locale="auto"
+                                              data-currency="sgd">
+                                            </script>
+                                        </form>
+                                    </td>
+<!--=============================-->
+                                </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script src='/js/custom.js'></script>
+
+    <script src='/js/jquery.jcarousel.min.js'></script>
+    <script src='/js/jcarousel.connected-carousels.js'></script>
+    
+    
+   
+    </body>
+
+    </html>
+    
+  
