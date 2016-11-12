@@ -17,8 +17,48 @@
       <div class='panel panel-info panel-history'>
           
           <div class="panel-heading"><h2>Order Overview</h2></div>
-          
+              <table class="table table-striped sticky-header">
+                <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Product Name</th>
+                  <th>Quantity</th>
+                  <th>Size</th>
+                  <th>Color</th>
+                  <th>Payment</th>
+                </tr>
+                <tbody>
+                    <% users.forEach(function(user) { %>
+                        <% orders.forEach(function(order) { %>
+                          <% if(order.user.username === user.username && order.status === 'PAID') { %>
+                            <% order.line_items.forEach(function(lineItem) { %>
+                                <tr>
+                                  <td><%= user.username%></td>
+                                  <td><%= lineItem.item.name%></td>
+                                  <td><%= lineItem.quantity %></td>
+                                  <td><%= lineItem.size %></td>
+                                  <td><%= lineItem.item.colors[lineItem.color].name %></td>
+                                  <td><%= order.status %></td>
+                                </tr>
+                            <% }); %>
+                            
+                            
+                          <% } %>
+                        <% }); %>
+                    <% }); %>
+                </tbody>
+                </thead>
+              </table>
+              
+              
+              
+              
           </div>
+          
+          
+          
+          
+          
 
       <div class='panel panel-info panel-favourite'>
         <div class="panel-heading"><h2>Users Overview</h2></div>

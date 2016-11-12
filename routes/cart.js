@@ -12,34 +12,63 @@ router.use(methodOverride("_method"));
 
 router.post('/cart/product/:product_id',middleware.isLoggedIn,function(req,res) {
      
-     Order.findOne({user: req.user._id},function(err,order) {
-         if(err) console.log(err);
-         order.line_items.push({
-                 item    : req.body.product_id,
-                 quantity: req.body.quantity,
-                 size    : req.body.selected_size,
-                 color   : parseInt(req.body.selected_color_no),
-                 price   : parseFloat(req.body.priceHidden)
-         });
+     async.waterfall([function(callback) {
+        
+        Order.findOne({$and :[{user: req.user._id},{status: 'CART'}]},function(err,order) {
+            if(order) {
+              console.log(order);
+              callback(null);
+            } else {
+              var order = new Order();
+                                  
+              order.user      = req.user._id;
+              order.status    = 'CART';
+              
+              order.save(function(err) {
+                  if(err) {
+                      console.log(err);
+                      return res.redirect('/');
+                  }
+                  callback(null);
+              });
+            }
+        });
+        
 
-         order.total_price = (order.total_price + parseFloat(req.body.priceHidden)).toFixed(2);
-         
-         order.save(function(err) {
-             if(err) {
-                 console.log('Error while trying to save updated Cart');
-                 console.log(err);
-                 return res.redirect('/category/all/1');
-             } else {
-                 console.log(order);
-                 return res.redirect('/cart');
-             }
-         });
-     });
+     },function(callback) {
+        Order.findOne({$and :[{user: req.user._id},{status: 'CART'}]},function(err,order) {
+           if(err) console.log(err);
+           order.line_items.push({
+                   item    : req.body.product_id,
+                   quantity: req.body.quantity,
+                   size    : req.body.selected_size,
+                   color   : parseInt(req.body.selected_color_no),
+                   price   : parseFloat(req.body.priceHidden)
+           });
+  
+           order.total_price = (order.total_price + parseFloat(req.body.priceHidden)).toFixed(2);
+           order.status = 'CART';
+           
+           order.save(function(err) {
+               if(err) {
+                   console.log('Error while trying to save updated Cart');
+                   console.log(err);
+                   return res.redirect('/category/all/1');
+               } else {
+                   console.log(order);
+                   return res.redirect('/cart');
+               }
+           });
+        });
+     }])
+     
+     
+      
 });
 
 
 router.get('/cart',middleware.isLoggedIn,function(req,res,next) {
-    Order.findOne({user: req.user._id})
+    Order.findOne({$and :[{user: req.user._id},{status: 'CART'}]})
          .populate('line_items.item')
          .exec(function(err,foundOrder) {
             if (err) {console.log(err); return next(err);}
@@ -51,7 +80,7 @@ router.get('/cart',middleware.isLoggedIn,function(req,res,next) {
 router.delete('/cart',middleware.isLoggedIn,function(req,res,next) {
     
         
-        Order.findOne({user: req.user._id},function(err,foundOrder) {
+        Order.findOne({$and :[{user: req.user._id},{status: 'CART'}]},function(err,foundOrder) {
             if(err) return next(err);
             foundOrder.line_items.pull(String(req.body.item));
             
@@ -95,7 +124,7 @@ router.post('/payment',middleware.isLoggedIn,function(req,res,next) {
         async.waterfall([
           function(callback) {
             
-            Order.findOne({ user: req.user._id }, function(err, order) {
+            Order.findOne({$and :[{user: req.user._id},{status: 'CART'}]}, function(err, order) {
               if(err) {
                   console.log('Cannot find order for the user.');
                   console.log(err);
@@ -128,7 +157,8 @@ router.post('/payment',middleware.isLoggedIn,function(req,res,next) {
             });
           },
           function(user) {
-            Order.update({ user: user._id }, { $set: { line_items: [], total_price: 0 }}, function(err, updated) {
+            // Order.update({ user: user._id }, { $set: { line_items: [], total_price: 0,status: 'PAID' }}, function(err, updated) {
+            Order.update({ user: user._id }, { $set: {status: 'PAID' }}, function(err, updated) {
               if(err) {
                   console.log('Cannot find order');
                   console.log(err);

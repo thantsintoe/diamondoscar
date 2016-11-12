@@ -5,7 +5,7 @@ module.exports = function(req,res,next) {
                         
                         var total = 0;
                         
-                        Order.findOne({user: req.user._id,status: 'CART'},function(err,order) {
+                        Order.findOne({$and :[{user: req.user._id},{status: 'CART'}]},function(err,order) {
                             
                             if(order) 
                                 {
