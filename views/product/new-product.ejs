@@ -5,7 +5,7 @@
     <div class='well' id='add-product-well'>
             <h2 style="text-align: center;">Add a New Product</h2>
             <div class='inputForms'>
-                <form ref='uploadForm' id='uploadForm' class='form-group' action='/product/add' method='POST' encType="multipart/form-data">
+                <form ref='uploadForm' id='uploadForm' class='form-group' action='/product/add' method='POST' enctype="multipart/form-data">
                 <!--Product ID-->
                         <div class='input-group'>
                             <label>Product ID</label>
@@ -14,7 +14,8 @@
                 <!--Name-->
                         <div class='input-group'>
                             <label>Product Name</label>
-                            <input type='text' class='form-control' name='name' placeholder='Name of Product' required>
+                            <input type='text' class='form-control' name='name_en' placeholder='English' required>
+                            <input type='text' class='form-control' name='name_mm' placeholder='Myanmar' required>
                         </div>
                 <!--Brand-->
                         <div class='input-group'>
@@ -36,7 +37,7 @@
                         <div class='input-group' id='picture-input'>
                             <input type='hidden' id='image_quantity' name='image_quantity' value='1'>
                             <label>Image File</label>
-                            <input type="file" name='newImage1' required multiple/>
+                            <input type="file" name='newImage1' required/>
                             
                         </div>
                         <button type="button" id='plus-image' class='btn btn-default'>+</button>
@@ -91,7 +92,7 @@
                 <!--Dropdown Category-->
                         <div class='input-group'>
                             <label>Main Category</label>
-                            <select class='form-control' id='category-selector' name='category'>
+                            <select class='form-control' id='category-selector' name='main-category'>
                               <% categories.forEach(function(category) { %>
                                   <% if(category.main_category) { %>
                                       <option name="table2" value="<%= category.name%>"><%= category.name%></option>
@@ -112,7 +113,8 @@
                 <!--Description-->
                         <div class='input-group'>
                             <label>Description</label>
-                            <textarea class='form-control' name='description'></textarea>
+                            <textarea class='form-control textarea-product-description' name='description_en'></textarea>
+                            <textarea class='form-control textarea-product-description' name='description_mm'></textarea>
                         </div>
                         <button id='add-product-button'>Add New Product</button>
                         

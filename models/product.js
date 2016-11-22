@@ -2,7 +2,10 @@ var mongoose = require('mongoose');
 
 //Product Schema
 var productSchema = new mongoose.Schema({
-    name            : String,
+    name            : {
+                        en : {type: String,unique: true},
+                        mm : {type: String,unique: true}
+                      },
     price           : Number,
     discountPrice  : Number,
     colors          : [{name: String, hex_code: String}],
@@ -13,7 +16,10 @@ var productSchema = new mongoose.Schema({
     totalReview    : Number,
     rating          : Number,
     like            : Number,
-    description     : String,
+    description     : {
+                        en : {type: String},
+                        mm : {type: String}
+                      },
     detail          : {
                         serial_num   : {type: String,unique: true},
                         brand       : String
@@ -25,6 +31,10 @@ var productSchema = new mongoose.Schema({
     sub_category    : [{ 
                         type: mongoose.Schema.Types.ObjectId,
                         ref: "Category"
+                    }],
+    comments        : [{
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: "Comment"
                     }],
     tag             : []
     

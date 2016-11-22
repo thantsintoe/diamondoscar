@@ -18,17 +18,26 @@ var indexRoutes = require('./routes/index');
 var cartRoutes = require('./routes/cart');
 var userRoutes = require('./routes/user');
 var productRoutes = require('./routes/product');
+var commentRoutes = require('./routes/comment');
 var categoryRoutes = require('./routes/category');
 var adminRoutes = require('./routes/admin');
-// var generateProduct = require('./api/api');
-var uploadRoutes = require('./routes/upload');
 
+var uploadRoutes = require('./routes/upload');
+var cloudinary = require('cloudinary');
+
+var preferredLanguage = "mm";
+
+cloudinary.config({ 
+  cloud_name: 'dzxsfe54s', 
+  api_key: '343496594473383', 
+  api_secret: '39yXvsQZMFG5q124Jslc8G8OkEA' 
+});
 
 var cartLength = require('./middleware/cartlength');
 
 
-// mongoose.connect('mongodb://localhost/ecommerce');
-mongoose.connect('mongodb://thantsintoe:patoe1492010@ds053090.mlab.com:53090/thantsintoe-ecommerce');
+mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/ecommerce');
+// mongoose.connect('mongodb://thantsintoe:patoe1492010@ds143767.mlab.com:43767/ecommerce-deployed');
 
 
 app.engine('ejs',engine);
@@ -41,7 +50,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(require('express-session')({
     secret: 'I have a dream',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: { maxAge: 300000 }
 }));
 
 app.use(passport.initialize());
@@ -53,14 +63,49 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+//Section and Cookie Parser
+var cookieParser = require('cookie-parser');
+
+app.use(cookieParser("I have a dream"));
+
+//Language Localization for English and Myanmar
+var i18n = require('i18n');
+
+i18n.configure({
+      //define how many languages we would support in our application
+      locales:['en', 'mm'],
+      
+      //define the path to language json files, default is /locales
+      directory: __dirname + '/locales',
+      
+      //define the default language
+      defaultLocale: 'en',
+      
+      // define a custom cookie name to parse locale settings from 
+      cookie: 'i18n'
+});
+
+app.use(i18n.init);
+
+
+
 //Middleware to pass the Current User info to every request
 app.use(function(req,res,next) {
    res.locals.currentUser  = req.user;
    next();
 });
 
+//Middleware to pass the Current Language every request
+app.use(function(req,res,next) {
+   res.locals.currentLanguage  = preferredLanguage;
+   next();
+});
+
 //Middleware to pass the number of items in Cart
 app.use(cartLength);
+
+
+
 
 
 //Middleware to pass the Category info to every request
@@ -106,6 +151,22 @@ app.use(function(req,res,next) {
    
 });
 
+//English Language Route
+   app.get('/en',function(req,res) {
+       res.cookie('i18n', 'en');
+         preferredLanguage = "en";
+       res.redirect("back");
+   });
+
+//Burmese Language Route   
+    app.get('/mm',function(req,res) {
+      res.cookie('i18n', 'mm');
+         preferredLanguage = "mm";
+       
+      res.redirect("back");
+   });
+
+
 app.use(cartRoutes);
 app.use(indexRoutes);
 app.use(userRoutes);
@@ -113,6 +174,7 @@ app.use(categoryRoutes);
 app.use(productRoutes);
 app.use(uploadRoutes);
 app.use(adminRoutes);
+app.use(commentRoutes);
 
 
 // app.use(generateProduct);

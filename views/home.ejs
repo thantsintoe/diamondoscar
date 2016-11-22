@@ -3,20 +3,12 @@
 <link rel="stylesheet" href="/stylesheets/homepage.css">
 
 <div class="carousel fade-carousel slide" data-ride="carousel" data-interval="10000" id="bs-carousel">
-  
-  
-  
+
   <!-- Overlay -->
   <div class="overlay"></div>
 
-  <!-- Indicators -->
-  <!--<ol class="carousel-indicators">-->
-  <!--  <li data-target="#bs-carousel" data-slide-to="0" class="active"></li>-->
-  <!--  <li data-target="#bs-carousel" data-slide-to="1"></li>-->
-  <!--  <li data-target="#bs-carousel" data-slide-to="2"></li>-->
-  <!--</ol>-->
-  
-  <!-- Wrapper for slides -->
+
+  <!-- Wrapper for Hero slides -->
   <div class="carousel-inner">
     <div class="item slides active">
       <div class="slide-1"></div>
@@ -31,43 +23,20 @@
         </div>
       </div>
     </div>
-    <!--<div class="item slides">-->
-    <!--  <div class="slide-2"></div>-->
-    <!--  <div class="hero">-->
-    <!--    <hgroup>-->
-    <!--        <h1 class='burmese' id='hero-main-text1'>ခောတ်မီတဲ့ စတိုင်ကျ လှပမှုက</h1>-->
-    <!--        <h1 class='burmese' id='hero-main-text2'>သင့် လက်တစ်ကမ်းအကွာ ရောက်နေပြီလေ</h1>    -->
-    <!--    </hgroup>-->
-    <!--    <div class='pull-right'>-->
-    <!--      <h3 class='burmese'>မိုးရာသီအထူးလျော့စျေး</h3>-->
-    <!--      <button class="btn btn-hero btn-lg" role="button">SHOP NOW</button>-->
-    <!--    </div>-->
-    <!--  </div>-->
-    <!--</div>-->
-    <!--<div class="item slides">-->
-    <!--  <div class="slide-3"></div>-->
-    <!--  <div class="hero">-->
-    <!--    <hgroup>-->
-    <!--        <h1 class='burmese' id='hero-main-text1'>ခောတ်မီတဲ့ စတိုင်ကျ လှပမှုက</h1>-->
-    <!--        <h1 class='burmese' id='hero-main-text2'>သင့် လက်တစ်ကမ်းအကွာ ရောက်နေပြီလေ</h1>    -->
-    <!--    </hgroup>-->
-    <!--    <div class='pull-right'>-->
-    <!--      <h3 class='burmese'>မိုးရာသီအထူးလျော့စျေး</h3>-->
-    <!--      <button class="btn btn-hero btn-lg" role="button">SHOP NOW</button>-->
-    <!--    </div>-->
-    <!--  </div>-->
-    <!--</div>-->
+   
   </div> 
 </div>
 
-<!--<a href='/product/add'>Add new Product</a>-->
 
 
-<h3 class='burmese best-selling-headers best-selling-headers-women'>လတ်တလော လူကြိုက်များသော အမျိုးသမီးဖက်ရှင် ပစ္စည်းများ</h3>
-<!--BEST SELLING ITEMS-->
 
-
-<div id="carousel-bestselling" class="carousel slide" data-ride="carousel" data-interval='5000'>
+<div class='row bestselling-wrapper'>
+  <div class='col-sm-12'>
+      <h3 class='burmese best-selling-headers best-selling-headers-women'>လတ်တလော လူကြိုက်များသော အမျိုးသမီးဖက်ရှင် ပစ္စည်းများ</h3>
+      <!--BEST SELLING ITEMS-->
+  </div>
+  <div class='col-sm-12'>
+      <div id="carousel-bestselling" class="carousel slide" data-ride="carousel" data-interval='5000'>
         <div class="carousel-inner">
             <div class="item active">
                     <img src="/images/homepage/Women_Bestselling_Item_1.jpg">
@@ -80,7 +49,7 @@
                               </p>
                               <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                               <div class='seemore-addtocart'>
-                                    <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                    <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                     <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                               </div>
                          </div>
@@ -103,7 +72,7 @@
                             </p>
                             <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                             <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                   <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                             </div>
                          </div>
@@ -126,7 +95,7 @@
                             </p>
                             <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                             <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                   <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                             </div>
                          </div>
@@ -138,18 +107,37 @@
                         </ol>
                     </div>
           </div>
+          
+        <!-- Navigation -->
+        <a class="left carousel-control" href="#carousel-bestselling" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-bestselling" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+          
       </div> 
 
 </div> <!-- Carousel -->
+  </div>
+</div>
+
+
+
+
+
 
 
 <!--============================-->
 
 
-
-<h3 class='burmese best-selling-headers'>လတ်တလော လူကြိုက်များသော အမျိုးသားဖက်ရှင် ပစ္စည်းများ</h3>
-
-<div id="carousel-bestselling-men" class="carousel slide" data-ride="carousel" data-interval='10000'>
+<div class='row bestselling-wrapper'>
+  <div class='col-sm-12'>
+    <h3 class='burmese best-selling-headers'>လတ်တလော လူကြိုက်များသော အမျိုးသားဖက်ရှင် ပစ္စည်းများ</h3>
+  </div>
+  
+  <div class='col-sm-12'>
+      <div id="carousel-bestselling-men" class="carousel slide" data-ride="carousel" data-interval='10000'>
         <div class="carousel-inner">
             <div class="item active">
                     <img src="/images/homepage/Men_Bestselling_Item_1.jpg">
@@ -162,7 +150,7 @@
                               </p>
                               <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                               <div class='seemore-addtocart'>
-                                    <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                    <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                     <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                               </div>
                          </div>
@@ -185,7 +173,7 @@
                             </p>
                             <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                             <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                   <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                             </div>
                          </div>
@@ -208,7 +196,7 @@
                             </p>
                             <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                             <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                   <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                             </div>
                          </div>
@@ -220,16 +208,28 @@
                         </ol>
                     </div>
           </div>
+          
+          <!-- Navigation -->
+          <a class="left carousel-control" href="#carousel-bestselling-men" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a class="right carousel-control" href="#carousel-bestselling-men" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
       </div> 
 
-</div> <!-- Carousel -->
+    </div> <!-- Carousel -->
+  </div><!-- End Col-sm-12 -->
+</div><!-- End ROW -->
 
 
 
-
-<h3 class='burmese best-selling-headers'>လတ်တလော လူကြိုက်များသော ဖိနပ်များ</h3>
-
-<div id="carousel-bestselling-shoe" class="carousel slide" data-ride="carousel" data-interval='10000'>
+<div class='row bestselling-wrapper'>
+  <div clss='col-sm-12'>
+    <h3 class='burmese best-selling-headers'>လတ်တလော လူကြိုက်များသော ဖိနပ်များ</h3>
+  </div>
+  <div class='col-sm-12'>
+    <div id="carousel-bestselling-shoe" class="carousel slide" data-ride="carousel" data-interval='10000'>
         <div class="carousel-inner">
             <div class="item active">
                     <img src="/images/homepage/Shoe_1.jpg">
@@ -242,7 +242,7 @@
                               </p>
                               <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                               <div class='seemore-addtocart'>
-                                    <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                    <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                     <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                               </div>
                          </div>
@@ -265,7 +265,7 @@
                             </p>
                             <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                             <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                   <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                             </div>
                          </div>
@@ -288,7 +288,7 @@
                             </p>
                             <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                             <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                   <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                             </div>
                          </div>
@@ -300,16 +300,28 @@
                         </ol>
                     </div>
           </div>
+          <!-- Navigation -->
+          <a class="left carousel-control" href="#carousel-bestselling-shoe" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a class="right carousel-control" href="#carousel-bestselling-shoe" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
       </div> 
 
-</div> <!-- Carousel -->
+    </div> <!-- Carousel -->
+  </div>
+</div>
 
 
+<div class='row bestselling-wrapper'>
+  <div class='col-sm-12'>
+    <h3 class='burmese best-selling-headers'>လတ်တလော လူကြိုက်များသော အိတ်များ</h3>
 
+  </div>
+  <div class='col-sm-12'>
+    <!--=============BAGS================================-->
 
-<!--=============BAGS================================-->
-
-<h3 class='burmese best-selling-headers'>လတ်တလော လူကြိုက်များသော အိတ်များ</h3>
 
 <div id="carousel-bestselling-bag" class="carousel slide" data-ride="carousel" data-interval='10000'>
         <div class="carousel-inner">
@@ -324,7 +336,7 @@
                               </p>
                               <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                               <div class='seemore-addtocart'>
-                                    <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                    <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                     <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                               </div>
                          </div>
@@ -347,7 +359,7 @@
                             </p>
                             <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                             <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                   <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                             </div>
                          </div>
@@ -370,7 +382,7 @@
                             </p>
                             <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                             <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                   <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                             </div>
                          </div>
@@ -382,14 +394,28 @@
                         </ol>
                     </div>
           </div>
+          <!-- Navigation -->
+          <a class="left carousel-control" href="#carousel-bestselling-bag" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a class="right carousel-control" href="#carousel-bestselling-bag" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
       </div> 
 
-</div> <!-- Carousel -->
+    </div> <!-- Carousel -->
+  </div>
+</div>
 
 
-<!--=============ACCESSORIES================================-->
+<div class='row bestselling-wrapper'>
+  <div class='col-sm-12'>
+    <h3 class='burmese best-selling-headers'>လတ်တလော လူကြိုက်များသော အလှ၀တ် ရတနာများ</h3>
 
-<h3 class='burmese best-selling-headers'>လတ်တလော လူကြိုက်များသော အလှ၀တ် ရတနာများ</h3>
+  </div>
+  <div class='col-sm-12'>
+    <!--=============ACCESSORIES================================-->
+
 
 <div id="carousel-bestselling-accessories" class="carousel slide" data-ride="carousel" data-interval='10000'>
         <div class="carousel-inner">
@@ -404,7 +430,7 @@
                               </p>
                               <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                               <div class='seemore-addtocart'>
-                                    <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                    <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                     <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                               </div>
                          </div>
@@ -427,7 +453,7 @@
                             </p>
                             <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                             <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                   <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                             </div>
                          </div>
@@ -450,7 +476,7 @@
                             </p>
                             <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
                             <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
+                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
                                   <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
                             </div>
                          </div>
@@ -462,9 +488,24 @@
                         </ol>
                     </div>
           </div>
+          <!-- Navigation -->
+          <a class="left carousel-control" href="#carousel-bestselling-accessories" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a class="right carousel-control" href="#carousel-bestselling-accessories" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
       </div> 
 
 </div> <!-- Carousel -->
+  </div>
+</div>
+
+
+
+
+
+
 
 
 

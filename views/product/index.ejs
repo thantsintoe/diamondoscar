@@ -4,76 +4,83 @@
         <div class='col-md-12'>
             <ol class="breadcrumb">
               <li><a href="#">Product</a></li>
-              <li class="active">All Products</li>
+              <% if (parent_category) { %>
+              <li><a href="#"><%= parent_category%></a></li>
+              <% } %>
+              <% if (category === 'all') { %>
+              <li><a href="#">All Products</a></li>
+              <% } else { %>
+              <li class="active"><%= category%></li>
+              <% } %>
             </ol>
             <hr>
         </div>
 </div>
-    
-    
+
+
 <div class='row text-center'>
     <aside class='col-md-2 col-xs-0'>
             <div class='shop-by-categories'>
-                <p class='shop-by-categories-title'>Shop by Categories</p>
+                <p class='shop-by-categories-title multilanguage burmese'><%= __('Shop by Categories') %></p>
                 <ul>
                          
-                    <li class='list-category'><a href="/category/all/1">All Categories</a></li>
+                    <li class='list-category multilanguage burmese'><a href="/category/all/1"><%= __('All Categories') %></a></li>
                     
                     <!--Men's Clothing-->
-                    <li class='list-category'>Men's Clothing <i class='glyphicon glyphicon-plus-sign pull-right' id='men-plus-button'></i></li>
+                    <li class='list-category multilanguage burmese'><%= __("Men's Clothing") %> <i class='glyphicon glyphicon-plus-sign pull-right' id='men-plus-button'></i></li>
                     <div id='men-plus-group'>
                         <% categories.forEach(function(category) { %>
     					    <% if(!category.main_category) { %>
     					        <% if(category.parent_category.name === "Men's Clothing") { %>
-    						        <li class='list-category-submenu'><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name) %></a></li>
     						    <% } %>
     					    <% } %>
     					<% }); %>
 					</div>
 					
 					<!--Women's Clothing-->
-                    <li class='list-category'>Women's Clothing<i class='glyphicon glyphicon-plus-sign pull-right' id='women-plus-button'></i></li>
+                    <li class='list-category multilanguage burmese'><%=__("Women's Clothing")%><i class='glyphicon glyphicon-plus-sign pull-right' id='women-plus-button'></i></li>
                     <div id='women-plus-group'>
                         <% categories.forEach(function(category) { %>
     					    <% if(!category.main_category) { %>
     					        <% if(category.parent_category.name === "Women's Clothing") { %>
-    						        <li class='list-category-submenu'><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name) %></a></li>
     						    <% } %>
     					    <% } %>
     					<% }); %>
 					</div>
 					
 					<!--Bags-->
-                    <li class='list-category'>Bags<i class='glyphicon glyphicon-plus-sign pull-right' id='bags-plus-button'></i></li>
+                    <li class='list-category multilanguage burmese'><%=__("Bags")%><i class='glyphicon glyphicon-plus-sign pull-right' id='bags-plus-button'></i></li>
                     <div id='bags-plus-group'>
                         <% categories.forEach(function(category) { %>
     					    <% if(!category.main_category) { %>
     					        <% if(category.parent_category.name === "Bags") { %>
-    						        <li class='list-category-submenu'><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name) %></a></li>
     						    <% } %>
     					    <% } %>
     					<% }); %>
 					</div>
 					
 					<!--Shoes-->
-                    <li class='list-category'>Shoes<i class='glyphicon glyphicon-plus-sign pull-right' id='shoes-plus-button'></i></li>
+                    <li class='list-category multilanguage burmese'><%=__("Shoes")%><i class='glyphicon glyphicon-plus-sign pull-right' id='shoes-plus-button'></i></li>
                     <div id='shoes-plus-group'>
                         <% categories.forEach(function(category) { %>
     					    <% if(!category.main_category) { %>
     					        <% if(category.parent_category.name === "Shoes") { %>
-    						        <li class='list-category-submenu'><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name) %></a></li>
     						    <% } %>
     					    <% } %>
     					<% }); %>
 					</div>
 					
 					<!--Jewellery-->
-                    <li class='list-category'>Jewellery<i class='glyphicon glyphicon-plus-sign pull-right' id='jewellery-plus-button'></i></li>
+                    <li class='list-category multilanguage burmese'><%=__("Jewellery")%><i class='glyphicon glyphicon-plus-sign pull-right' id='jewellery-plus-button'></i></li>
                     <div id='jewellery-plus-group'>
                         <% categories.forEach(function(category) { %>
     					    <% if(!category.main_category) { %>
     					        <% if(category.parent_category.name === "Jewellery") { %>
-    						        <li class='list-category-submenu'><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name) %></a></li>
     						    <% } %>
     					    <% } %>
     					<% }); %>
@@ -84,7 +91,7 @@
             
             <!--Shop By Brand-->
             <div class='shop-by-categories'>
-                <p class='shop-by-categories-title'>Shop by Brands</p>
+                <p class='shop-by-categories-title multilanguage burmese'><%= __('Shop by Brand') %></p>
                 <ul>
                          
                          <li class='list-category'><a href="/category/all/1">All Brands</a></li>
@@ -106,7 +113,11 @@
                         <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><img src='<%=product.image[0]%>'></a>
                         <div class='caption'>
                             <div class='product-name-container'>
-                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="burmese product-name"><%=product.name%></h4></a>
+                                <% if(currentLanguage === "mm") { %>
+                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="burmese product-name multilanguage burmese"><%=product.name.mm%></h4></a>
+                                <% } else { %>
+                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="burmese product-name"><%=product.name.en%></h4></a>
+                                <% } %>
                             </div>
                             <p class='product-price'>$ <%=product.price%></p>
                             <div class="rating-stars">
@@ -126,8 +137,8 @@
                             </div>
                         
                             <div class='seemore-addtocart'>
-                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>' class='btn btn-primary btn-sm see-more'>See Detail</a>
-                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>' class='btn btn-primary btn-sm add-to-cart'>Add to Cart</a>
+                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>' class='btn btn-primary btn-sm see-more multilanguage burmese'><%= __('See Detail') %></a>
+                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>' class='btn btn-primary btn-sm add-to-cart multilanguage burmese'><%= __('Add to Cart') %></a>
                             </div>
                         </div>
                     </div>

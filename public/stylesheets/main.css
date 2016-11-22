@@ -4,6 +4,13 @@ body {
     background-color: rgb(238, 238, 238)
 }
 
+.burmese {
+font-family: 'Noto Sans Myanmar', sans-serif;
+font-weight: 400;
+/*font-size: 0.9em;*/
+    
+}
+
 /*Nav Bar Styling*/
 /*First Nav Bar*/
 .navbar-default {
@@ -50,14 +57,26 @@ body {
     z-index: 12;
 }
 
+.navbar-default .navbar-nav li .main-menu.burmese {
+   font-size: 0.9em;
+}
+
 .navbar-default .navbar-nav li .main-menu:hover {
-    background-color: #006385;
+    background-color: #4c4c4c;
     color: white;
 }
 
 .navbar-default .navbar-nav li .main-menu:active {
     background-color: #006385;
     color: white;
+}
+
+.navbar-default .navbar-nav li .category-header.burmese {
+    font-size: 1.1em;
+}
+
+.navbar-default .navbar-nav li .category-header.burmese a {
+    font-size: 1.0em;
 }
 
 .form-group .form-control {
@@ -93,7 +112,7 @@ body {
 }
 
 .btn.btn-default.navbar-btn.signup-btn {
-    width: 80px;
+    width: auto;
     background: transparent;
     /*color: : #363939;*/
     color: #999999;
@@ -107,6 +126,10 @@ body {
     transition: 0.7s;
 }
 
+.btn.btn-default.navbar-btn.signup-btn.burmese {
+    font-size: 0.9em;
+}
+
 .btn.btn-default.navbar-btn.signup-btn:hover {
 
     border-radius: 0px;
@@ -116,7 +139,7 @@ body {
 
 
 .btn.btn-default.navbar-btn.signin-btn {
-    width: 80px;
+    width: auto;
     background: transparent;
     color: #f5a623;
     border-radius: 16px;
@@ -127,6 +150,10 @@ body {
     padding-bottom: 5px;
     padding-top: 5px;
     transition: 0.7s;
+}
+
+.btn.btn-default.navbar-btn.signin-btn.burmese {
+    font-size: 0.9em;
 }
 
 .btn.btn-default.navbar-btn.signin-btn:hover {
@@ -198,6 +225,10 @@ aside.col-md-2.col-xs-0 {
     /*background-color: rgba(214,214,214,0.32);*/
 }
 
+.shop-by-categories ul {
+    padding-left: 10px;
+}
+
 .shop-by-categories-title {
    list-style: none;
    text-align: left;
@@ -205,7 +236,7 @@ aside.col-md-2.col-xs-0 {
    font-size: 1.1em;
    padding-top: 10px;
    padding-bottom: 15px;
-   padding-left: 20px;
+   padding-left: 10px;
    margin: 0px;
 }
 
@@ -214,9 +245,10 @@ aside.col-md-2.col-xs-0 {
     list-style: none;
     color: #5D5D5D;
     font-weight: lighter;
+    font-size: 0.9em;
     border: none;
     text-align: left;
-    padding-left: 10px;
+    padding-left: 5px;
     padding-bottom: 25px;
 }
 
@@ -361,7 +393,7 @@ aside.col-md-2.col-xs-0 {
 }
 
 .thumbnail .add-to-cart {
-    width: 80px;
+    width: auto;
     background-color: #f5a623;
     color: white;
     border: 2px solid #f5a623;
@@ -380,7 +412,7 @@ aside.col-md-2.col-xs-0 {
 }
 
 .thumbnail .see-more {
-    width: 80px;
+    width: auto;
     background-color: rgba(208,208,208,0.6);
     color: #4A4A4A;
     border: 2px solid rgba(208,208,208,0.6);

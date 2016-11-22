@@ -10,6 +10,7 @@ $('#plus').on('click',function(e) {
     e.preventDefault();
     var originalPrice = parseFloat($('#originalPrice').val());
     var quantity = parseInt($('#quantity').val());
+    var currentLanguage = $('#lg-setting').val();
     
     quantity = quantity + 1;
     
@@ -17,7 +18,14 @@ $('#plus').on('click',function(e) {
     $('#priceHidden').val((originalPrice.toFixed(2)*quantity).toFixed(2));
     
     $('#total').html(quantity);
-    $('#priceValue').html('Total Price - $ ' + (originalPrice.toFixed(2)*quantity).toFixed(2));
+    
+    if (currentLanguage == 'mm')
+        $('#priceValue').html('စုစုပေါင်း ကျသင့်ငွေ - $ ' + (originalPrice.toFixed(2)*quantity).toFixed(2));
+    else {
+        $('#priceValue').html('Total Price - $ ' + (originalPrice.toFixed(2)*quantity).toFixed(2));  
+    }
+    
+    
 
 
 });
@@ -27,12 +35,16 @@ $('#minus').on('click',function(e) {
     e.preventDefault();
     var originalPrice = parseFloat($('#originalPrice').val());
     var quantity = parseInt($('#quantity').val());
+    var currentLanguage = $('#lg-setting').val();
     
     if(quantity === 1) {
         $('#quantity').val(quantity);
         $('#priceHidden').val((originalPrice.toFixed(2)*quantity).toFixed(2));
         
         $('#priceValue').val((originalPrice.toFixed(2)*quantity).toFixed(2));
+
+        
+        
     } else {
         quantity = quantity - 1;
 
@@ -40,7 +52,12 @@ $('#minus').on('click',function(e) {
          $('#priceHidden').val((originalPrice.toFixed(2)*quantity).toFixed(2));
     
          $('#total').html(quantity);
-         $('#priceValue').html('Total Price - $ ' + (originalPrice.toFixed(2)*quantity).toFixed(2));
+         
+         if (currentLanguage == 'mm') {
+            $('#priceValue').html('စုစုပေါင်း ကျသင့်ငွေ - $ ' + (originalPrice.toFixed(2)*quantity).toFixed(2));
+         } else {
+            $('#priceValue').html('Total Price - $ ' + (originalPrice.toFixed(2)*quantity).toFixed(2)); 
+         }
     }
 
 });
@@ -117,9 +134,18 @@ $('.color-circle').on('click',function(e) {
          }
     });
 
+//Toggle Burmese Class when language is changed
+ $(document).ready(function(){
+    
+    var currentLanguage = $('#lg-setting').val();
+    
+    if(currentLanguage === "en") {
+        $('.multilanguage').removeClass("burmese"); 
+    }
+
+});
 
 
-// Stripe.setPublishableKey('pk_test_3TqEp6gxWAhM8EG56oNnzknH');
 
 function stripeResponseHandler(status, response) {
   // Grab the form:

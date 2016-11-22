@@ -67,6 +67,7 @@ body {
     color: #0092CB;
     font-size: 1.1em;
     font-weight: bold;
+    margin-top: 20px;
 }
 
 #product-description {
@@ -97,7 +98,7 @@ body {
     font-size: 1.2em;
     font-weight: bold;
     margin-top: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     width: 100%;
 
 }
@@ -162,14 +163,20 @@ body {
 
 #add-to-wishlist-button, #add-to-cart-button {
     float: none;
-    width: 30%;
+    width: 150px;
     height: 40px;
     margin: 25px 20px;
     text-align: center;
 }
 
+#add-to-wishlist-button.burmese,#add-to-cart-button.burmese {
+    white-space: normal;
+    font-size: 0.9em;
+}
+
+
 #add-to-cart-button {
-     height: 45px;
+    height: 45px;
     background-color: #f5a623;
     color: white;
     font-size: 1.1em;
@@ -178,6 +185,13 @@ body {
     outline:none;
     transition: 0.5s;
 }
+
+#add-to-cart-button:hover {
+    
+    border-radius: 0px;
+    
+}
+
 
 #add-to-wishlist-button {
     height: 45px;
@@ -192,10 +206,229 @@ body {
 }
 
 
+#add-to-wishlist-button:hover {
+    
+    border-radius: 0px;
+    
+}
+
+/*========================================*/
+/*Detail and Revie Tabs*/
+/*========================================*/
+
+.detailAndReview {
+    width: 90%;
+    margin: 10px auto;
+    border: none;
+    outline: none;
+}
+
+.panel-default {
+    background: transparent;
+    border-top: none;
+    border: none;
+}
+.panel-default .panel-heading {
+    border: none;
+    background: transparent;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    outline: none;
+}
+
+.panel-default .panel-body {
+    border: 1px solid rgba(96,96,96,1.0);
+    border-top: none;
+    border-radius: 0px 0px 8px 8px;
+    margin: 0 15px;
+    min-height: 300px;
+}
 
 
 
+.panel-default ul {
+    border-bottom: 1px solid rgba(96,96,96,1.0);
+    transition: 0.5s;
+    /*border-bottom: none;*/
+}
+
+
+
+.nav-tabs>li>a {
+    color: #555;
+    transition: 0.3s;
+}
+
+.nav-tabs>li>a:hover {
+    color: #555;
+    border: 1px solid rgba(96,96,96,1.0);
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    background-color: rgba(96,96,96,1.0);
+    color: white;
+    font-weight: lighter;
+    border: 2px solid #555;
+    border-bottom: none;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.panel-body .rating-block h4{
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.panel-body .rating-block h2{
+    /*font-weight: bold;*/
+    color: #f5a623;
+}
+
+
+
+.review-input {
+    text-align: left;
+    width: 50%;
+}
+
+#write-comment {
+    height: 35px;
+    background-color: transparent;
+    color: #f5a623;
+    font-size: 1.1em;
+    border-radius: 20px;
+    border: 2px solid #f5a623;
+    outline:none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    transition: 0.5s;
+}
+
+
+#write-comment:hover {
+    background-color: #f5a623;
+    color: white;
+    border-radius: 0px;
+    border: 2px solid #f5a623;
+    outline:none;
+}
+
+
+.review-input .inputForms {
+    width: 60%;
+    margin-left: 30px;
+}
+
+.inputForms.edit-comment-form {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.modal {
+    border-radius: 0px;
+}
+
+.modal-title {
+    text-align: center;
+}
+
+.modal .modal-header {
+    background-color: rgba(96,96,96,1.0);
+    color: white;
+    
+}
+
+.modal .modal-footer {
+    margin: 0px;
+    padding: 0px;
+    height: 60px;
+}
+
+.modal-footer form {
+    height: 60px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.modal .modal-submit-button {
+    height: 35px;
+    background-color: transparent;
+    color: #f5a623;
+    font-size: 1.1em;
+    border-radius: 0px;
+    border: 2px solid #f5a623;
+    outline:none;
+    margin: 0 20px;
+    margin-top: 10px;
+    
+    transition: 0.5s;
+}
+
+.modal .modal-comment-submit-button {
+    height: 35px;
+    background-color: transparent;
+    color: #f5a623;
+    font-size: 1.1em;
+    border-radius: 0px;
+    border: 2px solid #f5a623;
+    outline:none;
+    margin: 0px;
+    /*margin-top: 10px;*/
+    
+    transition: 0.5s;
+}
+
+
+
+.comment-box-wrapper {
+    background-color: #E2E2E2;
+    border: 1px solid #E2E2E2;
+    border-radius: 10px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+.comment-box-wrapper .review-block {
+    width: 80%;
+    margin: 10px 30px;
+    background: transparent;
+}
+
+.comment-box-wrapper .review-block h4 {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.delete-comment-button {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.9em;
+    color: #E4A949;
+    text-decoration: underline;
+}
+
+.edit-comment-button {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.9em;
+    color: #E4A949;
+    text-decoration: underline;
+}
+
+
+.comment-box-wrapper .review-block .review-block-description {
+    font-size: 1.1em;
+    font-weight: normal;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+/*========================================*/
 /*Similar Items*/
+/*========================================*/
 
 #show-page-similar-item {
     margin: 20px auto;

@@ -1,27 +1,28 @@
 var express = require('express');
 var router = express.Router();
 var async = require('async');
-var fileUpload = require('express-fileupload');
-var fs = require('fs-extra');
-var mkdirp = require('mkdirp');
 
-var methodOverride = require('method-override');
+var methodOverride      = require('method-override');
 var middleware          = require('../middleware/middleware');
+var cloudinary          = require('cloudinary');
 
-var Category = require('../models/category');
-var Product = require('../models/product');
-var User = require('../models/user');
+var multipart           = require('connect-multiparty');
+var multipartMiddleware = multipart();
+
+var Category            = require('../models/category');
+var Product             = require('../models/product');
+var User                = require('../models/user');
 
 // default options 
 
 router.use(methodOverride("_method"));
 
-router.use(fileUpload({
-    limits: {
-        fileSize: 50 * 1024 * 1024
-    },
-}));
 
+cloudinary.config({ 
+  cloud_name: 'dzxsfe54s', 
+  api_key: '343496594473383', 
+  api_secret: '39yXvsQZMFG5q124Jslc8G8OkEA' 
+});
 
 
 
@@ -37,15 +38,19 @@ router.get('/product/add', function(req, res) {
 //========================================
 //NEW route for Product (Post)
 //========================================
-router.post('/product/add', function(req, res, next) {
-
+router.post('/product/add',multipartMiddleware, function(req, res, next) {
+    
     var filename = [];
     var availableColors = [];
     var availableSizes = [];
+    var newFile = [];
 
-    filename = upload(req, res, next).slice();
+  
+    for (var z = 1; z <= req.body.image_quantity; z++) {
+        newFile.push(req['files']['newImage' + z]['path']);
+    }
 
-
+    // filename = upload(req, res, next).slice();
 
     for (var z = 1; z <= req.body.color_quantity; z++) {
         availableColors.push({
@@ -73,10 +78,13 @@ router.post('/product/add', function(req, res, next) {
 
 
     async.waterfall([
-        function(callback) {Category.findOne({name: req.body.category}, function(err, foundCategory) {
+        function(callback) {
+            console.log(req.body.category);
+            Category.findOne({name: req.body.category}, function(err, foundCategory) {
                 if (err) {
+                    console.log('Category does not exist');
                     console.log(err);
-                    return next();
+                    return res.send('Category does not exist');
                 }
                 callback(null, foundCategory);
             });
@@ -86,14 +94,16 @@ router.post('/product/add', function(req, res, next) {
             var product = new Product();
 
             product.category = foundCategory._id;
-            product.name = req.body.name;
+            product.name.en = req.body.name_en;
+            product.name.mm = req.body.name_mm;
             product.detail.brand = req.body.brand;
             product.detail.serial_num = req.body.product_serial;
             product.price = req.body.price;
             product.discountPrice = req.body.discount_price;
             product.rating = req.body.rating;
             product.pictureName = filename[0];
-            product.description = req.body.description;
+            product.description.en = req.body.description_em;
+            product.description.mm = req.body.description_mm;
             for (var b = 0; b < req.body.color_quantity; b++) {
                 product.colors.push(availableColors[b]);
             }
@@ -101,12 +111,18 @@ router.post('/product/add', function(req, res, next) {
                 product.sizes.push(availableSizes[c]);
             }
             for (var a = 0; a < req.body.image_quantity; a++) {
-                product.image.push('/images/products/' + req.body.name + '/' + filename[a]);
+                
+                cloudinary.uploader.upload(newFile[a],function(result) { 
+                   console.log(result);
+                   product.image.push(result.url);
+                   product.save();
+                },{public_id: req.body.name_en + a,folder :"Ecommerce/"});
             }
-
+            
+           
             product.save();
-            console.log('New Product has been added...');
-            console.log(product);
+            console.log('Successfully created a new product');
+           
         }
     ]);
 
@@ -118,16 +134,27 @@ router.post('/product/add', function(req, res, next) {
 //SHOW route for Product
 //========================================
 router.get('/category/:category_name/product/:product_id', function(req, res) {
+    
+
     Product.findById(req.params.product_id)
         .populate('category')
+        .populate('comments')
         .exec(function(err, foundProduct) {
             if (err) {
                 console.log(err);
                 return res.redirect('/category/all/1');
             }
-            res.render('product/show', {
-                product: foundProduct
+            
+            // Using Callback function to get return from a Mongoose Query
+            findParentCategoryName(req.params.category_name, function (name) {
+                res.render('product/show', {
+                    product: foundProduct,
+                    category: req.params.category_name,
+                    parent_category: name
+                });
             });
+            
+            
         });
 });
 
@@ -153,20 +180,36 @@ router.get('/category/:category_name/product/:product_id/edit', function(req, re
 //========================================
 //UPDATE route for Product
 //========================================
-router.put('/category/:category_name/product/:product_id', function(req, res, next) {
+router.put('/category/:category_name/product/:product_id',multipartMiddleware, function(req, res, next) {
 
     var filename = [];
     var availableColors = [];
     var availableSizes = [];
     var isUpdateImage = false;
     
+    var newFile = [];
+
+
     if(req.files.newImage1.name === '') {
       isUpdateImage = false;
     } else {
-      isUpdateImage = true;
-      
+        isUpdateImage = true;
+        
+        for (var z = 1; z <= req.body.image_quantity; z++) {
+            newFile.push(req['files']['newImage' + z]['path']);
+        }
+            
+        Product.findById(req.params.product_id,function(err,foundProduct) {
+            if(err) {console.log('cannot find product');console.log(err); return res.redirect('/category/all/1');}
+            for (var j=0; j<foundProduct.image.length; j++) {
+                cloudinary.uploader.destroy('Ecommerce/'+ foundProduct.name+j, function(err,result) {
+                    if(err) {console.log('cannot delete product image');console.log(err);}
+                },{invalidate: true});
+            }
+            
+        });
     }
-
+    //Saving color data into Product Data
     for (var z = 1; z <= req.body.color_quantity; z++) {
         availableColors.push({
             name: req['body']['color_name' + z],
@@ -174,7 +217,7 @@ router.put('/category/:category_name/product/:product_id', function(req, res, ne
         });
     }
     
-    
+    //Saving size data into Product Data
     if (req.body.size_xs) {
         availableSizes.push('XS');
     }
@@ -192,36 +235,17 @@ router.put('/category/:category_name/product/:product_id', function(req, res, ne
         availableSizes.push('XL');
     }
     
-    //Removing old folder in images of product needed to be updated
-    if (isUpdateImage) {
-        Product.findById(req.params.product_id, function(err, originalProduct) {
-            if (err) {
-                console.log('Cannot find product and folder to remove!');
-                console.log(err);
-                return res.redirect('/');
-            }
-
-            fs.removeSync('public/images/products/' + originalProduct.name, function(err) {
-                if (err) {
-                    console.log('folder cannot be removed');
-                    console.log(err);
-                    return next();
-                }
-                console.log('Folder successfully removed!');
-                
-            });
-            
-            filename = upload(req, res, next).slice();
-        });
-    }
-
+   
+    //Find the category, update the product into database and upload the new images to cloudinary
     async.waterfall([
         function(callback) {
+            console.log(req.body);
             Category.findOne({name: req.body.category}, function(err, foundCategory) {
                 if (err) {
                     console.log(err);
                     return next();
                 }
+                if(!foundCategory) {console.log('cannot find category'); return res.redirect('/category/all/1');}
                 callback(null, foundCategory);
             });
         },
@@ -230,17 +254,20 @@ router.put('/category/:category_name/product/:product_id', function(req, res, ne
             
                 Product.findById(req.params.product_id,function(err,foundProduct) {
                 
-                    if(err) {console.log('cannot find product');console.log(err);}
+                    if(err) {console.log('cannot find product');console.log(err); return res.redirect('/category/all/1');}
+                    if(!foundProduct) {console.log('cannot find product');console.log(err); return res.redirect('/category/all/1');}
                     
                     foundProduct.category        = foundCategory._id;
-                    foundProduct.name            = req.body.name;
+                    foundProduct.name.en            = req.body.name_en;
+                    foundProduct.name.mm            = req.body.name_mm;
                     foundProduct.detail.brand    = req.body.brand;
                     foundProduct.detail.serial_num = req.body.product_serial;
                     foundProduct.price           = req.body.price;
                     foundProduct.discountPrice   = req.body.discount_price;
                     foundProduct.rating          = req.body.rating;
                     foundProduct.pictureName     = filename[0];
-                    foundProduct.description     = req.body.description;
+                    foundProduct.description.en     = req.body.description_en;
+                    foundProduct.description.mm     = req.body.description_mm;
                     
                 
                     async.waterfall([function(callback) {
@@ -276,9 +303,17 @@ router.put('/category/:category_name/product/:product_id', function(req, res, ne
                             
                         },function(foundProduct,callback) {
                             if (isUpdateImage) {
+                                
                                 for (var a = 0; a < req.body.image_quantity; a++) {
-                                    foundProduct.image.push('/images/products/' + req.body.name + '/' + filename[a]);
+    
+                                    cloudinary.uploader.upload(newFile[a],function(result) { 
+                                       console.log(result.url);
+                                       foundProduct.image.push(result.url);
+                                       foundProduct.markModified('image');
+                                       foundProduct.save();
+                                    },{public_id: req.body.name_en + a,folder :"Ecommerce/",invalidate: true});
                                 }
+
                             }
                             
                             foundProduct.markModified('sizes');
@@ -291,9 +326,6 @@ router.put('/category/:category_name/product/:product_id', function(req, res, ne
                             });
                         }
                     ]);
-                    
-                   
-                
                 });
         }
     ]);
@@ -308,19 +340,20 @@ router.delete('/category/:category_name/product/:product_id', function(req, res,
 
     Product.findById(req.params.product_id, function(err, originalProduct) {
         if (err) {
-            console.log('Cannot find product and folder to remove!');
+            console.log('Cannot find product to remove!');
             console.log(err);
-            return res.redirect('/');
         }
-        fs.removeSync('public/images/products/' + originalProduct.name, function(err) {
-            if (err) {
-                console.error(err);
-                return next();
-            }
-            console.log('Folder successfully removed!');
-        });
-    });
+        
+        //Remove Image from Cloudinary
+        for (var j=0; j<originalProduct.image.length; j++) {
+            cloudinary.uploader.destroy('Ecommerce/'+ originalProduct.name+j, function(err,result) {
+                if(err) {console.log('cannot delete product image');console.log(err);}
+            },{invalidate: true});
+        }
 
+    });
+    
+    //Remove Product from Database
     Product.findByIdAndRemove(req.params.product_id, function(err) {
         if (err) {
             console.log('Error while trying to delete the product');
@@ -417,61 +450,21 @@ router.get('/search', function(req, res) {
     });
 
 
-
-
-
 //========================================
-//PICTURE UPLOAD FUNCTION
+//Find Parent Category Name FUNCTION
 //========================================
 
-var upload = function(req, res, next) {
-
-    var newFile = [];
-    var fileName = [];
-
-    for (var z = 1; z <= req.body.image_quantity; z++) {
-        newFile.push(req['files']['newImage' + z]);
-    }
-
-    if (req.files.newImage1.name === '') {
-        return null;
-    } 
-    else {
-        //Create a Folder with the Name of the Product
-        var newProductDir = './public/images/products/' + req.body.name;
-
-        mkdirp(newProductDir, function(err) {
-            if (err) {
-                console.error(err);
-                return res.redirect('/');
-            }
-            else console.log('Folder created as follow ' + newProductDir);
-        });
-
-
-        //Upload each image to Created Folder
-        for (var i = 0; i < newFile.length; i++) {
-
-            fileName[i] = newFile[i].name;
-
-            newFile[i].mv('public/images/products/' + req.body.name + '/' + fileName[i], function(err) {
-                if (err) {
-                    console.log('Error while uploading...');
-                    res.status(500).send(err);
-                }
-                else {
-                    console.log('Image successfully uploaded.');
-                }
-            });
-
-
-        }
-        return fileName;
-
-    }
-
-
+var findParentCategoryName = function(childName,callback) { //Using callback to return value from the inside of async. mongoose query
+    
+    Category.findOne({name: childName})
+    .populate('parent_category')
+    .exec(function(err,foundCategory) {
+       if(err) {console.log(err);}
+       var parentName = foundCategory.parent_category.name;
+       callback(parentName);
+    });
+    
+    
 };
-
 
 module.exports = router;

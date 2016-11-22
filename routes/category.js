@@ -100,6 +100,9 @@ router.post('/category', function(req, res, next) {
 //========================================
 //INDEX route for All Categories
 //========================================
+
+
+
 router.get('/category/all/:page_no', function(req, res, next) {
 
     var perPage = 12;
@@ -130,6 +133,7 @@ router.get('/category/all/:page_no', function(req, res, next) {
                 res.render('product/index', {
                     products: foundProducts,
                     category: 'all',
+                    parent_category: null,
                     totalPages: totalPages,
                     currentPage: pageNo
                 });
@@ -146,18 +150,21 @@ router.get('/category/:category_name/:page_no', function(req, res, next) {
     var perPage = 12;
     var pageNo = req.params.page_no;
     var totalPages = 1;
+    var parentCategory = '';
 
     async.waterfall([
         function(callback) {
-            Category.findOne({
-                name: req.params.category_name
-            }, function(err, foundCategory) {
+            Category.findOne({name: req.params.category_name})
+            .populate('parent_category')
+            .exec(function(err, foundCategory) {
                 if (err) {
                     console.log(err);
                     return res.send('Cannot find ' + req.params.category_name + ' in the database');
                 }
+                parentCategory = foundCategory.parent_category.name;
                 callback(null, foundCategory);
             });
+            
         },
         function(foundCategory, callback) {
 
@@ -230,6 +237,7 @@ router.get('/category/:category_name/:page_no', function(req, res, next) {
                         res.render('product/index', {
                             products: foundProducts,
                             category: req.params.category_name,
+                            parent_category: parentCategory,
                             totalPages: totalPages,
                             currentPage: pageNo
                         });

@@ -7,6 +7,7 @@
 	<link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet'>
 	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/earlyaccess/notosansmyanmar.css" rel="stylesheet">
+	<!--<link href="http://fonts.googleapis.com/earlyaccess/notosansmyanmarui.css" rel="stylesheet">-->
 	
 	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -14,6 +15,20 @@
  
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
     <script src="/js/star-rating.js" type="text/javascript"></script>
+    
+    <script src='//cdn.tinymce.com/4/tinymce.min.js'></script>
+    <script>
+      tinymce.init({
+        selector: '.textarea-product-description', // change this value according to your HTML
+        content_css :  '/public/stylesheets/app.css',
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table contextmenu paste code'
+          ],
+          toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image'
+      });
+    </script>
 	
 	<link rel="stylesheet" href="/stylesheets/main.css">
 	<link rel="stylesheet" href="/stylesheets/dropdown.css">
@@ -42,25 +57,25 @@
         <div class='collapse navbar-collapse' id="bs-example-navbar-collapse-1">
             <ul class='nav navbar-nav navbar-right'>
                     <!--HOME-->
-                    <li><a class='main-menu' href='/'>HOME</a></li>
+                    <li><a class='main-menu multilanguage burmese' href='/'><%= __('Home') %></a></li>
 
     <li class="dropdown dropdown-large">
-				<a href="#" class="dropdown-toggle main-menu" data-toggle="dropdown">PRODUCTS<b class="caret"></b></a>
+				<a href="#" class="dropdown-toggle main-menu multilanguage burmese" data-toggle="dropdown"><%= __('Product') %><b class="caret"></b></a>
 				
 				<ul class="dropdown-menu dropdown-menu-large row">
 						<li class="col-sm-3">
 							<ul class='sub-menu'>
-								<li class="dropdown-header category-header"><a href='/category/all/1'>All Categories</a></li>
+								<li class="dropdown-header category-header multilanguage burmese"><a href='/category/all/1'><%= __('All Categories') %></a></li>
 							</ul>
 						</li>
 						
 						<li class="col-sm-3">
 							<ul class='sub-menu'>
-								<li class="dropdown-header category-header">Men's Clothing</li>
+								<li class="dropdown-header category-header multilanguage burmese"><%= __("Men's Clothing")%></li>
 								<% categories.forEach(function(category) { %>
 								    <% if(!category.main_category) { %>
 								        <% if(category.parent_category.name === "Men's Clothing") { %>
-									        <li><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+									        <li class='multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name)%></a></li>
 									    <% } %>
 								    <% } %>
 								<% }); %>
@@ -69,11 +84,11 @@
 						
 						<li class="col-sm-3">
 							<ul class='sub-menu'>
-								<li class="dropdown-header category-header">Women's Clothing</li>
+								<li class="dropdown-header category-header multilanguage burmese"><%= __("Women's Clothing")%></li>
 								<% categories.forEach(function(category) { %>
 								    <% if(!category.main_category) { %>
 								        <% if(category.parent_category.name === "Women's Clothing") { %>
-									        <li><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+									        <li class='multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name)%></a></li>
 									    <% } %>
 								    <% } %>
 								<% }); %>
@@ -82,11 +97,11 @@
 						
 						<li class="col-sm-3">
 							<ul class='sub-menu'>
-								<li class="dropdown-header category-header">Bags</li>
+								<li class="dropdown-header category-header multilanguage burmese"><%= __("Bags")%></li>
 								<% categories.forEach(function(category) { %>
 								    <% if(!category.main_category) { %>
 								        <% if(category.parent_category.name === "Bags") { %>
-									        <li><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+									        <li class='multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name)%></a></li>
 									    <% } %>
 								    <% } %>
 								<% }); %>
@@ -95,11 +110,11 @@
 						
 						<li class="col-sm-3">
 							<ul class='sub-menu'>
-								<li class="dropdown-header category-header">Shoes</li>
+								<li class="dropdown-header category-header multilanguage burmese"><%= __("Shoes")%></li>
 								<% categories.forEach(function(category) { %>
 								    <% if(!category.main_category) { %>
 								        <% if(category.parent_category.name === "Shoes") { %>
-									        <li><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+									        <li class='multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name)%></a></li>
 									    <% } %>
 								    <% } %>
 								<% }); %>
@@ -108,11 +123,11 @@
 						
 						<li class="col-sm-3">
 							<ul class='sub-menu'>
-								<li class="dropdown-header category-header">Jewellery</li>
+								<li class="dropdown-header category-header multilanguage burmese"><%= __("Jewellery")%></li>
 								<% categories.forEach(function(category) { %>
 								    <% if(!category.main_category) { %>
 								        <% if(category.parent_category.name === "Jewellery") { %>
-									        <li><a href="/category/<%= category.name%>/1"><%= category.name%></a></li>
+									        <li class='multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name)%></a></li>
 									    <% } %>
 								    <% } %>
 								<% }); %>
@@ -121,12 +136,12 @@
 				</ul>
 	</li>
                 <!--HOME-->
-                <li><a href='#' class='main-menu'>CUSTOMER CARE</a></li>
-                <li><a href='#' class='main-menu'>SELL ON US</a></li>
-                <li><a href='#' class='main-menu'>ABOUT US</a></li>
+                <li><a href='#' class='main-menu multilanguage burmese'><%= __('Customer Care') %></a></li>
+                <li><a href='#' class='main-menu multilanguage burmese'><%= __('About Us') %></a></li>
                 <% if(currentUser && currentUser.isAdmin) { %>
-                <li><a href='/admin-control' class='main-menu'>ADMIN</a></li>
+                <li><a href='/admin-control' class='main-menu multilanguage burmese'>ADMIN</a></li>
                 <% } %>
+                
             </ul>
         </div>
     </div>
@@ -142,7 +157,7 @@
                   <input type="text" class="form-control" id='search-box' aria-label="Search" name='q' placeholder="Search">
                   <div class="input-group-btn">
                         
-                        <button type="submit" class="btn btn-default" id='search-button'>Search</button>
+                        <button type="submit" class="btn btn-default multilanguage burmese" id='search-button'><%= __('Search') %></button>
                   </div>
             </div>
     </form>
@@ -150,10 +165,14 @@
         <div class='collapse navbar-collapse' id="bs-example-navbar-collapse-1">
             <ul class='nav navbar-nav navbar-right'>
                     <% if(!currentUser) { %>
-                        <a href='/register'><button type="button" class="btn btn-default navbar-btn signup-btn">Sign Up</button></a>
-                        <a href='/login'><button type="button" class="btn btn-default navbar-btn signin-btn">Log In</button></a>
+	                	<a href='/mm' id='mm_language_icon'><img src="/images/homepage/myanmar_icon.png" style="width:40px;height:30px"></a>
+	                	<a href='/en' id='en_language_icon'><img src="/images/homepage/uk_icon.png" style="width:40px;height:30px"></a>
+                        <a href='/register'><button type="button" class="btn btn-default navbar-btn signup-btn multilanguage burmese"><%= __('Sign Up') %></button></a>
+                        <a href='/login'><button type="button" class="btn btn-default navbar-btn signin-btn multilanguage burmese"><%= __('Log In') %></button></a>
                         <a href='/cart' class='glyphicon glyphicon-shopping-cart'><span class='badge'>0</span></a>
                     <% } else { %>
+                        <a href='/mm' id='mm_language_icon'><img src="/images/homepage/myanmar_icon.png" style="width:40px;height:30px"></a>
+	                	<a href='/en' id='en_language_icon'><img src="/images/homepage/uk_icon.png" style="width:40px;height:30px"></a>
                         <a href='/profile/<%= currentUser._id%>'>Signed In as <%= currentUser.username %></a>
                         <a href='/logout'><button type="button" class="btn btn-default navbar-btn signup-btn">Log Out</button></a>
                         <a href='/profile' class='glyphicon glyphicon glyphicon-user'></a>
@@ -163,3 +182,5 @@
         </div>
     </div>
 </div>
+
+<input type=hidden name='lg-setting' id='lg-setting' value='<%=  currentLanguage%>'>

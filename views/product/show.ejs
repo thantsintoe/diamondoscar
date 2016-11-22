@@ -1,7 +1,29 @@
 <% include ../partials/header %>
-    
-    
-    
+
+<div class='row mybreadcrumb'>
+        <div class='col-md-12'>
+            <ol class="breadcrumb">
+                  <li class='multilanguage burmese'><a href="/category/all/1"><%= __('Product')%></a></li>
+              <% if (parent_category) { %>
+                  <li class='multilanguage burmese'><a href="#"><%= __(parent_category)%></a></li>
+              <% } %>
+              
+              <% if (category === 'all') { %>
+                  <li class='multilanguage burmese'><a href="/category/all/1"><%= __('All Products')%></a></li>
+              <% } else { %>
+                  <li class='multilanguage burmese'><a href="/category/<%= category%>/1"><%= __(category)%></a></li>
+              <% } %>
+              
+              <% if(currentLanguage === "mm") { %>
+                  <li class="active multilanguage burmese"><%= product.name.mm%></a></li>
+              <% } else { %>
+                  <li class="active multilanguage burmese"><%= product.name.en%></a></li>
+              <% } %>
+              
+            </ol>
+            <hr>
+        </div>
+</div>
 
 
 
@@ -68,10 +90,14 @@
         <div class='col-md-6 show-page-info'>
             <div>
                     <div id='showpage-product-name'>
-                        <h3 class="burmese"><%=  product.name  %></h3>
+                        <% if(currentLanguage === "mm") { %>
+                        <h3 class="multilanguage burmese"><%=  product.name.mm  %></h3>
+                        <% } else { %>
+                        <h3 class="multilanguage burmese"><%=  product.name.en  %></h3>
+                        <% } %>
                     </div>
                     <div id='showpage-product-brand'>
-                        <p class="burmese">Brand - <%=  product.detail.brand  %></p>
+                        <p class="multilanguage burmese"><%= __('Brand')%> - <%=  product.detail.brand  %></p>
                     </div>
                     
                     <div class='showpage-admin-buttons'>
@@ -105,14 +131,8 @@
                         <% } %>
                     </div>
 
-
                     <div>
-                        <p class='showpage-subheaders'>Description</p>
-                        <p id='product-description'><%=  product.description  %></p>
-                    </div>
-                    
-                    <div>
-                        <p class='showpage-subheaders'>Quantity</p>
+                        <p class='showpage-subheaders multilanguage burmese'><%= __('Quantity')%></p>
                     </div>
                     
                     
@@ -132,11 +152,11 @@
                             
                         </div>
                         <div>
-                            <h4 id='priceValue' class='pull-left'>Total Price - $ <%= parseFloat(product.price).toFixed(1) %></h4>
+                            <h4 id='priceValue' class='pull-left multilanguage burmese'><%= __('Total Price')%> - $ <%= parseFloat(product.price).toFixed(1) %></h4>
                         </div>
                         <div class='row sub-row'>
                             <div class='col-sm-6'>
-                                <p class='showpage-subheaders'>Size</p>
+                                <p class='showpage-subheaders multilanguage burmese'><%= __('Size')%></p>
                                 <div class='btn-group quantity-control' role='group' arial-label='...'>
                                         <input type='hidden' name='selected_size' id='selected-size' value='M'>
                                         <button type='button' class='size-buttons active-size' class='btn'><%= product.sizes[0]%></button>
@@ -146,7 +166,7 @@
                                 </div>
                             </div>
                             <div class='col-sm-6'>
-                                <p class='showpage-subheaders'>Color</p>
+                                <p class='showpage-subheaders multilanguage burmese'><%= __('Color')%></p>
                                 <div class='btn-group quantity-control' role='group' arial-label='...'>
                                     <input type='hidden' name='selected_color_no' id='selected-color-no' value='0'>
                                     <button type='button' class='color-circle active-color' value='0' class='btn' style="background-color:<%= product.colors[0].hex_code%>;"></button>
@@ -166,11 +186,11 @@
                             
                             
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" id='add-to-wishlist-button' data-toggle="modal" data-target="#myModal">
-                              Add to Favourites
+                            <button type="button" class="btn btn-primary multilanguage burmese" id='add-to-wishlist-button' data-toggle="modal" data-target="#myModal">
+                              <%= __('Add to Favourites')%>
                             </button>
 
-                            <button type='submit' class='btn btn-primary' id='add-to-cart-button'>Add to Cart</button>
+                            <button type='submit' class='btn btn-primary multilanguage burmese' id='add-to-cart-button'><%= __('Add to Cart now')%></button>
                         </div>
                     </form>
                     
@@ -180,16 +200,16 @@
                                 <div class="modal-content">
                                   <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Add to Favourite</h4>
+                                    <h4 class="modal-title multilanguage burmese" id="myModalLabel_EditReview"><%= __('Add to Favourites')%></h4>
                                   </div>
                                   <div class="modal-body">
-                                    <p>Do you like to add this item to your favourite products list ?</p>
+                                    <p class='multilanguage burmese'><%= __('add to favourite ?')%></p>
                                   </div>
                                   <div class="modal-footer">
                                     
                                     <form action='/category/<%=product.category.name%>/product/<%=product._id%>/add-wishlist' method="POST">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button class='btn btn-primary'>Add to Favourite</button>
+                                        <!--<button type="button" class="modal-submit-button" data-dismiss="modal">Close</button>-->
+                                        <button class='modal-submit-button multilanguage burmese'><%= __('Add to Favourites')%></button>
                                     </form>
                                   </div>
                                 </div>
@@ -197,18 +217,180 @@
                             </div><!--End of Modal-->
                      
             </div>
-            <a href='/category/all/1'>Go Back to All Category</a>
         </div>
      
     </div>
     
     
-    <!--Related Items-->
+    
+    
+    
+   <!--Detail and Review Tab   -->  
+    
+    
+    <div class="row detailAndReview">
+    	<div class="detailAndReview">
+            <div class="panel with-nav-tabs panel-default">
+                <div class="panel-heading">
+                        <ul class="nav nav-tabs">
+                            <li class="active showpage-subheaders multilanguage burmese"><a href="#tab1default" data-toggle="tab"><%= __('Product Detail')%></a></li>
+                            <li class='showpage-subheaders multilanguage burmese'><a href="#tab2default" data-toggle="tab"><%= __('User Reviews')%></a></li>
+                            
+                        </ul>
+                </div>
+        <!--Detail Section-->
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="tab1default">
+                            <div id="details" class='multilanguage burmese'>
+                				<% if(currentLanguage === "mm") { %>
+                                    <p class='multilanguage burmese' id='product-description'><%-  product.description.mm  %></p>
+                                <% } else { %>
+                                    <p class='' id='product-description'><%-  product.description.en  %></p>
+                                <% } %>
+                			</div>
+                        </div>
+                        <div class="tab-pane fade" id="tab2default">
+                            <div class="rating-block">
+            					<h4 class='multilanguage burmese'><%= __('Average User Rating')%></h4>
+            					<h2 class="bold padding-bottom-7"><%= parseFloat(product.rating).toFixed(1)%> <small>/ 5</small></h2>
+            					
+            					<table>
+                                      <tr>
+                                        <td>
+                                          <input id="input-averageRating" name="input-averageRating" value="<%= product.rating%>" class="rating rating-loading" displayOnly="true" data-size="s">
+                                        </td>
+                                      </tr>
+                                </table>
+                                <script>
+                                // $(document).on('ready', function(){
+                                    $('#input-averageRating').rating({displayOnly: true, step: 0.1});
+                                // });
+                                </script>
+            					
+            				</div>
+            				<div>
+            				    
+            				    <p>(<%= product.comments.length %> Reviews)</p>
+            				</div>
+            <!--Comment Button Wrapper				-->
+            				<div class="write-comment-button-wrapper">
+                    			
+                    				<div class='review-input'>
+                                        <button class='multilanguage burmese' type="button" id='write-comment' data-toggle="modal" data-target="#new-comment-modal<%= i%>">
+                                          <%= __('Write a Review')%>
+                                        </button>
+                                        
+                                    
+                                        <!-- New Comment Modal -->
+                                        <div class="modal fade" id="new-comment-modal<%= i%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                          <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title multilanguage burmese" id="myModalLabel_EditReview"><%= __('Write a Review')%></h4>
+                                              </div>
+                                              <div class="modal-body">
+                                                <div class='inputForms edit-comment-form'>
+                                                    <form class='form-group' action='/category/<%=product.category.name%>/product/<%= product._id %>/comments' method='POST'>
+                                                            <input id="user-rating" name="comment[rating]" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" data-size="sm" data-show-clear="false">
+                                                            <textarea class='form-control' name='comment[text]'></textarea>
+                                                            <button class='modal-comment-submit-button multilanguage burmese'><%= __('Submit Review')%></button>
+                                                    </form>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div><!--End of Modal-->
+                    		</div>
+            <!--Comment Box Wrapper        		-->
+                    		<% for (var i=0; i< product.comments.length; i++) {   %>  
+                    		<div class='comment-box-wrapper'>
+            				    <div class="review-block">
+                                        					
+                							<div class="review-block-name"><h4><%= product.comments[i].author.username%></h4></div>
+                						
+                							<div class="review-block-rate">
+                								<table>
+                                                      <tr>
+                                                        <td>
+                                                          <input id="input-<%= 4+i%>" name="input-<%= 4+i%>" value="<%= product.comments[i].rating%>" class="rating rating-loading" displayOnly="true" data-size="xs">
+                                                        </td>
+                                                      </tr>
+                                                </table>
+                                                <script>
+                                                // $(document).on('ready', function(){
+                                                    $('#input-<%= 4+i%>').rating({displayOnly: true, step: 0.1});
+                                                // });
+                                                </script>
+                							</div>
+                							<div class="review-block-description"><%= product.comments[i].text%></div>
+                							
+            
+                            <!--Edit and Delete Comment Form-->
+                                            <form action='/category/<%=product.category.name%>/product/<%= product._id %>/comments/<%= product.comments[i]._id%>?_method=DELETE' method='POST'>
+                                                <button type="button" class="edit-comment-button" id='edit-comment' data-toggle="modal" data-target="#edit-comment-modal<%= i%>">
+                                                  Edit
+                                                </button>
+                                                <button class='delete-comment-button'>Delete</button>
+                                            </form>
+                                            
+                            <!-- Edit Comment Modal -->
+                                            <div class="modal fade" id="edit-comment-modal<%= i%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                              <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                  <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel_EditReview">Edit Review</h4>
+                                                  </div>
+                                                  <div class="modal-body">
+                                                    <div class='inputForms edit-comment-form'>
+                                                        <form class='form-group' action='/category/<%=product.category.name%>/product/<%= product._id %>/comments/<%= product.comments[i]._id%>?_method=PUT' method='POST'>
+                                                                <input id="user-rating" name="comment[rating]" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" data-size="sm" data-show-clear="false">
+                                                                <textarea class='form-control' name='comment[text]'><%= product.comments[i].text%></textarea>
+                                                                <button class='btn btn-primary btn-sm'>Update Reveiw</button>
+                                                        </form>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div><!--End of Modal-->
+                    					
+                				</div><!--End of Review Block-->
+        				    </div><!--End of Comment Box Wrapper-->
+        				    <% } %>
+                    		
+                    		
+                    		
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+	</div>  <!--End ROW  -->
+    
+    
+    
+    
+    
+    
+    
+    
 
+    
+
+    
+    
+    
+    
+<!--=======================================================    -->
+    <!--Related Items-->
+<!--==========================================================-->
     <div class="row">
 		<div class="col-md-12">
 		        <div id='show-page-similar-item'>
-		            <h2>Similar Items You May Like</h2>
+		            <h2><%= __('Similar Items You May Like')%></h2>
 		        </div>
             <div id="RelatedCarousel" class="carousel slide">
                  
@@ -223,19 +405,20 @@
                     
                     <div class="item active">
                     	<div class="row">
+                    	  <% for (var i=1; i<5; i++) { %>
                     	  <div class="col-md-3 thumbnail-container">
                     	        <div href="#" class="thumbnail">
-                    	            <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><img src='<%=product.image[0]%>'></a>
+                    	            <a href='/category/<%=product.category.name.en%>/product/<%=product._id%>'><img src='<%=product.image[0]%>'></a>
                                     <div class='caption'>
                                         <div class='product-name-container'>
-                                            <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="burmese product-name"><%=product.name%></h4></a>
+                                            <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="burmese product-name"><%=product.name.en%></h4></a>
                                         </div>
                                         <p class='product-price'>$ <%=product.price%></p>
                                         <div class="rating-stars">
                                             <table>
                                               <tr>
                                                 <td>
-                                                  <input id="input-3" name="input-3" value="<%= product.rating%>" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
+                                                  <input id="input-3" name="input-3" value="3" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
                                                 </td>
                                               </tr>
                                             </table>
@@ -254,9 +437,10 @@
                                     </div>
                     	        </div>
                     	  </div>
-                    	  <div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>
-                    	  <div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>
-                    	  <div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>
+                    	  <% } %>
+                    	  <!--<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>-->
+                    	  <!--<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>-->
+                    	  <!--<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>-->
                     	</div><!--.row-->
                     </div><!--.item-->
                  

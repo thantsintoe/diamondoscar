@@ -13,7 +13,10 @@
   "dependencies": {
     "async": "^2.0.1",
     "body-parser": "^1.15.2",
+    "cloudinary": "^1.4.4",
     "connect-busboy": "0.0.2",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "^1.4.3",
     "ejs": "^2.5.2",
     "ejs-mate": "^2.3.0",
     "express": "^4.14.0",
@@ -21,6 +24,7 @@
     "express-session": "^1.14.1",
     "faker": "^3.1.0",
     "fs-extra": "^0.30.0",
+    "i18n": "^0.8.3",
     "method-override": "^2.3.6",
     "mkdirp": "^0.5.1",
     "mongoose": "^4.6.3",
