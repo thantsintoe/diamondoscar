@@ -153,34 +153,3 @@ app.use(function(req,res,next) {
 
 //English Language Route
    app.get('/en',function(req,res) {
-       res.cookie('i18n', 'en');
-         preferredLanguage = "en";
-       res.redirect("back");
-   });
-
-//Burmese Language Route   
-    app.get('/mm',function(req,res) {
-      res.cookie('i18n', 'mm');
-         preferredLanguage = "mm";
-       
-      res.redirect("back");
-   });
-
-
-app.use(cartRoutes);
-app.use(indexRoutes);
-app.use(userRoutes);
-app.use(categoryRoutes);
-app.use(productRoutes);
-app.use(uploadRoutes);
-app.use(adminRoutes);
-app.use(commentRoutes);
-
-
-// app.use(generateProduct);
-
-
-app.listen(process.env.PORT,process.env.IP,function() {
-        console.log("Ecommerce Server is running...");
-   
-});
