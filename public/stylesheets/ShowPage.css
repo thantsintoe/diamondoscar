@@ -70,11 +70,24 @@ body {
     margin-top: 20px;
 }
 
-#product-description {
+.product-description {
     font-size: 1.0em;
-    font-weight: regular;
+    font-weight: lighter;
     color: #4A4A4A;
     text-align: justify;
+
+}
+
+#details p {
+    font-size: 0.9em;
+    text-align: justify;
+}
+
+#details ul {
+    font-size: 0.9em;
+}
+.product-description.burmese + p {
+    font-size: 0.6em;
 }
 
 
@@ -247,31 +260,55 @@ body {
 
 
 .panel-default ul {
-    border-bottom: 1px solid rgba(96,96,96,1.0);
+    /*border-bottom: 1px solid rgba(96,96,96,1.0);*/
     transition: 0.5s;
     /*border-bottom: none;*/
 }
 
 
 
-.nav-tabs>li>a {
-    color: #555;
+.detailAndReview .nav-tabs>li>a {
+    color: #0092CB;
     transition: 0.3s;
 }
 
-.nav-tabs>li>a:hover {
-    color: #555;
-    border: 1px solid rgba(96,96,96,1.0);
+.detailAndReview .nav-tabs>li>a:hover {
+    color: #0092CB;
+    border: 1px solid #ECC98E;
 }
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
-    background-color: rgba(96,96,96,1.0);
-    color: white;
-    font-weight: lighter;
-    border: 2px solid #555;
+    background-color: #F6EFE3;
+    color: #0092CB;
+    font-weight: bold;
+    border: 1px solid #ECC98E;
     border-bottom: none;
-    border-radius: 8px 8px 0px 0px;
+    border-radius: 0px;
 }
+
+.detailAndReview .panel-body {
+    background-color: #F3EFE8;
+    color: #4A4A4A;
+    border: 1px solid #ECC98E;
+}
+
+.detailAndReview .panel-body thead {
+   
+    background-color: #4A4A4A;
+    color: white;
+}
+
+#details tr {
+   
+    border: 1px solid #4A4A4A;
+}
+#details td {
+   
+    /*border-left: 1px solid #4A4A4A;*/
+    /*border-right: 1px solid #4A4A4A;*/
+    text-align: center;
+}
+
 
 .panel-body .rating-block h4{
     font-size: 1.3em;

@@ -25,7 +25,7 @@ var adminRoutes = require('./routes/admin');
 var uploadRoutes = require('./routes/upload');
 var cloudinary = require('cloudinary');
 
-var preferredLanguage = "mm";
+var preferredLanguage = "en";
 
 cloudinary.config({ 
   cloud_name: 'dzxsfe54s', 
@@ -79,7 +79,7 @@ i18n.configure({
       directory: __dirname + '/locales',
       
       //define the default language
-      defaultLocale: 'mm',
+      defaultLocale: 'en',
       
       // define a custom cookie name to parse locale settings from 
       cookie: 'i18n'
