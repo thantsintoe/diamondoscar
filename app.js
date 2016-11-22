@@ -79,7 +79,7 @@ i18n.configure({
       directory: __dirname + '/locales',
       
       //define the default language
-      defaultLocale: 'en',
+      defaultLocale: 'mm',
       
       // define a custom cookie name to parse locale settings from 
       cookie: 'i18n'
@@ -162,7 +162,17 @@ app.use(adminRoutes);
 app.use(commentRoutes);
 
 
-// app.use(generateProduct);
+app.get('/mm',function(req,res) {
+    preferredLanguage = 'mm';
+    res.cookie('i18n', 'mm');
+    res.redirect('back');
+});
+
+app.get('/en',function(req,res) {
+    preferredLanguage = 'en';
+    res.cookie('i18n', 'en');
+    res.redirect('back');
+});
 
 
 app.listen(process.env.PORT,process.env.IP,function() {
