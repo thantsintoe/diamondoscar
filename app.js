@@ -36,8 +36,8 @@ cloudinary.config({
 var cartLength = require('./middleware/cartlength');
 
 
-mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/ecommerce');
-// mongoose.connect('mongodb://thantsintoe:patoe1492010@ds143767.mlab.com:43767/ecommerce-deployed');
+// mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/ecommerce');
+mongoose.connect('mongodb://thantsintoe:patoe1492010@ds143767.mlab.com:43767/ecommerce-deployed');
 
 
 app.engine('ejs',engine);
@@ -151,5 +151,21 @@ app.use(function(req,res,next) {
    
 });
 
-//English Language Route
-   app.get('/en',function(req,res) {
+
+app.use(cartRoutes);
+app.use(indexRoutes);
+app.use(userRoutes);
+app.use(categoryRoutes);
+app.use(productRoutes);
+app.use(uploadRoutes);
+app.use(adminRoutes);
+app.use(commentRoutes);
+
+
+// app.use(generateProduct);
+
+
+app.listen(process.env.PORT,process.env.IP,function() {
+        console.log("Ecommerce Server is running...");
+   
+});
