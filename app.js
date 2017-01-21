@@ -33,21 +33,21 @@ var preferredLanguage = "en";
 //========================================
 //Deployment Cloud Storage
 //========================================
-// cloudinary.config({ 
-//   cloud_name: 'dzxsfe54s', 
-//   api_key: '343496594473383', 
-//   api_secret: '39yXvsQZMFG5q124Jslc8G8OkEA' 
-// });
+cloudinary.config({ 
+  cloud_name: 'dzxsfe54s', 
+  api_key: '343496594473383', 
+  api_secret: '39yXvsQZMFG5q124Jslc8G8OkEA' 
+});
 
 
 //========================================
 //Development Cloud Storage
 //========================================
-cloudinary.config({ 
-  cloud_name: 'thantsintoewebdevelopment', 
-  api_key: '965369685249298', 
-  api_secret: 'wpugp-nIMZAikstsnNAXStSqFe8' 
-});
+// cloudinary.config({ 
+//   cloud_name: 'thantsintoewebdevelopment', 
+//   api_key: '965369685249298', 
+//   api_secret: 'wpugp-nIMZAikstsnNAXStSqFe8' 
+// });
 
 
 // mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/ecommerce');
@@ -55,12 +55,12 @@ cloudinary.config({
 //========================================
 //Deployment Database
 //========================================
-// mongoose.connect('mongodb://thantsintoe:patoe1492010@ds143767.mlab.com:43767/ecommerce-deployed');
+mongoose.connect('mongodb://thantsintoe:patoe1492010@ds143767.mlab.com:43767/ecommerce-deployed');
 
 //========================================
 //Development Database
 //========================================
-mongoose.connect('mongodb://thantsintoe:patoe1492010@ds053090.mlab.com:53090/thantsintoe-ecommerce');
+// mongoose.connect('mongodb://thantsintoe:patoe1492010@ds053090.mlab.com:53090/thantsintoe-ecommerce');
 
 
 app.engine('ejs',engine);

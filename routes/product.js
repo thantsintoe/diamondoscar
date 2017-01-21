@@ -20,21 +20,21 @@ router.use(methodOverride("_method"));
 //========================================
 //Deployment Cloud Storage
 //========================================
-// cloudinary.config({ 
-//   cloud_name: 'dzxsfe54s', 
-//   api_key: '343496594473383', 
-//   api_secret: '39yXvsQZMFG5q124Jslc8G8OkEA' 
-// });
+cloudinary.config({ 
+  cloud_name: 'dzxsfe54s', 
+  api_key: '343496594473383', 
+  api_secret: '39yXvsQZMFG5q124Jslc8G8OkEA' 
+});
 
 
 //========================================
 //Development Cloud Storage
 //========================================
-cloudinary.config({ 
-  cloud_name: 'thantsintoewebdevelopment', 
-  api_key: '965369685249298', 
-  api_secret: 'wpugp-nIMZAikstsnNAXStSqFe8' 
-});
+// cloudinary.config({ 
+//   cloud_name: 'thantsintoewebdevelopment', 
+//   api_key: '965369685249298', 
+//   api_secret: 'wpugp-nIMZAikstsnNAXStSqFe8' 
+// });
 
 
 
