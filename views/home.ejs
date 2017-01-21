@@ -70,7 +70,13 @@
                                             <div class='product-name-container'>
                                                 <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>'><h4 class="multilanguage product-name"><%=similarItems[i].name.en%></h4></a>
                                             </div>
-                                            <p class='product-price'>Ks <%=similarItems[i].price.toLocaleString()%></p>
+                                            
+                                            <% if(parseFloat(similarItems[i].price).toFixed(1) != parseFloat(similarItems[i].discountPrice).toFixed(1)) { %>
+                                                <p class='product-price'>Ks <%=  parseFloat(similarItems[i].discountPrice).toLocaleString() %><span class='index-original-price'>        Ks <%= parseFloat(similarItems[i].price).toLocaleString() %></span></p>
+                
+                                            <% } else { %>
+                                                <p class='product-price'>Ks <%=  parseFloat(similarItems[i].price).toLocaleString() %></p>
+                                            <% } %>
                                             <div class="rating-stars">
                                                 <table>
                                                   <tr>
@@ -112,7 +118,12 @@
                                                 <div class='product-name-container'>
                                                     <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>'><h4 class="multilanguage product-name"><%=similarItems[i].name.en%></h4></a>
                                                 </div>
-                                                <p class='product-price'>Ks <%=similarItems[i].price.toLocaleString()%></p>
+                                                <% if(parseFloat(similarItems[i].price).toFixed(1) != parseFloat(similarItems[i].discountPrice).toFixed(1)) { %>
+                                                    <p class='product-price'>Ks <%=  parseFloat(similarItems[i].discountPrice).toLocaleString() %><span class='index-original-price'>        Ks <%= parseFloat(similarItems[i].price).toLocaleString() %></span></p>
+                    
+                                                <% } else { %>
+                                                    <p class='product-price'>Ks <%=  parseFloat(similarItems[i].price).toLocaleString() %></p>
+                                                <% } %>
                                                 <div class="rating-stars">
                                                     <table>
                                                       <tr>
@@ -154,7 +165,12 @@
                                                 <div class='product-name-container'>
                                                     <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>'><h4 class="multilanguage product-name"><%=similarItems[i].name.en%></h4></a>
                                                 </div>
-                                                <p class='product-price'>Ks <%=similarItems[i].price.toLocaleString()%></p>
+                                                <% if(parseFloat(similarItems[i].price).toFixed(1) != parseFloat(similarItems[i].discountPrice).toFixed(1)) { %>
+                                                    <p class='product-price'>Ks <%=  parseFloat(similarItems[i].discountPrice).toLocaleString() %><span class='index-original-price'>        Ks <%= parseFloat(similarItems[i].price).toLocaleString() %></span></p>
+                    
+                                                <% } else { %>
+                                                    <p class='product-price'>Ks <%=  parseFloat(similarItems[i].price).toLocaleString() %></p>
+                                                <% } %>
                                                 <div class="rating-stars">
                                                     <table>
                                                       <tr>
@@ -238,7 +254,12 @@
                                             <div class='product-name-container'>
                                                 <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>'><h4 class="multilanguage product-name"><%=hotItems[i].name.en%></h4></a>
                                             </div>
-                                            <p class='product-price'>Ks <%=hotItems[i].price.toLocaleString()%></p>
+                                            <% if(parseFloat(hotItems[i].price).toFixed(1) != parseFloat(hotItems[i].discountPrice).toFixed(1)) { %>
+                                                <p class='product-price'>Ks <%=  parseFloat(hotItems[i].discountPrice).toLocaleString() %><span class='index-original-price'>        Ks <%= parseFloat(hotItems[i].price).toLocaleString() %></span></p>
+                
+                                            <% } else { %>
+                                                <p class='product-price'>Ks <%=  parseFloat(hotItems[i].price).toLocaleString() %></p>
+                                            <% } %>
                                             <div class="rating-stars">
                                                 <table>
                                                   <tr>
@@ -280,7 +301,12 @@
                                                 <div class='product-name-container'>
                                                     <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>'><h4 class="multilanguage product-name"><%=hotItems[i].name.en%></h4></a>
                                                 </div>
-                                                <p class='product-price'>Ks <%=hotItems[i].price.toLocaleString()%></p>
+                                                <% if(parseFloat(hotItems[i].price).toFixed(1) != parseFloat(hotItems[i].discountPrice).toFixed(1)) { %>
+                                                    <p class='product-price'>Ks <%=  parseFloat(hotItems[i].discountPrice).toLocaleString() %><span class='index-original-price'>        Ks <%= parseFloat(hotItems[i].price).toLocaleString() %></span></p>
+                    
+                                                <% } else { %>
+                                                    <p class='product-price'>Ks <%=  parseFloat(hotItems[i].price).toLocaleString() %></p>
+                                                <% } %>
                                                 <div class="rating-stars">
                                                     <table>
                                                       <tr>
@@ -322,7 +348,12 @@
                                                 <div class='product-name-container'>
                                                     <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>'><h4 class="multilanguage product-name"><%=hotItems[i].name.en%></h4></a>
                                                 </div>
-                                                <p class='product-price'>Ks <%=hotItems[i].price.toLocaleString()%></p>
+                                                <% if(parseFloat(hotItems[i].price).toFixed(1) != parseFloat(hotItems[i].discountPrice).toFixed(1)) { %>
+                                                    <p class='product-price'>Ks <%=  parseFloat(hotItems[i].discountPrice).toLocaleString() %><span class='index-original-price'>        Ks <%= parseFloat(hotItems[i].price).toLocaleString() %></span></p>
+                    
+                                                <% } else { %>
+                                                    <p class='product-price'>Ks <%=  parseFloat(hotItems[i].price).toLocaleString() %></p>
+                                                <% } %>
                                                 <div class="rating-stars">
                                                     <table>
                                                       <tr>
