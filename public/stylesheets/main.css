@@ -25,11 +25,24 @@ font-weight: 400;
     z-index: 2;
 }
 
-.navbar-brand {
-    font-size: 1.8em;
+.navbar-default .navbar-brand {
+    font-size: 1.3em;
     font-weight: bold;
-    color: yellow;
+    color: #ffefd3;
 }
+
+.navbar-default .navbar-brand img {
+    height: 45px;
+    width: 180px;
+    position: absolute;
+    top: 0px;
+    left: 20px;
+}
+
+.navbar-default .navbar-brand:hover {
+    color: white;
+}
+
 /*===========================================*/
 /*Second Nav Bar*/
 .second-navbar {
@@ -47,8 +60,18 @@ font-weight: 400;
 }
 
 .navbar-default .navbar-nav li a {
+    color: white;
+}
+
+.navbar-default .navbar-nav .dropdown-menu li a {
     color: gray;
 }
+
+.navbar-default .navbar-nav li .dropdown-header.category-header a {
+    color: #F5A623;
+}
+
+
 
 .navbar-default .navbar-nav li .main-menu {
     color: white;
@@ -81,6 +104,7 @@ font-weight: 400;
 
 .form-group .form-control {
    margin-bottom: 10px;
+   border-radius: 0px;
 }
 .navbar-form.navbar-left {
     width: 50%;
@@ -96,20 +120,21 @@ font-weight: 400;
 
 #search-box{
     width: 100%;
-    border-radius: 25px 0px 0px 25px;
+    border-radius: 5px 0px 0px 5px;
     margin: auto 5px;
     padding-left: 20px;
     height: 35px;
 }
 
 #search-button {
-    border-radius: 0px 25px 25px 0px;
+    border-radius: 0px 5px 5px 0px;
     background-color: rgba(96,96,96,1.0);
     border: none;
     outline: none;
     color: white;
     height: 35px;
 }
+
 
 .btn.btn-default.navbar-btn.signup-btn {
     width: auto;
@@ -163,6 +188,38 @@ font-weight: 400;
     color: white;
 }
 
+.second-navbar ul a {
+    color: rgba(96,96,96,1.0);
+}
+
+.second-navbar ul a:hover {
+    color: rgba(96,96,96,1.0);
+    text-decoration: none;
+}
+
+
+
+.alert {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.alert h4 {
+    text-align: center;
+}
+
+
+
+#add-new-category-button {
+    border: 2px solid rgba(96,96,96,1.0);
+    color: rgba(96,96,96,1.0);
+    background-color: transparent;
+    border-radius: 0px;
+    margin: 10px auto;
+   
+    
+}
+
 /*=================*/
 /*Breadcrump*/
 .row.mybreadcrumb {
@@ -182,7 +239,23 @@ font-weight: 400;
     margin-left: 20px;
 }
 
+.sort-by {
+    text-align: right;
+    padding-right: 40px;
+    border-radius: 0px;
+    color: #999999;
+}
 
+.sort-by button {
+    border-radius: 0px;
+    border: 2px solid #999999;
+    
+}
+
+.sort-by .dropdown-menu {
+    right: 0%;
+    left: auto;
+}
 
 /*==========*/
 
@@ -256,6 +329,10 @@ aside.col-md-2.col-xs-0 {
     color:#FF5656
 }
 
+.list-category a {
+    color:#FF5656
+}
+
 .list-category-submenu a {
      color: #5D5D5D;
      font-weight: lighter;
@@ -293,6 +370,7 @@ aside.col-md-2.col-xs-0 {
     margin: 0px;
 }
 
+
 .col-lg-3.col-md-4.col-sm-6 {
     margin-bottom: 30px;
 }
@@ -303,7 +381,8 @@ aside.col-md-2.col-xs-0 {
             margin: 0px;
             margin-bottom: 200px;
             padding: 0px;
-            background-color: rgba(230,230,230,.3) ;
+            background-color: rgb(253, 253, 253);
+            /*background-color: rgba(230,230,230,.3) ;*/
             border: 1px solid rgba(145, 145, 145,0.2);
             /*border-radius: 60px;*/
             transition: 800ms;
@@ -314,7 +393,7 @@ aside.col-md-2.col-xs-0 {
             
 @media only screen and (max-width: 768px) {
         .thumbnail-container .thumbnail {
-            border-radius: 15px;
+            border-radius: 10px;
             width: 100%;
             height: 500px;
             margin: 0px;
@@ -322,29 +401,29 @@ aside.col-md-2.col-xs-0 {
             }
         .thumbnail a img {
             height: 320px;
-            width : 100%;
-            border-radius: 15px 15px 0px 0px;
+            /*width : 100%;*/
+            border-radius: 10px 10px 0px 0px;
         }
 }
 
 
 @media only screen and (max-width:1600px) and (min-width:1001px) {
         .thumbnail-container .thumbnail {
-            border-radius: 15px;
+            border-radius: 10px;
             width: 230px;
             margin: 0px;
             padding: 0px;
             }
         .thumbnail a img {
             height: 240px;
-            width : 100%;
-            border-radius: 15px 15px 0px 0px;
+            /*width : 100%;*/
+            border-radius: 10px 10px 0px 0px;
             }
 }
 
 @media only screen and (min-width:1601px) {
         .thumbnail-container .thumbnail {
-            border-radius: 15px;
+            border-radius: 10px;
             width: 320px;
             height: 520px;
             margin: 0px;
@@ -352,8 +431,8 @@ aside.col-md-2.col-xs-0 {
             }
         .thumbnail-container .thumbnail a img {
             height: 340px;
-            width : 100%;
-            border-radius: 15px 15px 0px 0px;
+            /*width : 100%;*/
+            border-radius: 10px 10px 0px 0px;
         }
 }
 
@@ -379,6 +458,12 @@ aside.col-md-2.col-xs-0 {
     text-align: left;
     font-size: 1.1em;
     font-weight: normal;
+}
+
+.index-original-price {
+    text-decoration: line-through;
+    font-size: 0.9em;
+    color: gray;
 }
 
 
@@ -437,6 +522,32 @@ aside.col-md-2.col-xs-0 {
 
 .show-image img {
     height: 100%;
+}
+
+.pagination li {
+    border-radius: 0px;
+}
+
+.pagination li a {
+    border-radius: 0px;
+}
+
+.pagination>li:first-child>a, .pagination>li:first-child>span {
+    border-radius: 0px;
+    color: rgba(96,96,96,1.0);
+}
+
+
+.pagination>li:last-child>a, .pagination>li:last-child>span {
+    border-radius: 0px;
+    color: rgba(96,96,96,1.0);
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    background-color: rgba(96,96,96,1.0);
+    border-color: rgba(96,96,96,1.0);
+    color: white;
+    
 }
 
 /*=============================================================*/

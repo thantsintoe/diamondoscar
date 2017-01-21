@@ -11,6 +11,8 @@ var LocalStrategy       = require('passport-local');
 
 var User = require('../models/user');
 var Order = require('../models/order');
+var Product = require('../models/product');
+var Category = require('../models/category');
 var middleware          = require('../middleware/middleware');
 
 
@@ -60,7 +62,8 @@ var middleware          = require('../middleware/middleware');
                                         console.log(err);
                                         return res.redirect('/');
                                     }
-                                    res.redirect('/category/all/1');
+                                    req.flash('success','Welcome to Diamond Oscar Online Shopping !');
+                                    res.redirect('/category/all/1/?sort=created&dir=desc');
                                 });
                                 
                         }
@@ -68,17 +71,22 @@ var middleware          = require('../middleware/middleware');
             
         
     });
-    
-    
+
 //LOGIN GET route
     router.get('/login',function(req,res) {
        res.render('login');
     });
     
+    
+    // passport.authenticate('local', { failureFlash: 'Incorrect username or password.' });
+    // passport.authenticate('local', { successFlash: 'Welcome!' });
+    
 //LOGIN POST route
     router.post('/login',passport.authenticate('local',{
-            successRedirect: "/category/all/1",
-            failureRedirect: "/login"
+            successRedirect: "/category/all/1/?sort=created&dir=desc",
+            failureRedirect: "/login",
+            failureFlash: "Username or Password are not correct. Please Try Again !",
+            successFlash: "Welcome to Diamond Oscar Online Shopping !"
         }),function(req,res) {
             
     });
@@ -86,17 +94,35 @@ var middleware          = require('../middleware/middleware');
 //LOGOUT route
     router.get('/logout',function(req,res) {
        req.logout();
-       res.redirect('/');
+       req.flash('success','Successfully Logout !');
+       res.redirect('/category/all/1/?sort=created&dir=desc');
        console.log('User logged out');
     });
     
 //Delete User
     router.delete('/delete-profile',function(req,res,next) {
-        User.findByIdAndRemove(req.body.user_id,function(err) {
-           if(err) console.log("User Cannot be Removed");
-           console.log("User sucessfully removed");
-           res.redirect('/admin-control');
-        });
+        
+        async.waterfall([
+            function(callback) {
+                User.findByIdAndRemove(req.body.user_id,function(err) {
+                    if(err) console.log("User Cannot be Removed");
+                    console.log("User sucessfully removed");
+                    callback(null);
+                });
+            },
+            function(callback) {
+                Order.find({user: req.body.user_id},function(err,foundOrders) {
+                    if(err) console.log("User Cannot be Removed");
+                    
+                    foundOrders.forEach(function(order) {
+                        order.remove();
+                    });
+                    
+                    res.redirect('/admin-control');
+                });
+            }
+        ]);
+       
     });
     
     router.post('/allow-admin',function(req,res,next) {
@@ -111,14 +137,45 @@ var middleware          = require('../middleware/middleware');
 //GET PROFILE
 
     router.get('/profile',middleware.isLoggedIn,function(req,res,next) {
-        User.findOne({ _id: req.user._id })
-        .populate('history.item')
-        .populate('favourite')
-        .populate('Product')
-        .exec(function(err, foundUser) {
-          if (err) return next(err);
-          res.render('account/user_profile', { user: foundUser });
-        });
+        
+        async.waterfall([
+            function(callback) {
+                User.findOne({ _id: req.user._id })
+                .populate('history.item')
+                .populate('favourite')
+                .populate({ 
+                     path: 'favourite',
+                     model: 'Product',
+                     populate: {
+                      path: 'category',
+                      model: 'Category',
+                     } 
+                })
+                .exec(function(err, foundUser) {
+                  if (err) return next(err);
+                  callback(null,foundUser);
+                });    
+            },
+            function(foundUser) {
+              
+                Order.find({user: req.user._id})
+                .populate('user')
+                .populate('line_items.item')
+                .populate({ 
+                     path: 'line_items.item',
+                     model: 'Product',
+                     populate: {
+                       path: 'category',
+                       model: 'Category'
+                     } 
+                })
+                .exec(function(err, foundOrders) {
+                    if (err) return next(err);
+                    console.log(foundOrders);
+                    res.render('account/user_profile', { user: foundUser,order: foundOrders});
+                });
+            }
+        ]);
     });
 
 //EDIT PROFILE
@@ -151,12 +208,9 @@ var middleware          = require('../middleware/middleware');
               console.log(err);
               return next(err);
           }
-          return res.redirect('/profile');
+          return res.redirect('back');
         });
       });
     });
-    
-   
-
 
 module.exports = router;

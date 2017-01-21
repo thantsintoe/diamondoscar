@@ -17,11 +17,23 @@ var User                = require('../models/user');
 
 router.use(methodOverride("_method"));
 
+//========================================
+//Deployment Cloud Storage
+//========================================
+// cloudinary.config({ 
+//   cloud_name: 'dzxsfe54s', 
+//   api_key: '343496594473383', 
+//   api_secret: '39yXvsQZMFG5q124Jslc8G8OkEA' 
+// });
 
+
+//========================================
+//Development Cloud Storage
+//========================================
 cloudinary.config({ 
-  cloud_name: 'dzxsfe54s', 
-  api_key: '343496594473383', 
-  api_secret: '39yXvsQZMFG5q124Jslc8G8OkEA' 
+  cloud_name: 'thantsintoewebdevelopment', 
+  api_key: '965369685249298', 
+  api_secret: 'wpugp-nIMZAikstsnNAXStSqFe8' 
 });
 
 
@@ -79,7 +91,7 @@ router.post('/product/add',multipartMiddleware, function(req, res, next) {
 
     async.waterfall([
         function(callback) {
-            console.log(req.body.category);
+            // console.log(req.body.category);
             Category.findOne({name: req.body.category}, function(err, foundCategory) {
                 if (err) {
                     console.log('Category does not exist');
@@ -104,6 +116,7 @@ router.post('/product/add',multipartMiddleware, function(req, res, next) {
             product.pictureName = filename[0];
             product.description.en = req.body.description_en;
             product.description.mm = req.body.description_mm;
+            
             for (var b = 0; b < req.body.color_quantity; b++) {
                 product.colors.push(availableColors[b]);
             }
@@ -114,54 +127,96 @@ router.post('/product/add',multipartMiddleware, function(req, res, next) {
                 
                 cloudinary.uploader.upload(newFile[a],function(result) { 
                    console.log(result);
-                   product.image.push(result.url);
+                   product.image.push(result.secure_url);
                    product.save();
                 },{public_id: req.body.name_en + a,folder :"Ecommerce/"});
             }
+
+            product.save(function(err,savedProduct) {
+                if(err) {
+                    console.log('Error while saving newly created product.');
+                    console.log(err);
+                    req.flash('error','Error while saving newly created product.');
+                    res.redirect('/category/all/1/?sort=created&dir=desc');
+                }
+                callback(null,savedProduct);
+            });
+        },function(savedProduct) {
             
-           
-            product.save();
-            console.log('Successfully created a new product');
+            console.log('Successfully created a new product as follow: ');
+            console.log(savedProduct);
+            req.flash('success','Successfully added a new product !');
+            res.redirect('/category/all/1/?sort=created&dir=desc');
            
         }
     ]);
 
-    res.redirect('/admin-control');
+    // res.redirect('/admin-control');
 
 });
 
 //========================================
 //SHOW route for Product
 //========================================
-router.get('/category/:category_name/product/:product_id', function(req, res) {
+router.get('/product/:category_name/:product_id', function(req, res) {
     
-
-    Product.findById(req.params.product_id)
-        .populate('category')
-        .populate('comments')
-        .exec(function(err, foundProduct) {
-            if (err) {
-                console.log(err);
-                return res.redirect('/category/all/1');
-            }
-            
-            // Using Callback function to get return from a Mongoose Query
-            findParentCategoryName(req.params.category_name, function (name) {
-                res.render('product/show', {
-                    product: foundProduct,
-                    category: req.params.category_name,
-                    parent_category: name
-                });
-            });
-            
-            
+   
+    async.waterfall([function(callback) {
+        
+        Category.findOne({name: req.params.category_name}, function(err, foundCategory) {
+                if (err) {
+                    console.log('Category does not exist');
+                    console.log(err);
+                    return res.send('Category does not exist');
+                }
+                callback(null, foundCategory);
         });
+    }
+    ,function(foundCategory,callback) {
+        Product.find({category: foundCategory._id})
+            .populate('category')
+            .populate('comments')
+            .exec(function(err,similarItems) {
+                if(err) {
+                    console.log("Connot find Similar Items...");
+                    console.log(err);
+                }
+                console.log(similarItems);
+                callback(null,similarItems);
+        });
+    }
+    ,function(similarItems,callback) {
+        Product.findById(req.params.product_id)
+            .populate('category')
+            .populate('comments')
+            .exec(function(err, foundProduct) {
+                if (err) {
+                    console.log(err);
+                    return res.redirect('/category/all/1/?sort=created&dir=desc');
+                }
+                
+                // Using Callback function to get return from a Mongoose Query
+                findParentCategoryName(req.params.category_name, function (name) {
+                    res.render('product/show', {
+                        product: foundProduct,
+                        category: req.params.category_name,
+                        parent_category: name,
+                        similarItems: similarItems
+                    });
+                });
+                
+                
+        });
+    }]);
+    
+    
+    
 });
 
 //========================================
 //EDIT route for Product
 //========================================
-router.get('/category/:category_name/product/:product_id/edit', function(req, res) {
+router.get('/product/:category_name/:product_id/edit', function(req, res) {
 
     Product.findById(req.params.product_id)
         .populate('category')
@@ -180,7 +235,7 @@ router.get('/category/:category_name/product/:product_id/edit', function(req, re
 //========================================
 //UPDATE route for Product
 //========================================
-router.put('/category/:category_name/product/:product_id',multipartMiddleware, function(req, res, next) {
+router.put('/product/:category_name/:product_id',multipartMiddleware, function(req, res, next) {
 
     var filename = [];
     var availableColors = [];
@@ -200,10 +255,10 @@ router.put('/category/:category_name/product/:product_id',multipartMiddleware, f
         }
             
         Product.findById(req.params.product_id,function(err,foundProduct) {
-            if(err) {console.log('cannot find product');console.log(err); return res.redirect('/category/all/1');}
+            if(err) {console.log('cannot find product');console.log(err); return res.redirect('/category/all/1/?sort=created&dir=desc');}
             for (var j=0; j<foundProduct.image.length; j++) {
-                cloudinary.uploader.destroy('Ecommerce/'+ foundProduct.name+j, function(err,result) {
-                    if(err) {console.log('cannot delete product image');console.log(err);}
+                cloudinary.uploader.destroy('Ecommerce/'+ foundProduct.name.en+j, function(err,result) {
+                    if(err) {console.log(err);}
                 },{invalidate: true});
             }
             
@@ -245,7 +300,7 @@ router.put('/category/:category_name/product/:product_id',multipartMiddleware, f
                     console.log(err);
                     return next();
                 }
-                if(!foundCategory) {console.log('cannot find category'); return res.redirect('/category/all/1');}
+                if(!foundCategory) {console.log('cannot find category'); return res.redirect('/category/all/1/?sort=created&dir=desc');}
                 callback(null, foundCategory);
             });
         },
@@ -254,8 +309,8 @@ router.put('/category/:category_name/product/:product_id',multipartMiddleware, f
             
                 Product.findById(req.params.product_id,function(err,foundProduct) {
                 
-                    if(err) {console.log('cannot find product');console.log(err); return res.redirect('/category/all/1');}
-                    if(!foundProduct) {console.log('cannot find product');console.log(err); return res.redirect('/category/all/1');}
+                    if(err) {console.log('cannot find product');console.log(err); return res.redirect('/category/all/1/?sort=created&dir=desc');}
+                    if(!foundProduct) {console.log('cannot find product');console.log(err); return res.redirect('/category/all/1/?sort=created&dir=desc');}
                     
                     foundProduct.category        = foundCategory._id;
                     foundProduct.name.en            = req.body.name_en;
@@ -307,10 +362,14 @@ router.put('/category/:category_name/product/:product_id',multipartMiddleware, f
                                 for (var a = 0; a < req.body.image_quantity; a++) {
     
                                     cloudinary.uploader.upload(newFile[a],function(result) { 
-                                       console.log(result.url);
-                                       foundProduct.image.push(result.url);
+                                       console.log(' a is '+ a);
+                                       foundProduct.image.push(result.secure_url);
                                        foundProduct.markModified('image');
-                                       foundProduct.save();
+                                       foundProduct.save(function(err,product) {
+                                           if(err) {console.log('error while saving');console.log(err)}
+                                        //   console.log(' a is '+ a);
+                                          
+                                       });
                                     },{public_id: req.body.name_en + a,folder :"Ecommerce/",invalidate: true});
                                 }
 
@@ -320,9 +379,13 @@ router.put('/category/:category_name/product/:product_id',multipartMiddleware, f
                             foundProduct.markModified('colors');
                             foundProduct.markModified('image');
                             foundProduct.save(function(err,updated) {
-                             if(err) console.log(err);
-                             console.log(updated);
-                             res.redirect('/category/all/1');
+                             if(err) {
+                                 console.log(err);
+                                 req.flash('error','Error while trying to update the product !');
+                                 
+                             }
+                             req.flash('success','Successfully updated the product !');
+                             res.redirect('/category/all/1/?sort=created&dir=desc');
                             });
                         }
                     ]);
@@ -336,7 +399,7 @@ router.put('/category/:category_name/product/:product_id',multipartMiddleware, f
 //========================================
 //DELETE route for Product
 //========================================
-router.delete('/category/:category_name/product/:product_id', function(req, res, next) {
+router.delete('/product/:category_name/:product_id', function(req, res, next) {
 
     Product.findById(req.params.product_id, function(err, originalProduct) {
         if (err) {
@@ -358,61 +421,96 @@ router.delete('/category/:category_name/product/:product_id', function(req, res,
         if (err) {
             console.log('Error while trying to delete the product');
             console.log(err);
-            return res.redirect('/category/all/1');
+            req.flash('success','Error while trying to delete the product !');
+            return res.redirect('/category/all/1/?sort=created&dir=desc');
         }
         console.log('A product has been successfully deleted');
-        res.redirect('/category/all/1');
+        req.flash('success','Successfully deleted!');
+        res.redirect('/category/all/1/?sort=created&dir=desc');
     });
 
 });
 
 
 //========================================
-//SEARCH route
+//SEARCH POST route
 //========================================
 
-
+//?q=shirt&page=2
 router.post('/search', function(req, res) {
-    res.redirect('/search?q=' + req.body.q);
+    res.redirect('/search?q=' + req.body.q + '&page=1');
 });
 
+
+//========================================
+//SEARCH GET route
+//========================================
 router.get('/search', function(req, res) {
+    
+    var perPage = 12.0;
+    var pageNo = req.query.page;
+    var totalPages = 1.0;
+    var requestedURL = "/search?q=" + req.query.q + "&page=";
+    
     if (req.query.q) {
-        Product.find({
-                $text: {
-                    $search: req.query.q
-                }
-            }, {
-                score: {
-                    $meta: "textScore"
-                }
-            })
-            .sort({
-                score: {
-                    $meta: 'textScore'
-                }
-            })
-            .limit(10)
-            .populate('category')
-            .exec(function(err, foundProducts) {
-                if (err) {
-                    console.log(err);
-                    return res.redirect('/');
-                }
-                res.render('product/search-results', {
-                    query: req.query.q,
-                    products: foundProducts
-                });
-            });
+    //     Product.find({$text: {$search: req.query.q}}, {score: {$meta: "textScore"}})
+    //         .sort({
+    //             score: {
+    //                 $meta: 'textScore'
+    //             }
+    //         })
+    //         .skip(perPage * (pageNo - 1))
+    //         .limit(perPage)
+    //         .populate('category')
+    //         .exec(function(err, foundProducts) {
+                
+    //             console.log(foundProducts);
+                
+    //             if (err) {
+    //                 console.log(err);
+    //                 return res.render('error/404');
+    //             }
+                
+    //             var count = foundProducts.length;
+                
+    //             if (parseInt(count) % parseInt(perPage) === 0) {
+    //                 totalPages = parseInt(parseInt(count) / parseInt(perPage));
+    //             }
+    //             else {
+    //                 totalPages = (Math.floor(parseInt(count) / parseInt(perPage))) + 1;
+    //             }
+    //             res.render('product/index', {
+    //                 products: foundProducts,
+    //                 category: null,
+    //                 parent_category: null,
+    //                 totalPages: totalPages,
+    //                 currentPage: pageNo,
+    //                 URL: requestedURL
+    //             });
+    //         });
+            
+            
+            Product.find({$text: {$search: req.query.q}})
+            .exec(function(err, foundCategory) {
+                if(err)
+                {console.log(err);}
+                console.log(foundCategory);
+                res.redirect('back');
+               
+            }); 
+            
+            
+            
     }
 });
+
 
 //========================================
 //Wish List route
 //========================================
 
  
-    router.post('/category/:category_name/product/:product_id/add-wishlist',middleware.isLoggedIn,function(req,res,next) {
+    router.post('/product/:category_name/:product_id/add-wishlist',middleware.isLoggedIn,function(req,res,next) {
             
             async.waterfall([
                   function(callback) {
@@ -440,7 +538,7 @@ router.get('/search', function(req, res) {
                        
                         user.save(function(err, user) {
                           if (err) return next(err);
-                          console.log(user.favourite);
+                          req.flash('success','Successfully added to your Favourite Items !');
                           res.redirect('/profile');
                         });
                       }

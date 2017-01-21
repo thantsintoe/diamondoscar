@@ -7,8 +7,14 @@ var orderSchema = new mongoose.Schema({
                         type: mongoose.Schema.Types.ObjectId,
                         ref: "User"
                     },
-    total_price : {type: Number, default: 0}, 
+    total_price : {type: Number, default: 0},
+    grand_total : {type: Number, default: 0},
+    delivery_fee: {type: Number, default: 0},
     status      : String,
+    order_date  : { type: Date, default: Date.now },
+    delivery_date: { type: Date, default: Date.now },
+    delivery_option : {type: String, default: 'deliver'},
+    payment_option  : {type: String, default: 'cash'},
     line_items  : [{
                         item        : {type: mongoose.Schema.Types.ObjectId, ref: 'Product'},
                         quantity    : {type: Number, default: 1},
@@ -16,8 +22,6 @@ var orderSchema = new mongoose.Schema({
                         color       : {type: Number, default: 0},
                         price       : {type: Number, default: 0}
                    }]
-    
-    
 });
 
 

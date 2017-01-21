@@ -17,7 +17,7 @@ var productSchema = new mongoose.Schema({
     rating          : Number,
     like            : Number,
     description     : {
-                        en : {type: String},
+                        en : {type: String,index: true},
                         mm : {type: String}
                       },
     detail          : {
@@ -40,6 +40,6 @@ var productSchema = new mongoose.Schema({
     
 });
 
-productSchema.index({name: 'text'});
+productSchema.index({"$**": 'text'});
 
 module.exports = mongoose.model('Product',productSchema);

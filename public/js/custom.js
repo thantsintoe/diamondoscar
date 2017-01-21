@@ -6,6 +6,9 @@ $(function() {
 
   Stripe.setPublishableKey('pk_test_3TqEp6gxWAhM8EG56oNnzknH');
 
+//====================================
+//      Adding Quantity and Calculate Price
+//====================================
 $('#plus').on('click',function(e) {
     e.preventDefault();
     var originalPrice = parseFloat($('#originalPrice').val());
@@ -20,9 +23,9 @@ $('#plus').on('click',function(e) {
     $('#total').html(quantity);
     
     if (currentLanguage == 'mm')
-        $('#priceValue').html('စုစုပေါင်း ကျသင့်ငွေ - $ ' + (originalPrice.toFixed(2)*quantity).toFixed(2));
+        $('#priceValue').html('စုစုပေါင်း ကျသင့်ငွေ - Ks ' + (originalPrice.toFixed(0)*quantity).toLocaleString());
     else {
-        $('#priceValue').html('Total Price - $ ' + (originalPrice.toFixed(2)*quantity).toFixed(2));  
+        $('#priceValue').html('Total Price - Ks ' + (originalPrice.toFixed(0)*quantity).toLocaleString());  
     }
     
     
@@ -30,7 +33,9 @@ $('#plus').on('click',function(e) {
 
 });
 
-
+//====================================
+//      Removing Quantity and Calculate Price
+//====================================
 $('#minus').on('click',function(e) {
     e.preventDefault();
     var originalPrice = parseFloat($('#originalPrice').val());
@@ -53,15 +58,19 @@ $('#minus').on('click',function(e) {
     
          $('#total').html(quantity);
          
-         if (currentLanguage == 'mm') {
-            $('#priceValue').html('စုစုပေါင်း ကျသင့်ငွေ - $ ' + (originalPrice.toFixed(2)*quantity).toFixed(2));
-         } else {
-            $('#priceValue').html('Total Price - $ ' + (originalPrice.toFixed(2)*quantity).toFixed(2)); 
-         }
+        if (currentLanguage == 'mm') {
+            $('#priceValue').html('စုစုပေါင်း ကျသင့်ငွေ - Ks ' + (originalPrice.toFixed(0)*quantity).toLocaleString());
+        } else {
+            $('#priceValue').html('Total Price - Ks ' + (originalPrice.toFixed(0)*quantity).toLocaleString()); 
+        }
     }
 
 });
 
+
+//====================================
+//      Selecting Sizes
+//====================================
 
 $('.size-buttons').on('click',function(e) {
     e.preventDefault();
@@ -72,6 +81,9 @@ $('.size-buttons').on('click',function(e) {
    
 });
 
+//====================================
+//      Selecting Colors
+//====================================
 $('.color-circle').on('click',function(e) {
     e.preventDefault();
     $(".color-circle").removeClass('active-color');
@@ -141,6 +153,10 @@ $('.color-circle').on('click',function(e) {
     
     if(currentLanguage === "en") {
         $('.multilanguage').removeClass("burmese"); 
+    }
+    
+    if(currentLanguage === "mm") {
+        $('.multilanguage').addClass("burmese"); 
     }
 
 });

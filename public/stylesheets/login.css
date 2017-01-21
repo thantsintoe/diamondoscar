@@ -46,7 +46,7 @@ background: linear-gradient(to left, #003973 , #E5E5BE); /* W3C, IE 10+/ Edge, F
   -webkit-appearance: none;
   background: #fff;
   border: 1px solid #d9d9d9;
-  border-radius: 7px;
+  border-radius: 0px;
   border-top: 1px solid #c0c0c0;
   /* border-radius: 2px; */
   padding: 0 8px;
@@ -80,21 +80,18 @@ background: linear-gradient(to left, #003973 , #E5E5BE); /* W3C, IE 10+/ Edge, F
 }
 
 .login-submit {
-  /* border: 1px solid #3079ed; */
-  border-radius: 7px;
-  border: 0px;
-  color: #fff;
+  border: 2px solid rgba(0, 83, 111,0.8); 
+  border-radius: 0px;
+  color: white;
   text-shadow: 0 1px rgba(0,0,0,0.1); 
   background-color: rgba(0, 83, 111,0.8);
-  /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#4787ed)); */
 }
 
 .login-submit:hover {
-  /* border: 1px solid #2f5bb7; */
-  border: 0px;
-  text-shadow: 0 1px rgba(0,0,0,0.3);
+  border: 2px solid rgba(0, 83, 111,0.8); 
+  color: white;
+  text-shadow: 0 1px rgba(0,0,0,0.1); 
   background-color: rgba(0, 83, 111,0.8);
-  /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#357ae8)); */
 }
 
 .login-card a {

@@ -29,7 +29,7 @@
         
               <% } %>
         
-              <a href="/edit-profile" class="btn">Update Profile</a>
+              <a href="/edit-profile" class="btn">Update Address</a>
         </div> <!--End of Well-->
       
     </div>
@@ -42,22 +42,34 @@
             <thead>
             <tr>
               <th>Item</th>
-              <th>Item's Name</th>
-              <th>Paid</th>
+              <th>Unit Price</th>
+              <th>Quantity</th>
+              <th>Subtotal</th>
+              <th>Payment</th>
               <th>Order Status</th>
             </tr>
             <tbody>
-              <% if (user.history.length > 0 && user.history.item !== 'undefined') { %>
-                  <% for(var i = 0; i < user.history.length; i++) {%>
-                    <tr>
-                      <td><img class="media-object" src="<%= user.history[i].item.image[0]%>" style="width: 72px; height: 72px;"></td>
-                      <td><%= user.history[i].item.name %></td>
-                      <td>$ <%= parseFloat(user.history[i].paid).toFixed(1) %></td>
-                      <td>Processing Order</td>
-                    </tr>
-                  <% } %>
-              <% } %>
-              
+                
+                <% order.forEach(function(order) { %>
+                    <% if (order.status !== "CART") { %>
+                        <% order.line_items.forEach(function(lineItem) { %>              
+                            <tr>
+                              <td><a href='product/<%= lineItem.item.category.name +"/"+ lineItem.item._id %>'><%= lineItem.item.name.en %></a></td>
+                              <td>Ks <%= parseFloat(lineItem.item.price).toLocaleString() %></td>
+                              <td><%= parseFloat(lineItem.quantity) %></td>
+                              <td>Ks <%= parseFloat(lineItem.price).toLocaleString() %></td>
+                              <td><%= order.payment_option %></td>
+                              <% if (order.status === "CONFIRM") { %>
+                                <td>Processing Order</td>  
+                              <% } else { %>
+                                <td>Delivered</td>
+                              <% } %>
+                            </tr>
+                        <% }); %>
+                    <% } %>
+                <% }); %>    
+                
+                  
             </tbody>
             </thead>
           </table>
@@ -77,12 +89,12 @@
               <% for(var i = 0; i < user.favourite.length; i++) {%>
                 <tr>
                   <td><img class="media-object" src="<%= user.favourite[i].image[0]%>" style="width: 72px; height: 72px;"></td>
-                  <td><%= user.favourite[i].name %></td>
-                  <td>$ <%= parseFloat(user.favourite[i].price).toFixed(1) %></td>
+                  <td><a href='/product/<%=user.favourite[i].category.name + "/" +  user.favourite[i]._id%>'><%= user.favourite[i].name.en %></a></td>
+                  <td>Ks <%= parseFloat(user.favourite[i].price).toLocaleString() %></td>
                   <td>
                     <form action='/remove-wishlist/<%= user.favourite[i]._id %>?_method=DELETE' method='POST'>
                         <input type=hidden name='favourite-item-name' value='<%= user.favourite[i].name %>'>
-                        <button class='btn'><span class="glyphicon glyphicon-remove-circle"></span></button>
+                        <!--<button class='btn'><span class="glyphicon glyphicon-remove-circle"></span></button>-->
                     </form>
                   </td>
                 </tr>

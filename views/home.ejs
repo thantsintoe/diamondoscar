@@ -14,12 +14,12 @@
       <div class="slide-1"></div>
       <div class="hero">
         <hgroup>
-            <h1 class='burmese' id='hero-main-text1'>ခောတ်မီတဲ့ စတိုင်ကျ လှပမှုက</h1>
+            <h1 class='burmese' id='hero-main-text1'>ခေတ်မီတဲ့ စတိုင်ကျ လှပမှုက</h1>
             <h1 class='burmese' id='hero-main-text2'>သင့် လက်တစ်ကမ်းအကွာ ရောက်နေပြီလေ</h1>    
         </hgroup>
         <div class='pull-right'>
-          <h3 class='burmese'>မိုးရာသီအထူးလျော့စျေး</h3>
-          <a href='/category/all/1' class="btn btn-hero btn-lg" role="button">SHOP NOW</a>
+          <!--<h3 class='burmese'>မိုးရာသီအထူးလျော့စျေး</h3>-->
+          <a href='/category/all/1/?sort=created&dir=desc' class="btn btn-hero btn-lg" role="button">SHOP NOW</a>
         </div>
       </div>
     </div>
@@ -28,11 +28,371 @@
 </div>
 
 
+<!--===========================================-->
+<!--LATEST ITEMS-->
+<!--===========================================-->
 
+<div class="row latest-item">
+		<div class="col-md-12">
+        <div class='col-sm-12'>
+          <h3 class='multilanguage best-selling-headers best-selling-headers-women'><%= __('Latest Arrivals') %></h3> 
+          <hr>
+        </div>
+       
+        <div id="bestSellingCarousel" class="carousel slide">
+             
+            <ol class="carousel-indicators">
+                    <li data-target="#bestSellingCarousel" data-slide-to="0" class="active"></li>
+                <% if (similarItems.length > 4) { %>
+                    <li data-target="#bestSellingCarousel" data-slide-to="1"></li>
+                <% } %>
+                <% if (similarItems.length > 8) { %>
+                    <li data-target="#bestSellingCarousel" data-slide-to="2"></li>
+                <% } %>
+                <% if (similarItems.length > 12) { %>
+                    <li data-target="#bestSellingCarousel" data-slide-to="3"></li>
+                <% } %>
+            </ol>
+             
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+                
+                <% if(typeof similarItems !== "undefined") { %>
+                    <div class="item active">
+                    	<div class="row">
+                    	  
+                    	  <% for (var i=0; i<similarItems.length; i++) { %>
+                        	  <% if(i<4) { %>
+                        	  <div class="col-md-3 thumbnail-container">
+                        	        <div href="#" class="thumbnail">
+                        	            <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>'><img src='<%=similarItems[i].image[0]%>'></a>
+                                        <div class='caption'>
+                                            <div class='product-name-container'>
+                                                <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>'><h4 class="multilanguage product-name"><%=similarItems[i].name.en%></h4></a>
+                                            </div>
+                                            <p class='product-price'>$ <%=similarItems[i].price%></p>
+                                            <div class="rating-stars">
+                                                <table>
+                                                  <tr>
+                                                    <td>
+                                                      <input id="input-3" name="input-3" value="3" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
+                                                    </td>
+                                                  </tr>
+                                                </table>
+                                                <script>
+                                                // $(document).on('ready', function(){
+                                                    $('.input-3').rating({displayOnly: true, step: 0.1});
+                                                // });
+                                                </script>
+                                                <br>
+                                            </div>
+                                        
+                                            <div class='seemore-addtocart'>
+                                                <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm see-more'>See Detail</a>
+                                                <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm add-to-cart'>Add to Cart</a>
+                                            </div>
+                                        </div>
+                        	        </div>
+                        	  </div>
+                        	  <% } %>
+                    	  <% } %>
+                    	 
+                    	</div><!--.row-->
+                    </div><!--.item-->
+                 
+                    <% if (similarItems.length > 4) { %>
+                        <div class="item">
+                        	<div class="row">
+                        	    <% for (var i=4; i<similarItems.length; i++) { %>
+                            	  <% if(i<8) { %>
+                            	  <div class="col-md-3 thumbnail-container">
+                            	        <div href="#" class="thumbnail">
+                            	            <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>'><img src='<%=similarItems[i].image[0]%>'></a>
+                                            <div class='caption'>
+                                                <div class='product-name-container'>
+                                                    <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>'><h4 class="multilanguage product-name"><%=similarItems[i].name.en%></h4></a>
+                                                </div>
+                                                <p class='product-price'>$ <%=similarItems[i].price%></p>
+                                                <div class="rating-stars">
+                                                    <table>
+                                                      <tr>
+                                                        <td>
+                                                          <input id="input-3" name="input-3" value="3" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
+                                                        </td>
+                                                      </tr>
+                                                    </table>
+                                                    <script>
+                                                    // $(document).on('ready', function(){
+                                                        $('.input-3').rating({displayOnly: true, step: 0.1});
+                                                    // });
+                                                    </script>
+                                                    <br>
+                                                </div>
+                                            
+                                                <div class='seemore-addtocart'>
+                                                    <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm see-more'>See Detail</a>
+                                                    <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm add-to-cart'>Add to Cart</a>
+                                                </div>
+                                            </div>
+                            	        </div>
+                            	  </div>
+                            	  <% } %>
+                        	  <% } %>
+                        	</div><!--.row-->
+                        </div><!--.item-->
+                    <% } %>
+                    
+                    <% if (similarItems.length > 8) { %>
+                        <div class="item">
+                        	<div class="row">
+                        	    <% for (var i=8; i<similarItems.length; i++) { %>
+                            	  <% if(i<12) { %>
+                            	  <div class="col-md-3 thumbnail-container">
+                            	        <div href="#" class="thumbnail">
+                            	            <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>'><img src='<%=similarItems[i].image[0]%>'></a>
+                                            <div class='caption'>
+                                                <div class='product-name-container'>
+                                                    <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>'><h4 class="multilanguage product-name"><%=similarItems[i].name.en%></h4></a>
+                                                </div>
+                                                <p class='product-price'>$ <%=similarItems[i].price%></p>
+                                                <div class="rating-stars">
+                                                    <table>
+                                                      <tr>
+                                                        <td>
+                                                          <input id="input-3" name="input-3" value="3" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
+                                                        </td>
+                                                      </tr>
+                                                    </table>
+                                                    <script>
+                                                    // $(document).on('ready', function(){
+                                                        $('.input-3').rating({displayOnly: true, step: 0.1});
+                                                    // });
+                                                    </script>
+                                                    <br>
+                                                </div>
+                                            
+                                                <div class='seemore-addtocart'>
+                                                    <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm see-more'>See Detail</a>
+                                                    <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm add-to-cart'>Add to Cart</a>
+                                                </div>
+                                            </div>
+                            	        </div>
+                            	  </div>
+                            	  <% } %>
+                        	  <% } %>
+                        	</div><!--.row-->
+                        </div><!--.item-->
+                    <% } %>
+
+                <% } %> 
+                 
+            </div><!--.carousel-inner-->
+                  <a data-slide="prev" href="#bestSellingCarousel" class="left carousel-control related">‹</a>
+                  <a data-slide="next" href="#bestSellingCarousel" class="right carousel-control related">›</a>
+        </div><!--.Carousel-->
+                 
+		</div>
+	</div><!--.End Row Related-Items-->
+
+
+
+
+<!--===========================================-->
+<!--BESTSELLING ITEMS-->
+<!--===========================================-->
+
+<div class="row bestselling-item">
+		<div class="col-md-12">
+        <div class='col-sm-12'>
+          <h3 class='multilanguage best-selling-headers best-selling-headers-women'><%= __('Bestselling Items') %></h3> 
+          <hr>
+        </div>
+        <div id="RelatedCarousel" class="carousel slide">
+             
+            <ol class="carousel-indicators">
+                    <li data-target="#RelatedCarousel" data-slide-to="0" class="active"></li>
+                <% if (similarItems.length > 4) { %>
+                    <li data-target="#RelatedCarousel" data-slide-to="1"></li>
+                <% } %>
+                <% if (similarItems.length > 8) { %>
+                    <li data-target="#RelatedCarousel" data-slide-to="2"></li>
+                <% } %>
+                <% if (similarItems.length > 12) { %>
+                    <li data-target="#RelatedCarousel" data-slide-to="3"></li>
+                <% } %>
+            </ol>
+             
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+                
+                <% if(typeof hotItems !== "undefined") { %>
+                    <div class="item active">
+                    	<div class="row">
+                    	  
+                    	  <% for (var i=0; i<hotItems.length; i++) { %>
+                        	  <% if(i<4) { %>
+                        	  <div class="col-md-3 thumbnail-container">
+                        	        <div href="#" class="thumbnail">
+                        	            <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>'><img src='<%=hotItems[i].image[0]%>'></a>
+                                        <div class='caption'>
+                                            <div class='product-name-container'>
+                                                <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>'><h4 class="multilanguage product-name"><%=hotItems[i].name.en%></h4></a>
+                                            </div>
+                                            <p class='product-price'>$ <%=hotItems[i].price%></p>
+                                            <div class="rating-stars">
+                                                <table>
+                                                  <tr>
+                                                    <td>
+                                                      <input id="input-3" name="input-3" value="3" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
+                                                    </td>
+                                                  </tr>
+                                                </table>
+                                                <script>
+                                                // $(document).on('ready', function(){
+                                                    $('.input-3').rating({displayOnly: true, step: 0.1});
+                                                // });
+                                                </script>
+                                                <br>
+                                            </div>
+                                        
+                                            <div class='seemore-addtocart'>
+                                                <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>' class='btn btn-primary btn-sm see-more'>See Detail</a>
+                                                <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>' class='btn btn-primary btn-sm add-to-cart'>Add to Cart</a>
+                                            </div>
+                                        </div>
+                        	        </div>
+                        	  </div>
+                        	  <% } %>
+                    	  <% } %>
+                    	 
+                    	</div><!--.row-->
+                    </div><!--.item-->
+                 
+                    <% if (hotItems.length > 4) { %>
+                        <div class="item">
+                        	<div class="row">
+                        	    <% for (var i=4; i<hotItems.length; i++) { %>
+                            	  <% if(i<8) { %>
+                            	  <div class="col-md-3 thumbnail-container">
+                            	        <div href="#" class="thumbnail">
+                            	            <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>'><img src='<%=hotItems[i].image[0]%>'></a>
+                                            <div class='caption'>
+                                                <div class='product-name-container'>
+                                                    <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>'><h4 class="multilanguage product-name"><%=hotItems[i].name.en%></h4></a>
+                                                </div>
+                                                <p class='product-price'>$ <%=hotItems[i].price%></p>
+                                                <div class="rating-stars">
+                                                    <table>
+                                                      <tr>
+                                                        <td>
+                                                          <input id="input-3" name="input-3" value="3" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
+                                                        </td>
+                                                      </tr>
+                                                    </table>
+                                                    <script>
+                                                    // $(document).on('ready', function(){
+                                                        $('.input-3').rating({displayOnly: true, step: 0.1});
+                                                    // });
+                                                    </script>
+                                                    <br>
+                                                </div>
+                                            
+                                                <div class='seemore-addtocart'>
+                                                    <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>' class='btn btn-primary btn-sm see-more'>See Detail</a>
+                                                    <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>' class='btn btn-primary btn-sm add-to-cart'>Add to Cart</a>
+                                                </div>
+                                            </div>
+                            	        </div>
+                            	  </div>
+                            	  <% } %>
+                        	  <% } %>
+                        	</div><!--.row-->
+                        </div><!--.item-->
+                    <% } %>
+                    
+                    <% if (hotItems.length > 8) { %>
+                        <div class="item">
+                        	<div class="row">
+                        	    <% for (var i=8; i<hotItems.length; i++) { %>
+                            	  <% if(i<12) { %>
+                            	  <div class="col-md-3 thumbnail-container">
+                            	        <div href="#" class="thumbnail">
+                            	            <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>'><img src='<%=hotItems[i].image[0]%>'></a>
+                                            <div class='caption'>
+                                                <div class='product-name-container'>
+                                                    <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>'><h4 class="multilanguage product-name"><%=hotItems[i].name.en%></h4></a>
+                                                </div>
+                                                <p class='product-price'>$ <%=hotItems[i].price%></p>
+                                                <div class="rating-stars">
+                                                    <table>
+                                                      <tr>
+                                                        <td>
+                                                          <input id="input-3" name="input-3" value="3" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
+                                                        </td>
+                                                      </tr>
+                                                    </table>
+                                                    <script>
+                                                    // $(document).on('ready', function(){
+                                                        $('.input-3').rating({displayOnly: true, step: 0.1});
+                                                    // });
+                                                    </script>
+                                                    <br>
+                                                </div>
+                                            
+                                                <div class='seemore-addtocart'>
+                                                    <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>' class='btn btn-primary btn-sm see-more'>See Detail</a>
+                                                    <a href='/product/<%=hotItems[i].category.name%>/<%=hotItems[i]._id%>' class='btn btn-primary btn-sm add-to-cart'>Add to Cart</a>
+                                                </div>
+                                            </div>
+                            	        </div>
+                            	  </div>
+                            	  <% } %>
+                        	  <% } %>
+                        	</div><!--.row-->
+                        </div><!--.item-->
+                    <% } %>
+
+                <% } %> 
+                 
+            </div><!--.carousel-inner-->
+                  <a data-slide="prev" href="#RelatedCarousel" class="left carousel-control related">‹</a>
+                  <a data-slide="next" href="#RelatedCarousel" class="right carousel-control related">›</a>
+        </div><!--.Carousel-->
+                 
+		</div>
+	</div><!--.End Row Related-Items-->
+
+
+<div class='row hotBrands'>
+  
+  <div class='col-sm-12'>
+    <h3 class='multilanguage best-selling-headers best-selling-headers-women'><%= __('Hot Brands') %></h3> 
+    <hr>
+  </div>
+  <div class='col-md-3'>
+    <a href="/brand/G2000/1/?sort=created&dir=desc"><img src="/images/logo/G2000.jpg"></a>
+  </div>
+  
+  <div class='col-md-3'>
+    <a href="/brand/Giordano/1/?sort=created&dir=desc"><img src="/images/logo/giordano.jpg"></a>
+  </div>
+  <div class='col-md-3'>
+    <a href="/brand/H&M/1/?sort=created&dir=desc"><img src="/images/logo/HandM.png"></a>
+  </div>
+  <div class='col-md-3'>
+    <a href="/brand/Uniclo/1/?sort=created&dir=desc"><img src="/images/logo/uniclo.png"></a>
+  </div>
+  <!--<div class='col-md-3'>-->
+  <!--  <img src="/images/logo/Charles and Kate.jpg">-->
+  <!--</div>-->
+  
+  
+</div>
 
 <div class='row bestselling-wrapper'>
   <div class='col-sm-12'>
-      <h3 class='burmese best-selling-headers best-selling-headers-women'>လတ်တလော လူကြိုက်များသော အမျိုးသမီးဖက်ရှင် ပစ္စည်းများ</h3>
+      <h3 class='multilanguage best-selling-headers best-selling-headers-women'><%= __('Popular Woman Fashions') %></h3>
+      
       <!--BEST SELLING ITEMS-->
   </div>
   <div class='col-sm-12'>
@@ -133,7 +493,8 @@
 
 <div class='row bestselling-wrapper'>
   <div class='col-sm-12'>
-    <h3 class='burmese best-selling-headers'>လတ်တလော လူကြိုက်များသော အမျိုးသားဖက်ရှင် ပစ္စည်းများ</h3>
+      <h3 class='multilanguage best-selling-headers best-selling-headers-women'><%= __('Popular Man Fashions') %></h3>
+      
   </div>
   
   <div class='col-sm-12'>
@@ -224,286 +585,6 @@
 
 
 
-<div class='row bestselling-wrapper'>
-  <div clss='col-sm-12'>
-    <h3 class='burmese best-selling-headers'>လတ်တလော လူကြိုက်များသော ဖိနပ်များ</h3>
-  </div>
-  <div class='col-sm-12'>
-    <div id="carousel-bestselling-shoe" class="carousel slide" data-ride="carousel" data-interval='10000'>
-        <div class="carousel-inner">
-            <div class="item active">
-                    <img src="/images/homepage/Shoe_1.jpg">
-      
-                    <div class="carousel-caption">
-                        <div class='caption-description'>
-                              <h2><span class='burmese'>နောက်ဆုံးပေါ်</span> Bonia <span class='burmese'>လက်ဆွဲအိတ်</span></h3>
-                              <p class='burmese description-text'>
-                                ဆန်းသစ်တဲ့ ဒီဇိုင်း ၊ လှပတဲ့ မိတ်ကပ်ရောင် တို့ပေါင်းစပ်ထားတဲ့ ဒီ Bornia မော်ဒယ်အသစ်ကရင်ခုန်စိတ်လှုပ်ရှားစရာ ကောင်းလွန်းလှပါတယ်...
-                              </p>
-                              <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
-                              <div class='seemore-addtocart'>
-                                    <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
-                                    <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
-                              </div>
-                         </div>
-                      	 <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                          <li data-target="#carousel-bestselling-shoe" data-slide-to="0" class="active"></li>
-                          <li data-target="#carousel-bestselling-shoe" data-slide-to="1"></li>
-                          <li data-target="#carousel-bestselling-shoe" data-slide-to="2"></li>
-                        </ol>
-                    </div>
-          </div>
-          <div class="item">
-              <img src="/images/homepage/Shoe_2.jpg">
-      
-                    <div class="carousel-caption">
-                        <div class='caption-description'>
-                            <h2><span class='burmese'>နောက်ဆုံးပေါ်</span> Bonia <span class='burmese'>လက်ဆွဲအိတ်</span></h3>
-                            <p class='burmese description-text'>
-                              ဆန်းသစ်တဲ့ ဒီဇိုင်း ၊ လှပတဲ့ မိတ်ကပ်ရောင် တို့ပေါင်းစပ်ထားတဲ့ ဒီ Bornia မော်ဒယ်အသစ်ကရင်ခုန်စိတ်လှုပ်ရှားစရာ ကောင်းလွန်းလှပါတယ်...
-                            </p>
-                            <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
-                            <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
-                                  <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
-                            </div>
-                         </div>
-                      	 <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                          <li data-target="#carousel-bestselling-shoe" data-slide-to="0" class="active"></li>
-                          <li data-target="#carousel-bestselling-shoe" data-slide-to="1"></li>
-                          <li data-target="#carousel-bestselling-shoe" data-slide-to="2"></li>
-                        </ol>
-                    </div>
-          </div>
-          <div class="item">
-              <img src="/images/homepage/Shoe_3.jpg">
-      
-                    <div class="carousel-caption">
-                        <div class='caption-description'>
-                            <h2><span class='burmese'>နောက်ဆုံးပေါ်</span> Bonia <span class='burmese'>လက်ဆွဲအိတ်</span></h3>
-                            <p class='burmese description-text'>
-                              ဆန်းသစ်တဲ့ ဒီဇိုင်း ၊ လှပတဲ့ မိတ်ကပ်ရောင် တို့ပေါင်းစပ်ထားတဲ့ ဒီ Bornia မော်ဒယ်အသစ်ကရင်ခုန်စိတ်လှုပ်ရှားစရာ ကောင်းလွန်းလှပါတယ်...
-                            </p>
-                            <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
-                            <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
-                                  <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
-                            </div>
-                         </div>
-                      	 <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                          <li data-target="#carousel-bestselling-shoe" data-slide-to="0" class="active"></li>
-                          <li data-target="#carousel-bestselling-shoe" data-slide-to="1"></li>
-                          <li data-target="#carousel-bestselling-shoe" data-slide-to="2"></li>
-                        </ol>
-                    </div>
-          </div>
-          <!-- Navigation -->
-          <a class="left carousel-control" href="#carousel-bestselling-shoe" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left"></span>
-          </a>
-          <a class="right carousel-control" href="#carousel-bestselling-shoe" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right"></span>
-          </a>
-      </div> 
-
-    </div> <!-- Carousel -->
-  </div>
-</div>
-
-
-<div class='row bestselling-wrapper'>
-  <div class='col-sm-12'>
-    <h3 class='burmese best-selling-headers'>လတ်တလော လူကြိုက်များသော အိတ်များ</h3>
-
-  </div>
-  <div class='col-sm-12'>
-    <!--=============BAGS================================-->
-
-
-<div id="carousel-bestselling-bag" class="carousel slide" data-ride="carousel" data-interval='10000'>
-        <div class="carousel-inner">
-            <div class="item active">
-                    <img src="/images/homepage/Bag_3.jpg">
-      
-                    <div class="carousel-caption">
-                        <div class='caption-description'>
-                              <h2><span class='burmese'>နောက်ဆုံးပေါ်</span> Bonia <span class='burmese'>လက်ဆွဲအိတ်</span></h3>
-                              <p class='burmese description-text'>
-                                ဆန်းသစ်တဲ့ ဒီဇိုင်း ၊ လှပတဲ့ မိတ်ကပ်ရောင် တို့ပေါင်းစပ်ထားတဲ့ ဒီ Bornia မော်ဒယ်အသစ်ကရင်ခုန်စိတ်လှုပ်ရှားစရာ ကောင်းလွန်းလှပါတယ်...
-                              </p>
-                              <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
-                              <div class='seemore-addtocart'>
-                                    <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
-                                    <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
-                              </div>
-                         </div>
-                      	 <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                          <li data-target="#carousel-bestselling-bag" data-slide-to="0" class="active"></li>
-                          <li data-target="#carousel-bestselling-bag" data-slide-to="1"></li>
-                          <li data-target="#carousel-bestselling-bag" data-slide-to="2"></li>
-                        </ol>
-                    </div>
-          </div>
-          <div class="item">
-              <img src="/images/homepage/Bag_2.jpg">
-      
-                    <div class="carousel-caption">
-                        <div class='caption-description'>
-                            <h2><span class='burmese'>နောက်ဆုံးပေါ်</span> Bonia <span class='burmese'>လက်ဆွဲအိတ်</span></h3>
-                            <p class='burmese description-text'>
-                              ဆန်းသစ်တဲ့ ဒီဇိုင်း ၊ လှပတဲ့ မိတ်ကပ်ရောင် တို့ပေါင်းစပ်ထားတဲ့ ဒီ Bornia မော်ဒယ်အသစ်ကရင်ခုန်စိတ်လှုပ်ရှားစရာ ကောင်းလွန်းလှပါတယ်...
-                            </p>
-                            <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
-                            <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
-                                  <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
-                            </div>
-                         </div>
-                      	 <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                          <li data-target="#carousel-bestselling-bag" data-slide-to="0" class="active"></li>
-                          <li data-target="#carousel-bestselling-bag" data-slide-to="1"></li>
-                          <li data-target="#carousel-bestselling-bag" data-slide-to="2"></li>
-                        </ol>
-                    </div>
-          </div>
-          <div class="item">
-              <img src="/images/homepage/Bag_1.jpg">
-      
-                    <div class="carousel-caption">
-                        <div class='caption-description'>
-                            <h2><span class='burmese'>နောက်ဆုံးပေါ်</span> Bonia <span class='burmese'>လက်ဆွဲအိတ်</span></h3>
-                            <p class='burmese description-text'>
-                              ဆန်းသစ်တဲ့ ဒီဇိုင်း ၊ လှပတဲ့ မိတ်ကပ်ရောင် တို့ပေါင်းစပ်ထားတဲ့ ဒီ Bornia မော်ဒယ်အသစ်ကရင်ခုန်စိတ်လှုပ်ရှားစရာ ကောင်းလွန်းလှပါတယ်...
-                            </p>
-                            <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
-                            <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
-                                  <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
-                            </div>
-                         </div>
-                      	 <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                          <li data-target="#carousel-bestselling-bag" data-slide-to="0" class="active"></li>
-                          <li data-target="#carousel-bestselling-bag" data-slide-to="1"></li>
-                          <li data-target="#carousel-bestselling-bag" data-slide-to="2"></li>
-                        </ol>
-                    </div>
-          </div>
-          <!-- Navigation -->
-          <a class="left carousel-control" href="#carousel-bestselling-bag" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left"></span>
-          </a>
-          <a class="right carousel-control" href="#carousel-bestselling-bag" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right"></span>
-          </a>
-      </div> 
-
-    </div> <!-- Carousel -->
-  </div>
-</div>
-
-
-<div class='row bestselling-wrapper'>
-  <div class='col-sm-12'>
-    <h3 class='burmese best-selling-headers'>လတ်တလော လူကြိုက်များသော အလှ၀တ် ရတနာများ</h3>
-
-  </div>
-  <div class='col-sm-12'>
-    <!--=============ACCESSORIES================================-->
-
-
-<div id="carousel-bestselling-accessories" class="carousel slide" data-ride="carousel" data-interval='10000'>
-        <div class="carousel-inner">
-            <div class="item active">
-                    <img src="/images/homepage/Accessories_1.jpg">
-      
-                    <div class="carousel-caption">
-                        <div class='caption-description'>
-                              <h2><span class='burmese'>နောက်ဆုံးပေါ်</span> Bonia <span class='burmese'>လက်ဆွဲအိတ်</span></h3>
-                              <p class='burmese description-text'>
-                                ဆန်းသစ်တဲ့ ဒီဇိုင်း ၊ လှပတဲ့ မိတ်ကပ်ရောင် တို့ပေါင်းစပ်ထားတဲ့ ဒီ Bornia မော်ဒယ်အသစ်ကရင်ခုန်စိတ်လှုပ်ရှားစရာ ကောင်းလွန်းလှပါတယ်...
-                              </p>
-                              <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
-                              <div class='seemore-addtocart'>
-                                    <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
-                                    <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
-                              </div>
-                         </div>
-                      	 <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                          <li data-target="#carousel-bestselling-accessories" data-slide-to="0" class="active"></li>
-                          <li data-target="#carousel-bestselling-accessories" data-slide-to="1"></li>
-                          <li data-target="#carousel-bestselling-accessories" data-slide-to="2"></li>
-                        </ol>
-                    </div>
-          </div>
-          <div class="item">
-              <img src="/images/homepage/Accessories_2.jpg">
-      
-                    <div class="carousel-caption">
-                        <div class='caption-description'>
-                            <h2><span class='burmese'>နောက်ဆုံးပေါ်</span> Bonia <span class='burmese'>လက်ဆွဲအိတ်</span></h3>
-                            <p class='burmese description-text'>
-                              ဆန်းသစ်တဲ့ ဒီဇိုင်း ၊ လှပတဲ့ မိတ်ကပ်ရောင် တို့ပေါင်းစပ်ထားတဲ့ ဒီ Bornia မော်ဒယ်အသစ်ကရင်ခုန်စိတ်လှုပ်ရှားစရာ ကောင်းလွန်းလှပါတယ်...
-                            </p>
-                            <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
-                            <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
-                                  <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
-                            </div>
-                         </div>
-                      	 <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                          <li data-target="#carousel-bestselling-accessories" data-slide-to="0" class="active"></li>
-                          <li data-target="#carousel-bestselling-accessories" data-slide-to="1"></li>
-                          <li data-target="#carousel-bestselling-accessories" data-slide-to="2"></li>
-                        </ol>
-                    </div>
-          </div>
-          <div class="item">
-              <img src="/images/homepage/Accessories_3.jpg">
-      
-                    <div class="carousel-caption">
-                        <div class='caption-description'>
-                            <h2><span class='burmese'>နောက်ဆုံးပေါ်</span> Bonia <span class='burmese'>လက်ဆွဲအိတ်</span></h3>
-                            <p class='burmese description-text'>
-                              ဆန်းသစ်တဲ့ ဒီဇိုင်း ၊ လှပတဲ့ မိတ်ကပ်ရောင် တို့ပေါင်းစပ်ထားတဲ့ ဒီ Bornia မော်ဒယ်အသစ်ကရင်ခုန်စိတ်လှုပ်ရှားစရာ ကောင်းလွန်းလှပါတယ်...
-                            </p>
-                            <h4 class='burmese description-price'>စျေးနှုန်း - ၄၂၀၀၀ ကျပ်</h4>
-                            <div class='seemore-addtocart'>
-                                  <a href='#' class='burmese btn btn-primary btn-sm see-more'>ကြည့်ရှူရန်</a>
-                                  <a href='#' class='burmese btn btn-primary btn-sm add-to-cart'>၀ယ်ယူရန်</a>
-                            </div>
-                         </div>
-                      	 <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                          <li data-target="#carousel-bestselling-accessories" data-slide-to="0" class="active"></li>
-                          <li data-target="#carousel-bestselling-accessories" data-slide-to="1"></li>
-                          <li data-target="#carousel-bestselling-accessories" data-slide-to="2"></li>
-                        </ol>
-                    </div>
-          </div>
-          <!-- Navigation -->
-          <a class="left carousel-control" href="#carousel-bestselling-accessories" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left"></span>
-          </a>
-          <a class="right carousel-control" href="#carousel-bestselling-accessories" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right"></span>
-          </a>
-      </div> 
-
-</div> <!-- Carousel -->
-  </div>
-</div>
-
-
-
-
 
 
 
@@ -511,14 +592,14 @@
 
 <!--=============All Categories================================-->
 
-<h3 class='burmese best-selling-headers'>အမျိုးအစား အားလုံး ကြည့်ရှုရန်</h3>
+<h3 class='multilanguage best-selling-headers best-selling-headers-women'><%= __('See All Categories') %></h3>
 
 
   
-    <div class="row">
+    <div class="row see-all-categories">
         <div class="col-xs-6 col-sm-4 col-md-4">            
                 <div class="thumbnail">
-                <a href='#'>
+                <a href="/main-category/Men's Clothing/1/?sort=created&dir=desc">
                   <div class="caption">
                     <h3>Men Clothings</h3>
                 </div>
@@ -530,7 +611,7 @@
       
         <div class="col-xs-6 col-sm-4 col-md-4">            
             <div class="thumbnail">
-                <a href='#'>
+                <a href="/main-category/Women's Clothing/1/?sort=created&dir=desc">
                   <div class="caption">
                       <h3>Women Clothings</h3>
                   </div>
@@ -541,7 +622,7 @@
 
         <div class="col-xs-6 col-sm-4 col-md-4">            
             <div class="thumbnail">
-                <a href='#'>
+                <a href='/main-category/Bags/1/?sort=created&dir=desc'>
                   <div class="caption">
                       <h3>Bags</h3>
                   </div>
@@ -552,7 +633,7 @@
 
         <div class="col-xs-6 col-sm-4 col-md-4">            
             <div class="thumbnail">
-                <a href='#'>
+                <a href='/main-category/Shoes/1/?sort=created&dir=desc'>
                   <div class="caption">
                       <h3>Shoes</h3>
                   </div>
@@ -563,9 +644,9 @@
         
         <div class="col-xs-6 col-sm-4 col-md-4">            
             <div class="thumbnail">
-                <a href='#'>
+                <a href='/main-category/Jewellery/1/?sort=created&dir=desc'>
                   <div class="caption">
-                      <h3>Accessories</h3>
+                      <h3>Jewellery</h3>
                   </div>
                 </a>
                 <img src="images/homepage/All-Categories-Accessories.jpg" alt="...">
@@ -574,7 +655,7 @@
         
         <div class="col-xs-6 col-sm-4 col-md-4">            
             <div class="thumbnail">
-                <a href='#'>
+                <a href='/category/all/1/?sort=created&dir=desc'>
                   <div class="caption">
                       <h3>All Categories</h3>
                   </div>

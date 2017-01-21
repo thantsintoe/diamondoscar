@@ -45,5 +45,6 @@ var userSchema = new mongoose.Schema({
 });
 
 userSchema.plugin(passportLocalMongoose,{usernameField:'email'});
+userSchema.index({'$**': 'text'});
 
 module.exports = mongoose.model('User',userSchema);

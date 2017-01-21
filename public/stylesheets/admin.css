@@ -1,3 +1,11 @@
+.navbar-brand img {
+    height: 45px;
+    width: 180px;
+    position: absolute;
+    top: 0px;
+    left: 20px;
+}
+
 .row.row-profile-page {
     width: 100%;
     margin: 20px auto;
@@ -89,3 +97,46 @@
     
     /*color: red;*/
 /*}*/
+
+.navbar-default .navbar-nav li a {
+    color: white;
+}
+
+.navbar-default .navbar-nav .dropdown-menu li a {
+    color: gray;
+}
+
+.navbar-default .navbar-nav li .dropdown-header.category-header a {
+    color: #F5A623;
+}
+
+
+
+.navbar-default .navbar-nav li .main-menu {
+    color: white;
+    font-weight: lighter;
+    transition: .4s;
+    z-index: 12;
+}
+
+.navbar-default .navbar-nav li .main-menu.burmese {
+   font-size: 0.9em;
+}
+
+.navbar-default .navbar-nav li .main-menu:hover {
+    background-color: #4c4c4c;
+    color: white;
+}
+
+.navbar-default .navbar-nav li .main-menu:active {
+    background-color: #006385;
+    color: white;
+}
+
+.navbar-default .navbar-nav li .category-header.burmese {
+    font-size: 1.1em;
+}
+
+.navbar-default .navbar-nav li .category-header.burmese a {
+    font-size: 1.0em;
+}

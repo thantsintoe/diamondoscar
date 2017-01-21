@@ -7,30 +7,39 @@
     <div class="login-card">
         <div class="row">
             <div class="col-sm-12 col-md-10 col-md-offset-1">
+                <% if(cart === 0) { %>
+                  <h4>Your Shopping Cart is Empty...let's go shopping !</h4>
+                <% } else { %>
+                <h2>YOUR SHOPPING CART</h2>
+                <hr>
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>Product</th>
-                            <th>Quantity</th>
+                            <th></th>
+                            <th class="text-center">Quantity</th>
                             <th class="text-center">Unit Price</th>
-                            <th class="text-center">Total</th>
-                            <th> </th>
+                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!--===============-->
+                        <!--=======Each Row for Each Order ========-->
                         <% order.line_items.forEach(function(lineItem) { %>
                             <tr>
                                 <td class="col-sm-8 col-md-6">
                                     <div class="media">
-                                        <a class="thumbnail pull-left" href="#"> <img class="media-object" src="<%=  lineItem.item.image[0] %>" style="width: 72px; height: 72px;"> </a>
+                                        <a class="thumbnail pull-left" href="#"> <img class="media-object" src="<%=  lineItem.item.image[0] %>"> </a>
                                         <div class="media-body">
                                             <h4 class="media-heading">
                                                 <a href="#">
-                                                    <%= lineItem.item.name%>
+                                                    <% if(currentLanguage === "en") { %>
+                                                    <%= lineItem.item.name.en%>
+                                                    <% } else { %>
+                                                    <%= lineItem.item.name.mm%>
+                                                    <% } %>
                                                 </a>
                                             </h4>
-                                            <h5 class="media-heading"> by
+                                            <h5 class="media-heading"> Brand - 
                                                 <a href="#">
                                                     <%= lineItem.item.detail.brand%>
                                                 </a>
@@ -41,96 +50,323 @@
                                     </div>
                                 </td>
                                 <td class="col-sm-1 col-md-1" style="text-align: center">
+                                </td>
+                                <td class="col-sm-1 col-md-1" style="text-align: center">
                                     <input type="text" class="form-control" id="exampleInputEmail1" value="<%= lineItem.quantity%>">
                                 </td>
-                                <td class="col-sm-1 col-md-1 text-center"><strong><%=lineItem.item.price%></strong></td>
-                                <td class="col-sm-1 col-md-1 text-center"><strong><%=  lineItem.price %></strong></td>
+                                <td class="col-sm-1 col-md-1 text-center" style="max-width:100px; min-width:100px; max-height:50px; min-height:50px; width:100px; height:10px;"><strong>Ks <%=lineItem.item.price.toLocaleString()%></strong></td>                                
                                 <td class="col-sm-1 col-md-1">
-                                    <form action='/cart?_method=DELETE' method='POST'>
+                                    <div class="col-sm-9">
+                                      <strong>Ks <%=  lineItem.price.toLocaleString() %></strong>
+                                    </div>
+                                    <div class="col-sm-3">
+                                      <form action='/cart?_method=DELETE' method='POST'>
                                         <input type=hidden name='item' value='<%= lineItem._id %>'>
                                         <input type=hidden name='price' value='<%= lineItem.price %>'>
                                         <button class='btn btn-danger btn-sm'><span class="glyphicon glyphicon-remove"></span></button>
-                                    </form>
+                                      </form>
+                                    </div>
+                                    
 
                                 </td>
-                            </tr>
+                            </tr> <!--End of Table Row for Each Order-->
                             <% }); %>
 
+                        <!--=========Row - Sub Total ==============-->
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h5>Subtotal</h5>
+                                </td>
+                                <td class="text-right">
+                                    <h5><strong>Ks <span id='subTotal'><%= order.total_price%></span></strong></h5>
+                                </td>
+                            </tr>
+                        <!--=========Row - Delovery Option ==============-->        
+                            <!--<tr>-->
+                            <!--    <td></td>-->
+                            <!--    <td>   </td>-->
+                            <!--    <td>   </td>-->
+                            <!--    <td></td>-->
+                            <!--    <td></td>-->
+                            <!--</tr>-->
+                        <!--=========Row - Delivery Fee ==============-->        
+                            <tr id='deliveryFeeRow'>
+                                <td>
+                                    <h4>Delivery Address</h4>
+                                    <% if (currentUser.address.city === "" || typeof currentUser.address.city === 'undefined')  { %>
+                                        <p><span style="color: #c0392b; font-weight: bold">Please Update your Delivery Address.</span></p>
+                                        <button type="button" class="btn btn-primary ecommerceButtons multilanguage burmese" data-toggle="modal" data-target="#upde-delivery-address">Update Address</button>
+                                    <% } else { %>
+                                      <p>Room No: <%= currentUser.address.room_no %>, Floor: <%= currentUser.address.floor %></p>
+                                      <p>Building: <%= currentUser.address.building_no %>, Street: <%= currentUser.address.street %></p>
+                                      <p><%= currentUser.address.ward %>, <%= currentUser.address.township %> Township, <span id='addressCity'><%= currentUser.address.city %></span></p>
+                                      <button type="button" class="btn btn-primary ecommerceButtons multilanguage burmese" data-toggle="modal" data-target="#upde-delivery-address">Update Address</button>
+                                    <% } %>
+                                </td>
+                                <td>   </td>
+                                <td>   </td>
+                                <td><h5>Delivery Fee</h5></td>
+                                <td class="text-right">
+                                  <% if (currentUser.address.city === "" || typeof currentUser.address.city === 'undefined')  { %>
+                                  <h5><strong>Ks <span id='deliveryFee'>0.0</span></strong></h5>
+                                  <% } else { %>
+                                  <h5><strong>Ks <span id='deliveryFee'>2000</span></strong></h5>
+                                  <% } %>
+                                </td>
+                            </tr>
 
-                                <!--=======================-->
-
-                                <tr>
-                                    <td>   </td>
-                                    <td>   </td>
-                                    <td>   </td>
-                                    <td>
-                                        <h5>Subtotal</h5>
-                                    </td>
-                                    <td class="text-right">
-                                        <h5><strong><%= order.total_price%></strong></h5>
-                                    </td>
-                                </tr>
-                                <!--<tr>-->
-                                <!--    <td>   </td>-->
-                                <!--    <td>   </td>-->
-                                <!--    <td>   </td>-->
-                                <!--    <td><h5>Estimated shipping</h5></td>-->
-                                <!--    <td class="text-right"><h5><strong>$6.94</strong></h5></td>-->
-                                <!--</tr>-->
-                                <tr>
-                                    <td>   </td>
-                                    <td>   </td>
-                                    <td>   </td>
-                                    <td>
-                                        <h3>Total</h3>
-                                    </td>
-                                    <td class="text-right">
-                                        <h3><strong><%= order.total_price%></strong></h3>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>   </td>
-                                    <td>   </td>
-                                    <td>   </td>
-                                    <td>
-                                        <a href='/category/all/1'><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping</button></a>
-                                    </td>
-                                    <td>
-                                         <form action="/payment" method="POST">
-                                            <input type="hidden" name="stripeMoney" value="<%= order.total_price%>">
-                                            <script
-                                              src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                              data-key="pk_test_3TqEp6gxWAhM8EG56oNnzknH"
-                                              data-amount="<%= order.total_price * 100%>"
-                                              data-name="MZK Ecommerce"
-                                              data-description="Online Fashion Store"
-                                              data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                                              data-locale="auto"
-                                              data-currency="sgd">
-                                            </script>
-                                        </form>
-                                    </td>
-<!--=============================-->
-                                </tr>
+                        <!--=========Row - Grand Total ==============-->
+                            <tr>
+                                <td> 
+                                    <div class='row'>
+                                        <div class='col-sm-6'>
+                                            <h4>Delivery Option</h4>
+                                            <div>
+                                              <input type="radio" id="deliverRadio01" name="deliveryOptionRadio" checked='checked' value='0' />
+                                              <label for="radio01"><span></span>Home Delivery</label>
+                                            </div>
+                                            
+                                            <div>
+                                             <input type="radio" id="deliverRadio02" name="deliveryOptionRadio" value='1'/>
+                                             <label for="radio02"><span></span>Self-Collect</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class='col-sm-6'>
+                                            <h4>Payment Option</h4>
+                                            <div>
+                                              <input type="radio" id="paymentRadio01" name="paymentOptionRadio" checked='checked' value='0' />
+                                              <label for="radio01"><span>Cash on Delivery</span></label>
+                                            </div>
+                                            
+                                            <div>
+                                             <input type="radio" id="paymentRadio02" name="paymentOptionRadio" value='1'/>
+                                             <label for="radio02"><span>Pay with Credit Card</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    
+                                </td>
+                                <td>   </td>
+                                <td>
+                                    <h3>Total</h3>
+                                </td>
+                                <td class="text-right">
+                                    <h3><strong>Ks <span class='grandTotal'></span></strong></h3>
+                                </td>
+                            </tr>
+                        <!--=========Row - Payment BUttons==============-->
+                            <tr>
+                                <td>   </td>
+                                <td>   </td>
+                                <td>   </td>
+                                <td>
+                                    <a href='/category/all/1/?sort=created&dir=desc'><button type="button" class="btn btn-primary ecommerceButtons"><span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping</button></a>
+                                </td>
+                                <td>
+                                  <% if (currentUser.address.city === "" || typeof currentUser.address.city === 'undefined')  { %>
+                                    <button class="btn btn-primary ecommerceButtons buyButton" data-toggle="modal" data-target="#updateAddressWarning">Confirm Order</button>
+                                  <% } else { %>
+                                    <button class="btn btn-primary ecommerceButtons buyButton" data-toggle="modal" data-target="#stripeModal">Confirm Order</button>
+                                  <% } %>
+                                  
+                                  <% if (currentUser.address.city === "" || typeof currentUser.address.city === 'undefined')  { %>
+                                      <button type="submit" class="btn btn-primary ecommerceButtons confirmButton" data-toggle="modal" data-target="#updateAddressWarning">Confirm Order</button>
+                                  <% } else { %>
+                                    <form action='/payment-cash' method='POST'>
+                                      <input type="hidden" name="stripeMoney" value="<%= order.total_price %>">
+                                      <input type="hidden" name="deliveryFee" value="10.0">
+                                      <button type="submit" class="btn btn-primary ecommerceButtons confirmButton">Confirm Order</button>
+                                    </form>
+                                  <% } %>
+                                </td>
+                            </tr>
+                        <!--=============================-->
                     </tbody>
                 </table>
+                <% } %>
             </div>
         </div>
     </div>
+    
+    <!--Update Delivery Address Modal-->
+    <div class="modal fade" id="upde-delivery-address" tabindex="-1" role="dialog" aria-labelledby="upde-delivery-address">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title multilanguage burmese" id="upde-delivery-address-header">Update Delivery Address</h4>
+          </div>
+          <div class="modal-body">
+            <div class='inputForms edit-comment-form'>
+                <form class='form-group' action='/edit-profile' method='POST'>
+                    <div class="form-group">
+                      <!--<label="name">Name: </label>-->
+                      <input type='hidden' class="form-control" value="<%= currentUser.username %>" name="name">
+                    </div>
+                    <div class="form-group">
+                      <label="name">Mobile Number: </label>
+                      <input type="text" class="form-control" value="<%= currentUser.address.mobile %>" name="mobile">
+                    </div>
+                    <div class="form-group">
+                      <h4>Address</h4>
+                      <!--Room No-->
+                      <label="name">Room No: </label>
+                      <input type="text" class="form-control" value="<%= currentUser.address.room_no %>" name="room_no">
+                      
+                      <!--Floor-->
+                      <label="name">Floor: </label>
+                      <input type="text" class="form-control" value="<%= currentUser.address.floor %>" name="floor">
+                      
+                      <!--Building No-->
+                      <label="name">Build No: </label>
+                      <input type="text" class="form-control" value="<%= currentUser.address.building_no %>" name="building_no">
+                      
+                      <!--Street-->
+                      <label="name">Street: </label>
+                      <input type="text" class="form-control" value="<%= currentUser.address.street %>" name="street">
+                      
+                      <!--Ward-->
+                      <label="name">Ward: </label>
+                      <input type="text" class="form-control" value="<%= currentUser.address.ward %>" name="ward">
+                      
+                      <!--Township-->
+                      <label="name">Township: </label>
+                      <input type="text" class="form-control" value="<%= currentUser.address.township %>" name="township">
+                      
+                      <!--City-->
+                      <label="name">City: </label>
+                      <input type="text" class="form-control" value="<%= currentUser.address.city %>" name="city">
+                      
+                      <!--Zip-->
+                      <label="name">Postal Code: </label>
+                      <input type="text" class="form-control" value="<%= currentUser.address.zip %>" name="zip">
+                    </div>
+              
+                    <button type="submit" class="btn btn-success">Submit</button>                    
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!--End of Modal-->
+    
+    
+    <!--Stripe Modal-->
+    
+    <div class="modal fade" id="stripeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Pay with Stripe</h4>
+              </div>
+              
+                <div class="modal-body">
+                <!-- Credit card form -->
+                <div class="container">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h3 class="panel-title"><img class="pull-right" src="http://i76.imgup.net/accepted_c22e0.png">Payment Details</h3>
+                        </div>
+                        <div class="panel-body">
+                          <form role="form" id="payment-form" action="/payment-card" method="POST">
+                            <input type="hidden" name="stripeMoney" value="<%= order.total_price %>">
+                            <input type="hidden" name="deliveryFee" value="10.0">
+                            <div class="row">
+                              <div class="col-xs-12">
+                                <div class="form-group">
+                                  <label for="cardNumber">CARD NUMBER</label>
+                                  <div class="input-group">
+                                    <input type="text" class="form-control" name="cardNumber" placeholder="Valid Card Number" required autofocus data-stripe="number" />
+                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-xs-7 col-md-7">
+                                <div class="form-group">
+                                  <label for="expMonth">EXPIRATION DATE</label>
+                                  <div class="col-xs-6 col-lg-6 pl-ziro">
+                                    <input type="text" class="form-control" name="expMonth" placeholder="MM" required data-stripe="exp_month" />
+                                  </div>
+                                  <div class="col-xs-6 col-lg-6 pl-ziro">
+                                    <input type="text" class="form-control" name="expYear" placeholder="YY" required data-stripe="exp_year" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-xs-5 col-md-5 pull-right">
+                                <div class="form-group">
+                                  <label for="cvCode">CV CODE</label>
+                                  <input type="password" class="form-control" name="cvCode" placeholder="CV" required data-stripe="cvc" />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-xs-12">
+                                <button class="btn btn-success btn-lg btn-block" type="submit">Pay  Ks <span class='grandTotal'><%= order.total_price %></span></button>
+                              </div>
+                            </div>
+                            <div class="row" style="display:none;">
+                              <div class="col-xs-12">
+                                <p class="payment-errors"></p>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
+              </div>
 
+            </div>
+          </div>
+        </div> <!--End of Stripe Modal-->
+        
+        
+        
+    <!--Warning Delivery Address Modal-->
+    <div class="modal fade" id="updateAddressWarning" tabindex="-1" role="dialog" aria-labelledby="updateAddressWarning">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title multilanguage burmese" id="upde-delivery-address-header">Empty Delivery Address</h4>
+          </div>
+          <div class="modal-body">
+            <div class='inputForms edit-comment-form'>
+                <p>Please Update the Delivery Address before you confirm the order.</p>
+            </div>
+          </div>
+          
+          <div class='modal-footer'>
+            <button type="button" class="btn btn-primary ecommerceButtons multilanguage burmese" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div><!--End of Modal-->
 
 
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <script src='/js/custom.js'></script>
+    <script src='/js/cart.js'></script>
 
     <script src='/js/jquery.jcarousel.min.js'></script>
     <script src='/js/jcarousel.connected-carousels.js'></script>
-    
-    
-   
+
     </body>
 
     </html>

@@ -55,7 +55,7 @@ background: linear-gradient(to left, #003973 , #E5E5BE); /* W3C, IE 10+/ Edge, F
 }
 
 #uploadForm .form-control {
-    border-radius: 7px;
+    border-radius: 0px;
 }
 
 #category-selector {
@@ -116,10 +116,17 @@ textarea.form-control {
   height: 40px;
   width: 30%;
   margin: 20px auto;
-  border-radius: 9px;
-  border: 0px;
-  color: #fff;
+  border-radius: 0px;
+  border: 2px solid rgba(96,96,96,1.0);
+  color: rgba(96,96,96,1.0);
   text-shadow: 0 1px rgba(0,0,0,0.1); 
-  background-color: rgba(0, 83, 111,0.8);
+  background-color: transparent;
+}
+
+#add-product-button:hover {
+  border: 2px solid rgba(96,96,96,1.0);
+  color: white;
+  text-shadow: 0 1px rgba(0,0,0,0.1); 
+  background-color: rgba(96,96,96,1.0);
 }
 

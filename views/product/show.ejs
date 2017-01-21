@@ -3,15 +3,15 @@
 <div class='row mybreadcrumb'>
         <div class='col-md-12'>
             <ol class="breadcrumb">
-                  <li class='multilanguage burmese'><a href="/category/all/1"><%= __('Product')%></a></li>
+                  <li class='multilanguage burmese'><a href="/category/all/1/?sort=created&dir=desc"><%= __('Product')%></a></li>
               <% if (parent_category) { %>
                   <li class='multilanguage burmese'><a href="#"><%= __(parent_category)%></a></li>
               <% } %>
               
               <% if (category === 'all') { %>
-                  <li class='multilanguage burmese'><a href="/category/all/1"><%= __('All Products')%></a></li>
+                  <li class='multilanguage burmese'><a href="/category/all/1/?sort=created&dir=desc"><%= __('All Products')%></a></li>
               <% } else { %>
-                  <li class='multilanguage burmese'><a href="/category/<%= category%>/1"><%= __(category)%></a></li>
+                  <li class='multilanguage burmese'><a href="/category/<%= category%>/1/?sort=created&dir=desc"><%= __(category)%></a></li>
               <% } %>
               
               <% if(currentLanguage === "mm") { %>
@@ -43,14 +43,9 @@
                                     <img src='<%=product.image[i]%>' alt='' data-zoom-image='<%=product.image[i]%>' />
                                 </div>
                             <% } %>
-                            <!--<div class='item'>-->
-                            <!--    <img src='<%=product.image[0]%>' alt='' data-zoom-image='<%=product.image[0]%>' />-->
-                            <!--</div>-->
-                                
-                            
                             <script>
-                  $("#zoom_05").elevateZoom({ zoomType    : "inner", cursor: "crosshair" });
-                </script>
+                              $("#zoom_05").elevateZoom({ zoomType    : "inner", cursor: "crosshair" });
+                            </script>
                         </div>
                             
                         <!-- sag sol -->
@@ -102,8 +97,8 @@
                     
                     <div class='showpage-admin-buttons'>
                         <% if(currentUser && currentUser.isAdmin) { %>
-                            <form action='/category/<%=product.category.name%>/product/<%= product._id %>?_method=DELETE' method='POST'>
-                                <a href='/category/<%=product.category.name%>/product/<%= product._id %>/edit'><button type='button' class='btn btn-warning'>Edit Product</button></a>
+                            <form action='/product/<%=product.category.name%>/<%= product._id %>?_method=DELETE' method='POST'>
+                                <a href='/product/<%=product.category.name%>/<%= product._id %>/edit'><button type='button' class='btn btn-warning'>Edit Product</button></a>
                                 <button class='btn btn-danger'>Delete Product</button>
                             </form>
                         <% } %>
@@ -124,10 +119,13 @@
 
                     <br>
                     <div>
-                        <p id='showpage-unit-price'>$ <%=  parseFloat(product.price).toFixed(1)  %></p>
+                        
                         <% if(parseFloat(product.price).toFixed(1) != parseFloat(product.discountPrice).toFixed(1)) { %>
-                            <span id='saving-percent'>Save 60%</span>
-                            <p id='showpage-unit-price-original'>$ <%=  parseFloat(product.discountPrice).toFixed(1)  %></p>
+                            <p id='showpage-unit-price'>Ks <%=  parseFloat(product.discountPrice).toLocaleString() %></p>
+                            <span id='saving-percent'>Save <%= (100 - (parseFloat(product.discountPrice).toFixed(1)*100/parseFloat(product.price).toFixed(1))).toFixed(1) %>%</span>
+                            <p id='showpage-unit-price-original'>Ks <%=  parseFloat(product.price).toLocaleString()  %></p>
+                        <% } else { %>
+                            <p id='showpage-unit-price'>Ks <%=  parseFloat(product.price).toLocaleString() %></p>
                         <% } %>
                     </div>
 
@@ -147,15 +145,15 @@
                         <div class='form-group'>
                             <input type='hidden' name='product_id' value='<%= product._id%>'>
                             <input type='hidden' name='quantity' id='quantity' value='1'>
-                            <input type='hidden' name='originalPrice' id='originalPrice' value='<%= product.price%>'>
-                            <input type='hidden' name='priceHidden' id='priceHidden' value='<%= product.price%>'>
+                            <input type='hidden' name='originalPrice' id='originalPrice' value='<%= product.discountPrice%>'>
+                            <input type='hidden' name='priceHidden' id='priceHidden' value='<%= product.discountPrice%>'>
                             
                         </div>
                         <div>
-                            <h4 id='priceValue' class='pull-left multilanguage burmese'><%= __('Total Price')%> - $ <%= parseFloat(product.price).toFixed(1) %></h4>
+                            <h4 id='priceValue' class='pull-left multilanguage burmese'><%= __('Total Price')%> -  Ks <%= parseFloat(product.discountPrice).toFixed(0).toLocaleString() %></h4>
                         </div>
                         <div class='row sub-row'>
-                            <div class='col-sm-6'>
+                            <div class='col-sm-4'>
                                 <p class='showpage-subheaders multilanguage burmese'><%= __('Size')%></p>
                                 <div class='btn-group quantity-control' role='group' arial-label='...'>
                                         <input type='hidden' name='selected_size' id='selected-size' value='M'>
@@ -165,7 +163,7 @@
                                     <% } %>
                                 </div>
                             </div>
-                            <div class='col-sm-6'>
+                            <div class='col-sm-4'>
                                 <p class='showpage-subheaders multilanguage burmese'><%= __('Color')%></p>
                                 <div class='btn-group quantity-control' role='group' arial-label='...'>
                                     <input type='hidden' name='selected_color_no' id='selected-color-no' value='0'>
@@ -180,12 +178,7 @@
                         
 
                         <div id='cart-and-wishlist'>
-                            <!--<form action='/category/<%=product.category.name%>/product/<%=product._id%>/add-wishlist' method="POST">-->
-                            <!--    <button class='btn btn-primary' id='add-to-wishlist-button'>Add to Wish List</button>-->
-                            <!--</form>-->
                             
-                            
-                            <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary multilanguage burmese" id='add-to-wishlist-button' data-toggle="modal" data-target="#myModal">
                               <%= __('Add to Favourites')%>
                             </button>
@@ -207,7 +200,7 @@
                                   </div>
                                   <div class="modal-footer">
                                     
-                                    <form action='/category/<%=product.category.name%>/product/<%=product._id%>/add-wishlist' method="POST">
+                                    <form action='/product/<%=product.category.name%>/<%=product._id%>/add-wishlist' method="POST">
                                         <!--<button type="button" class="modal-submit-button" data-dismiss="modal">Close</button>-->
                                         <button class='modal-submit-button multilanguage burmese'><%= __('Add to Favourites')%></button>
                                     </form>
@@ -292,7 +285,7 @@
                                               </div>
                                               <div class="modal-body">
                                                 <div class='inputForms edit-comment-form'>
-                                                    <form class='form-group' action='/category/<%=product.category.name%>/product/<%= product._id %>/comments' method='POST'>
+                                                    <form class='form-group' action='/product/<%=product.category.name%>/<%= product._id %>/comments' method='POST'>
                                                             <input id="user-rating" name="comment[rating]" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" data-size="sm" data-show-clear="false">
                                                             <textarea class='form-control' name='comment[text]'></textarea>
                                                             <button class='modal-comment-submit-button multilanguage burmese'><%= __('Submit Review')%></button>
@@ -328,7 +321,7 @@
                 							
             
                             <!--Edit and Delete Comment Form-->
-                                            <form action='/category/<%=product.category.name%>/product/<%= product._id %>/comments/<%= product.comments[i]._id%>?_method=DELETE' method='POST'>
+                                            <form action='/product/<%=product.category.name%>/<%= product._id %>/comments/<%= product.comments[i]._id%>?_method=DELETE' method='POST'>
                                                 <button type="button" class="edit-comment-button" id='edit-comment' data-toggle="modal" data-target="#edit-comment-modal<%= i%>">
                                                   Edit
                                                 </button>
@@ -345,7 +338,7 @@
                                                   </div>
                                                   <div class="modal-body">
                                                     <div class='inputForms edit-comment-form'>
-                                                        <form class='form-group' action='/category/<%=product.category.name%>/product/<%= product._id %>/comments/<%= product.comments[i]._id%>?_method=PUT' method='POST'>
+                                                        <form class='form-group' action='/product/<%=product.category.name%>/<%= product._id %>/comments/<%= product.comments[i]._id%>?_method=PUT' method='POST'>
                                                                 <input id="user-rating" name="comment[rating]" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" data-size="sm" data-show-clear="false">
                                                                 <textarea class='form-control' name='comment[text]'><%= product.comments[i].text%></textarea>
                                                                 <button class='btn btn-primary btn-sm'>Update Reveiw</button>
@@ -370,18 +363,7 @@
         </div>
 	</div>  <!--End ROW  -->
     
-    
-    
-    
-    
-    
-    
-    
 
-    
-
-    
-    
     
     
 <!--=======================================================    -->
@@ -390,77 +372,109 @@
     <div class="row">
 		<div class="col-md-12">
 		        <div id='show-page-similar-item'>
-		            <h2><%= __('Similar Items You May Like')%></h2>
+		            <h3 class='multilanguage'><%= __('Similar Items You May Like')%></h3>
 		        </div>
             <div id="RelatedCarousel" class="carousel slide">
                  
                 <ol class="carousel-indicators">
-                    <li data-target="#RelatedCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#RelatedCarousel" data-slide-to="1"></li>
-                    <li data-target="#RelatedCarousel" data-slide-to="2"></li>
+                        <li data-target="#RelatedCarousel" data-slide-to="0" class="active"></li>
+                    <% if (similarItems.length > 4) { %>
+                        <li data-target="#RelatedCarousel" data-slide-to="1"></li>
+                    <% } %>
+                    <% if (similarItems.length > 8) { %>
+                        <li data-target="#RelatedCarousel" data-slide-to="2"></li>
+                    <% } %>
                 </ol>
                  
                 <!-- Carousel items -->
                 <div class="carousel-inner">
                     
-                    <div class="item active">
-                    	<div class="row">
-                    	  <% for (var i=1; i<5; i++) { %>
-                    	  <div class="col-md-3 thumbnail-container">
-                    	        <div href="#" class="thumbnail">
-                    	            <a href='/category/<%=product.category.name.en%>/product/<%=product._id%>'><img src='<%=product.image[0]%>'></a>
-                                    <div class='caption'>
-                                        <div class='product-name-container'>
-                                            <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="burmese product-name"><%=product.name.en%></h4></a>
-                                        </div>
-                                        <p class='product-price'>$ <%=product.price%></p>
-                                        <div class="rating-stars">
-                                            <table>
-                                              <tr>
-                                                <td>
-                                                  <input id="input-3" name="input-3" value="3" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
-                                                </td>
-                                              </tr>
-                                            </table>
-                                            <script>
-                                            // $(document).on('ready', function(){
-                                                $('.input-3').rating({displayOnly: true, step: 0.1});
-                                            // });
-                                            </script>
-                                            <br>
-                                        </div>
-                                    
-                                        <div class='seemore-addtocart'>
-                                            <a href='/category/<%=product.category.name%>/product/<%=product._id%>' class='btn btn-primary btn-sm see-more'>See Detail</a>
-                                            <a href='/category/<%=product.category.name%>/product/<%=product._id%>' class='btn btn-primary btn-sm add-to-cart'>Add to Cart</a>
-                                        </div>
-                                    </div>
-                    	        </div>
-                    	  </div>
-                    	  <% } %>
-                    	  <!--<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>-->
-                    	  <!--<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>-->
-                    	  <!--<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>-->
-                    	</div><!--.row-->
-                    </div><!--.item-->
-                 
-                    <div class="item">
-                    	<div class="row">
-                    		<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>
-                    		<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>
-                    		<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>
-                    		<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>
-                    	</div><!--.row-->
-                    </div><!--.item-->
+                    <% if(typeof similarItems !== "undefined") { %>
+                        <div class="item active">
+                        	<div class="row">
+                        	  
+                            	  <% for (var i=0; i<similarItems.length; i++) { %>
+                                	  <% if(i<4 && similarItems[i]._id !== product._id) { %>
+                                	  <div class="col-md-3 thumbnail-container">
+                                	        <div href="#" class="thumbnail">
+                                	            <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>'><img src='<%=similarItems[i].image[0]%>'></a>
+                                                <div class='caption'>
+                                                    <div class='product-name-container'>
+                                                        <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>'><h4 class="burmese product-name"><%=similarItems[i].name.en%></h4></a>
+                                                    </div>
+                                                    <p class='product-price'>Ks <%=similarItems[i].price.toLocaleString()%></p>
+                                                    <div class="rating-stars">
+                                                        <table>
+                                                          <tr>
+                                                            <td>
+                                                              <input id="input-3" name="input-3" value="3" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
+                                                            </td>
+                                                          </tr>
+                                                        </table>
+                                                        <script>
+                                                        // $(document).on('ready', function(){
+                                                            $('.input-3').rating({displayOnly: true, step: 0.1});
+                                                        // });
+                                                        </script>
+                                                        <br>
+                                                    </div>
+                                                
+                                                    <div class='seemore-addtocart'>
+                                                        <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm see-more'>See Detail</a>
+                                                        <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm add-to-cart'>Add to Cart</a>
+                                                    </div>
+                                                </div>
+                                	        </div>
+                                	  </div>
+                                	  <% } %>
+                            	  <% } %>
+                        	 
+                        	</div><!--.row-->
+                        </div><!--.item-->
                      
-                    <div class="item">
-                    	<div class="row">
-                    		<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>
-                    		<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>
-                    		<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>
-                    		<div class="col-md-3"><a href="#" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;"></a></div>
-                    	</div><!--.row-->
-                    </div><!--.item-->
+                        <% if (similarItems.length > 4) { %>
+                            <div class="item">
+                            	<div class="row">
+                            	    <% for (var i=4; i<similarItems.length; i++) { %>
+                                	  <% if(i<8 && similarItems[i]._id !== product._id) { %>
+                                	  <div class="col-md-3 thumbnail-container">
+                                	        <div href="#" class="thumbnail">
+                                	            <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>'><img src='<%=similarItems[i].image[0]%>'></a>
+                                                <div class='caption'>
+                                                    <div class='product-name-container'>
+                                                        <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>'><h4 class="burmese product-name"><%=similarItems[i].name.en%></h4></a>
+                                                    </div>
+                                                    <p class='product-price'>Ks <%=similarItems[i].price.toLocaleString()%></p>
+                                                    <div class="rating-stars">
+                                                        <table>
+                                                          <tr>
+                                                            <td>
+                                                              <input id="input-3" name="input-3" value="3" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
+                                                            </td>
+                                                          </tr>
+                                                        </table>
+                                                        <script>
+                                                        // $(document).on('ready', function(){
+                                                            $('.input-3').rating({displayOnly: true, step: 0.1});
+                                                        // });
+                                                        </script>
+                                                        <br>
+                                                    </div>
+                                                
+                                                    <div class='seemore-addtocart'>
+                                                        <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm see-more'>See Detail</a>
+                                                        <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm add-to-cart'>Add to Cart</a>
+                                                    </div>
+                                                </div>
+                                	        </div>
+                                	  </div>
+                                	  <% } %>
+                            	  <% } %>
+                            	</div><!--.row-->
+                            </div><!--.item-->
+                        <% } %>
+
+                    <% } %> 
                      
                 </div><!--.carousel-inner-->
                       <a data-slide="prev" href="#RelatedCarousel" class="left carousel-control related">‹</a>
@@ -468,7 +482,7 @@
             </div><!--.Carousel-->
                  
 		</div>
-	</div>
+	</div><!--.End Row Related-Items-->
 
 
 

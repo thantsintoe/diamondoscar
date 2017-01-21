@@ -5,6 +5,7 @@ var bodyParser          = require('body-parser');
 
 var ejs                 = require('ejs');
 var engine              = require('ejs-mate');
+var flash      = require('connect-flash');
 
 var passport            = require('passport');
 var passportLocalMongoose = require('passport-local-mongoose');
@@ -22,27 +23,51 @@ var commentRoutes = require('./routes/comment');
 var categoryRoutes = require('./routes/category');
 var adminRoutes = require('./routes/admin');
 
-var uploadRoutes = require('./routes/upload');
+// var uploadRoutes = require('./routes/upload');
 var cloudinary = require('cloudinary');
 
+var cartLength = require('./middleware/cartlength');
 var preferredLanguage = "en";
 
-cloudinary.config({ 
-  cloud_name: 'dzxsfe54s', 
-  api_key: '343496594473383', 
-  api_secret: '39yXvsQZMFG5q124Jslc8G8OkEA' 
-});
 
-var cartLength = require('./middleware/cartlength');
+//========================================
+//Deployment Cloud Storage
+//========================================
+// cloudinary.config({ 
+//   cloud_name: 'dzxsfe54s', 
+//   api_key: '343496594473383', 
+//   api_secret: '39yXvsQZMFG5q124Jslc8G8OkEA' 
+// });
+
+
+//========================================
+//Development Cloud Storage
+//========================================
+cloudinary.config({ 
+  cloud_name: 'thantsintoewebdevelopment', 
+  api_key: '965369685249298', 
+  api_secret: 'wpugp-nIMZAikstsnNAXStSqFe8' 
+});
 
 
 // mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/ecommerce');
-mongoose.connect('mongodb://thantsintoe:patoe1492010@ds143767.mlab.com:43767/ecommerce-deployed');
+
+//========================================
+//Deployment Database
+//========================================
+// mongoose.connect('mongodb://thantsintoe:patoe1492010@ds143767.mlab.com:43767/ecommerce-deployed');
+
+//========================================
+//Development Database
+//========================================
+mongoose.connect('mongodb://thantsintoe:patoe1492010@ds053090.mlab.com:53090/thantsintoe-ecommerce');
 
 
 app.engine('ejs',engine);
 app.set('view engine','ejs');
 app.use(express.static(__dirname + "/public"));
+
+app.use(flash());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -51,7 +76,7 @@ app.use(require('express-session')({
     secret: 'I have a dream',
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 300000 }
+    // cookie: { maxAge: 600000 }
 }));
 
 app.use(passport.initialize());
@@ -62,6 +87,8 @@ passport.use(User.createStrategy());
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+passport.authenticate('local', { failureFlash: 'Incorrect username or password.' });
 
 //Section and Cookie Parser
 var cookieParser = require('cookie-parser');
@@ -75,7 +102,7 @@ i18n.configure({
       //define how many languages we would support in our application
       locales:['en', 'mm'],
       
-      //define the path to language json files, default is /locales
+      //define the path to language json files
       directory: __dirname + '/locales',
       
       //define the default language
@@ -87,11 +114,11 @@ i18n.configure({
 
 app.use(i18n.init);
 
-
-
 //Middleware to pass the Current User info to every request
 app.use(function(req,res,next) {
-   res.locals.currentUser  = req.user;
+   res.locals.currentUser   = req.user;
+   res.locals.error         = req.flash('error');
+   res.locals.success       = req.flash('success');
    next();
 });
 
@@ -103,10 +130,6 @@ app.use(function(req,res,next) {
 
 //Middleware to pass the number of items in Cart
 app.use(cartLength);
-
-
-
-
 
 //Middleware to pass the Category info to every request
 app.use(function(req,res,next) {
@@ -157,11 +180,11 @@ app.use(indexRoutes);
 app.use(userRoutes);
 app.use(categoryRoutes);
 app.use(productRoutes);
-app.use(uploadRoutes);
+// app.use(uploadRoutes);
 app.use(adminRoutes);
 app.use(commentRoutes);
 
-
+//Language Routes
 app.get('/mm',function(req,res) {
     preferredLanguage = 'mm';
     res.cookie('i18n', 'mm');
@@ -176,6 +199,5 @@ app.get('/en',function(req,res) {
 
 
 app.listen(process.env.PORT,process.env.IP,function() {
-        console.log("Ecommerce Server is running...");
-   
+    console.log("Ecommerce Server is running...");
 });

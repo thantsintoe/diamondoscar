@@ -182,8 +182,10 @@ hgroup {
 
 .best-selling-headers {
     margin: 50px 0px;
-    margin-left: 20px;
+    /*margin-left: 20px;*/
+    text-align: center;
     color: #D58400;
+    font-size: 2.0em;
 }
 
 .best-selling-headers-women {
@@ -286,41 +288,50 @@ hgroup {
 }
 
 
-.carousel .see-more {
-    width: 150px;
-    height: 45px;
-    font-size: 1.3em;
-    background-color: transparent;
-    color: white;
-    border-radius: 50px;
-    border: 2px solid white;
-    outline:none;
-    transition: 0.5s;
-    margin-right: 20px;
-    margin-top: 10px;
-    padding-top: 8px;
+hr {
+    width: 60%;
+    border: 0;
+    height: 2px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #D58400, rgba(0, 0, 0, 0));
 }
 
-.carousel .add-to-cart {
-    width: 150px;
-    height: 45px;
-    font-size: 1.3em;
-    background-color: transparent;
-    color: #F8E71C;
-    border-radius: 50px;
-    border: 2px solid white;
-    outline:none;
-    transition: 0.5s;
-    margin-top: 10px;
-    padding-top: 8px;
-}
 
-.carousel .see-more:hover,.carousel .add-to-cart:hover {
-    background-color: #FAA61C;
-    color: white;
-    border-radius: 0px;
-    text-shadow: 0px 2px 2px #888888;
-}
+/*.carousel .see-more {*/
+/*    width: 150px;*/
+/*    height: 45px;*/
+/*    font-size: 1.3em;*/
+/*    background-color: transparent;*/
+/*    color: white;*/
+/*    border-radius: 50px;*/
+/*    border: 2px solid white;*/
+/*    outline:none;*/
+/*    transition: 0.5s;*/
+/*    margin-right: 20px;*/
+/*    margin-top: 10px;*/
+/*    padding-top: 8px;*/
+/*}*/
+
+/*.carousel .add-to-cart {*/
+/*    width: 150px;*/
+/*    height: 45px;*/
+/*    font-size: 1.3em;*/
+/*    background-color: transparent;*/
+/*    color: #F8E71C;*/
+/*    border-radius: 50px;*/
+/*    border: 2px solid white;*/
+/*    outline:none;*/
+/*    transition: 0.5s;*/
+/*    margin-top: 10px;*/
+/*    padding-top: 8px;*/
+/*}*/
+
+/*.carousel .see-more:hover,.carousel .add-to-cart:hover {*/
+/*    background-color: #FAA61C;*/
+/*    color: white;*/
+/*    border-radius: 0px;*/
+/*    text-shadow: 0px 2px 2px #888888;*/
+/*}*/
+
 
 
 
@@ -334,9 +345,236 @@ hgroup {
     /*margin-left: -10px;*/
 }
 
+
+/*BESTSELLING CAROUSELLS*/
+
+.carousel {
+    margin-bottom: 30px
+}
+
+.thumbnail-container .thumbnail {
+            height: 420px;
+            
+            margin: 0px;
+            margin-bottom: 200px;
+            padding: 0px;
+            background-color: rgb(253, 253, 253);
+            /*background-color: rgba(230,230,230,.3) ;*/
+            border: 1px solid rgba(145, 145, 145,0.2);
+            /*border-radius: 60px;*/
+            transition: 800ms;
+            }
+.thumbnail:hover {
+    box-shadow: 0px 4px 5px #888888;
+}
+            
+@media only screen and (max-width: 768px) {
+        .thumbnail-container .thumbnail {
+            border-radius: 10px;
+            width: 100%;
+            height: 500px;
+            margin: 0px;
+            padding: 0px;
+            }
+        .thumbnail a img {
+            height: 320px;
+            /*width : 100%;*/
+            border-radius: 10px 10px 0px 0px;
+        }
+}
+
+
+@media only screen and (max-width:1600px) and (min-width:1001px) {
+        .thumbnail-container .thumbnail {
+            border-radius: 10px;
+            width: 230px;
+            margin: 0px;
+            padding: 0px;
+            }
+        .thumbnail a img {
+            height: 240px;
+            /*width : 100%;*/
+            border-radius: 10px 10px 0px 0px;
+            }
+}
+
+@media only screen and (min-width:1601px) {
+        .thumbnail-container .thumbnail {
+            border-radius: 10px;
+            width: 320px;
+            height: 520px;
+            margin: 0px;
+            padding: 0px;
+            }
+        .thumbnail-container .thumbnail a img {
+            height: 340px;
+            /*width : 100%;*/
+            border-radius: 10px 10px 0px 0px;
+        }
+}
+
+.thumbnail .product-name-container {
+    height: 35px;
+}
+.thumbnail .caption {
+    padding-left: 15px;
+    
+}
+.thumbnail .caption .product-name {
+    color: #DE8B02;
+    text-align: left;
+    font-size: 1.1em;
+    font-weight: normal;
+}
+
+.thumbnail .caption .product-name-container a:hover {
+    text-decoration: none;
+}
+.thumbnail .caption .product-price {
+    color: #F95D70;
+    text-align: left;
+    font-size: 1.1em;
+    font-weight: normal;
+}
+
+.index-original-price {
+    text-decoration: line-through;
+    font-size: 0.9em;
+    color: gray;
+}
+
+
+.rating-stars {
+    height: 2px;
+}
+
+.thumbnail .seemore-addtocart {
+    margin-top: 40px;
+    margin-left: 2px;
+    margin-right: 2px;
+    text-align: center;
+}
+
+.thumbnail .add-to-cart {
+    width: auto;
+    background-color: #f5a623;
+    color: white;
+    border: 2px solid #f5a623;
+    border-radius: 16px;
+    margin-left: 5px;
+    outline:none;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    transition: 0.2s;
+}
+
+.add-to-cart:hover {
+    background: transparent;
+    border: 2px solid #f5a623;
+    color: #f5a623;
+}
+
+.thumbnail .see-more {
+    width: auto;
+    background-color: rgba(208,208,208,0.6);
+    color: #4A4A4A;
+    border: 2px solid rgba(208,208,208,0.6);
+    border-radius: 16px;
+    margin-left: 5px;
+    outline:none;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    transition: 0.2s;
+}
+
+.see-more:hover {
+    background: transparent;
+    border: 2px solid #4A4A4A;
+    color: #4A4A4A;
+}
+
+
+
+
+#show-page-similar-item {
+    margin: 20px auto;
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+
+.related_carousel {
+    margin-bottom: 0;
+    padding: 0 40px 30px 40px;
+}
+
+#RelatedCarousel .carousel-inner {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.item .row .thumbnail {
+    margin: 20px auto;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+/* The controlsy */
+.related {
+	left: -12px;
+    height: 40px;
+	width: 40px;
+    background: none repeat scroll 0 0 #222222;
+    border: 2px solid #FFFFFF;
+    border-radius: 0px;
+    margin-top: 350px;
+}
+/*.related.right {*/
+/*	right: -12px;*/
+/*}*/
+/* The indicators */
+.carousel-indicators {
+	right: 50%;
+	top: auto;
+	bottom: -10px;
+	margin-right: -19px;
+}
+/* The colour of the indicators */
+.carousel-indicators li {
+	background: #cecece;
+}
+.carousel-indicators .active {
+background: #428bca;
+}
+
+
+.hotBrands {
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.hotBrands .col-md-3 {
+    margin-bottom: 20px;
+    float: right;
+}
+
+.hotBrands .col-md-3 img {
+    width: auto;
+    height: 200px;
+}
+
+
+
+
+
+
 /*===========All Categories=============*/
 
-.thumbnail {
+.see-all-categories .thumbnail {
     position:relative;
     overflow:hidden;
     margin:0px;
@@ -346,14 +584,14 @@ hgroup {
     
 }
 
-.col-sm-4.col-md-4 {
+.see-all-categories .col-sm-4.col-md-4 {
     margin:0px;
     padding: 0px;
     border-radius: 0px;
     border: none;
 }
 
-.caption {
+.see-all-categories .caption {
     position:absolute;
     top:-100%;
     right:0;
@@ -372,7 +610,7 @@ hgroup {
     transition: all 0.5s ease-in-out;
 }
 
-.thumbnail .caption h3{
+.see-all-categories .thumbnail .caption h3{
     
     min-height: 50px;
     width: 55%;
@@ -387,7 +625,7 @@ hgroup {
 
 
 
-.thumbnail:hover .caption {
+.see-all-categories .thumbnail:hover .caption {
     top:0%;
 }
  

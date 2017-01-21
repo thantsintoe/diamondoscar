@@ -5,8 +5,8 @@
 }
 
 #profile-picture {
-    width: 200px;
-    height: 200px;
+    width: 120px;
+    height: 120px;
     margin: 10px auto;
     margin-top: 15px;
     padding: 0px;
@@ -36,6 +36,7 @@
 .panel.panel-info {
     padding-bottom: 20px;
     border: 1px solid rgba(208,208,208,0.6);
+    border-radius: 0px;
    
 }
 
@@ -43,7 +44,7 @@
     margin-top: 70px;
 }
 
-.panel.panel-info label,p,img,a {
+.panel.panel-info label,p,a {
    padding-left: 20px;
    
 }
@@ -52,15 +53,22 @@
    margin-left: 20px;
    
 }
+
+.panel.panel-info a:hover {
+  text-decoration: none;
+   
+}
+
 .panel-info .panel-heading {
     height:50px;
-    background-color: rgba(208,208,208,0.6);
+    background-color: #8c8c8c;
     border: 1px solid rgba(208,208,208,0.6);
-    color: #363939;
+    color: #ffffff;
+    border-radius: 0px;
 }
 .panel-heading h2 {
     font-size: 1.6em;
-    font-weight: bold;
+    font-weight: lighter;
     width: 100%;
     margin: 0px auto;
     padding: 0px;

@@ -32,7 +32,7 @@ router.use(methodOverride("_method"));
 //   });
 
 //POST COMMENT ROUTE
-    router.post('/category/:category_name/product/:product_id/comments',middleware.isLoggedIn,function(req,res) {
+    router.post('/product/:category_name/:product_id/comments',middleware.isLoggedIn,function(req,res) {
       
       var newComment = req.body.comment;
 
@@ -92,7 +92,7 @@ router.use(methodOverride("_method"));
 
 
 //COMMENT UPDATE ROUTE
-  router.put('/category/:category_name/product/:product_id/comments/:comment_id',function(req,res) {
+  router.put('/product/:category_name/:product_id/comments/:comment_id',function(req,res) {
       
       var updatedComment = req.body.comment;
       
@@ -125,7 +125,7 @@ router.use(methodOverride("_method"));
   });
 
 //DESTROY ROUTER
-  router.delete('/category/:category_name/product/:product_id/comments/:comment_id',function(req,res) {
+  router.delete('/product/:category_name/:product_id/comments/:comment_id',function(req,res) {
       Comment.findByIdAndRemove(req.params.comment_id,function(err) {
          if(err)
          {

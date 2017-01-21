@@ -1,7 +1,7 @@
 <% include ../partials/header.ejs %>
 
 <div class='row mybreadcrumb'>
-        <div class='col-md-12'>
+        <div class='col-md-9'>
             <ol class="breadcrumb">
               <li><a href="#">Product</a></li>
               <% if (parent_category) { %>
@@ -15,7 +15,41 @@
             </ol>
             <hr>
         </div>
-</div>
+        <!-- Single button -->
+        <div class='col-md-3 sort-by'>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>  Sort By <span class="caret"></span>
+              </button>
+              <% if(category) { %>
+                  <% if(category.main_category) { %>
+                      <ul class="dropdown-menu">
+                        <li><a href="/main-category/<%= category%>/1/?sort=created&dir=desc"> Date: Latest to Oldest </a></li>
+                        <li><a href="/main-category/<%= category%>/1/?sort=created&dir=asc"> Date: Oldest to Latest </a></li>
+                        <li><a href="/main-category/<%= category%>/1/?sort=price&dir=desc"> Price: Highest to Lowest </a></li>
+                        <li><a href="/main-category/<%= category%>/1/?sort=price&dir=asc"> Price: Lowest to Highest </a></li>
+                      </ul>
+                  <% } else { %>
+                      <ul class="dropdown-menu">
+                        <li><a href="/category/<%= category%>/1/?sort=created&dir=desc"> Date: Latest to Oldest </a></li>
+                        <li><a href="/category/<%= category%>/1/?sort=created&dir=asc"> Date: Oldest to Latest </a></li>
+                        <li><a href="/category/<%= category%>/1/?sort=price&dir=desc"> Price: Highest to Lowest </a></li>
+                        <li><a href="/category/<%= category%>/1/?sort=price&dir=asc"> Price: Lowest to Highest </a></li>
+                      </ul>
+                  <% } %>
+              <% }  else {%>
+                      <ul class="dropdown-menu">
+                        <li><a href="/brand/<%= brand%>/1/?sort=created&dir=desc"> Date: Latest to Oldest </a></li>
+                        <li><a href="/brand/<%= brand%>/1/?sort=created&dir=asc"> Date: Oldest to Latest </a></li>
+                        <li><a href="/brand/<%= brand%>/1/?sort=price&dir=desc"> Price: Highest to Lowest </a></li>
+                        <li><a href="/brand/<%= brand%>/1/?sort=price&dir=asc"> Price: Lowest to Highest </a></li>
+                      </ul>
+              <% } %>
+              
+            </div><!--End Btn-Group-->
+           
+        </div><!--End End Col-md-3-->
+</div><!--End Breadcramp-->
 
 
 <div class='row text-center'>
@@ -24,63 +58,63 @@
                 <p class='shop-by-categories-title multilanguage burmese'><%= __('Shop by Categories') %></p>
                 <ul>
                          
-                    <li class='list-category multilanguage burmese'><a href="/category/all/1"><%= __('All Categories') %></a></li>
+                    <li class='list-category multilanguage burmese'><a href="/category/all/1/?sort=created&dir=desc"><%= __('All Categories') %></a></li>
                     
                     <!--Men's Clothing-->
-                    <li class='list-category multilanguage burmese'><%= __("Men's Clothing") %> <i class='glyphicon glyphicon-plus-sign pull-right' id='men-plus-button'></i></li>
+                    <li class='list-category multilanguage burmese'><a href="/main-category/Men's Clothing/1/?sort=created&dir=desc"><%= __("Men's Clothing") %></a> <i class='glyphicon glyphicon-plus-sign pull-right' id='men-plus-button'></i></li>
                     <div id='men-plus-group'>
                         <% categories.forEach(function(category) { %>
     					    <% if(!category.main_category) { %>
     					        <% if(category.parent_category.name === "Men's Clothing") { %>
-    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name) %></a></li>
+    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
     						    <% } %>
     					    <% } %>
     					<% }); %>
 					</div>
 					
 					<!--Women's Clothing-->
-                    <li class='list-category multilanguage burmese'><%=__("Women's Clothing")%><i class='glyphicon glyphicon-plus-sign pull-right' id='women-plus-button'></i></li>
+                    <li class='list-category multilanguage burmese'><a href="/main-category/Women's Clothing/1/?sort=created&dir=desc"><%=__("Women's Clothing")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='women-plus-button'></i></li>
                     <div id='women-plus-group'>
                         <% categories.forEach(function(category) { %>
     					    <% if(!category.main_category) { %>
     					        <% if(category.parent_category.name === "Women's Clothing") { %>
-    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name) %></a></li>
+    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
     						    <% } %>
     					    <% } %>
     					<% }); %>
 					</div>
 					
 					<!--Bags-->
-                    <li class='list-category multilanguage burmese'><%=__("Bags")%><i class='glyphicon glyphicon-plus-sign pull-right' id='bags-plus-button'></i></li>
+                    <li class='list-category multilanguage burmese'><a href="/main-category/Bags/1/?sort=created&dir=desc"><%=__("Bags")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='bags-plus-button'></i></li>
                     <div id='bags-plus-group'>
                         <% categories.forEach(function(category) { %>
     					    <% if(!category.main_category) { %>
     					        <% if(category.parent_category.name === "Bags") { %>
-    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name) %></a></li>
+    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
     						    <% } %>
     					    <% } %>
     					<% }); %>
 					</div>
 					
 					<!--Shoes-->
-                    <li class='list-category multilanguage burmese'><%=__("Shoes")%><i class='glyphicon glyphicon-plus-sign pull-right' id='shoes-plus-button'></i></li>
+                    <li class='list-category multilanguage burmese'><a href="/main-category/Shoes/1/?sort=created&dir=desc"><%=__("Shoes")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='shoes-plus-button'></i></li>
                     <div id='shoes-plus-group'>
                         <% categories.forEach(function(category) { %>
     					    <% if(!category.main_category) { %>
     					        <% if(category.parent_category.name === "Shoes") { %>
-    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name) %></a></li>
+    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
     						    <% } %>
     					    <% } %>
     					<% }); %>
 					</div>
 					
 					<!--Jewellery-->
-                    <li class='list-category multilanguage burmese'><%=__("Jewellery")%><i class='glyphicon glyphicon-plus-sign pull-right' id='jewellery-plus-button'></i></li>
+                    <li class='list-category multilanguage burmese'><a href="/main-category/Jewellery/1/?sort=created&dir=desc"><%=__("Jewellery")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='jewellery-plus-button'></i></li>
                     <div id='jewellery-plus-group'>
                         <% categories.forEach(function(category) { %>
     					    <% if(!category.main_category) { %>
     					        <% if(category.parent_category.name === "Jewellery") { %>
-    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1"><%= __(category.name) %></a></li>
+    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
     						    <% } %>
     					    <% } %>
     					<% }); %>
@@ -94,15 +128,12 @@
                 <p class='shop-by-categories-title multilanguage burmese'><%= __('Shop by Brand') %></p>
                 <ul>
                          
-                         <li class='list-category'><a href="/category/all/1">All Brands</a></li>
+                        <li class='list-category'><a href="/category/all/1/?sort=created&dir=desc">All Brands</a></li>
                     <% brandArray.forEach(function(brand) { %>
-                        <li class='list-category'><a href="/category/<%= brand%>/1"><%= brand%></a></li>
+                        <li class='list-category'><a href="/brand/<%= brand%>/1/?sort=created&dir=desc"><%= brand%></a></li>
                     <% }); %>
                 </ul>
             </div><!-- End of shop-by-brands-->
-            
-           
-            
     </aside>
         
     
@@ -110,16 +141,30 @@
             <% products.forEach(function(product) { %>
             <div class='col-lg-3 col-md-4 col-sm-6'>
                     <div class='thumbnail'>
-                        <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><img src='<%=product.image[0]%>'></a>
+                        <a href='/product/<%=product.category.name%>/<%=product._id%>'><img src='<%=product.image[0]%>'></a>
+                        <input type='hidden' name='source1' value='<%=product.image[0]%>'>
+                        
+                        <% if(product.image.length >2) { %>
+                            <input type='hidden' name='source2' value='<%=product.image[2]%>'>
+                        <% } else if(product.image.length >1) { %>
+                            <input type='hidden' name='source2' value='<%=product.image[1]%>'>
+                        <% } else { %>
+                        <input type='hidden' name='source2' value='<%=product.image[0]%>'>
+                        <% } %>
                         <div class='caption'>
                             <div class='product-name-container'>
                                 <% if(currentLanguage === "mm") { %>
-                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="burmese product-name multilanguage burmese"><%=product.name.mm%></h4></a>
+                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="product-name multilanguage"><%=product.name.mm%></h4></a>
                                 <% } else { %>
-                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="burmese product-name"><%=product.name.en%></h4></a>
+                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="multilanguage product-name"><%=product.name.en%></h4></a>
                                 <% } %>
                             </div>
-                            <p class='product-price'>$ <%=product.price%></p>
+                            <% if(parseFloat(product.price).toFixed(1) != parseFloat(product.discountPrice).toFixed(1)) { %>
+                                <p class='product-price'>Ks <%=  parseFloat(product.discountPrice).toLocaleString() %><span class='index-original-price'>        Ks <%= parseFloat(product.price).toLocaleString() %></span></p>
+
+                            <% } else { %>
+                                <p class='product-price'>Ks <%=  parseFloat(product.price).toLocaleString() %></p>
+                            <% } %>
                             <div class="rating-stars">
                                 <table>
                                   <tr>
@@ -142,6 +187,8 @@
                             </div>
                         </div>
                     </div>
+                    
+                    
             </div>
         <% }); %> 
         
@@ -157,9 +204,9 @@
             </li>
                 <% for (var i=1;i<=totalPages;i++) { %>
                     <%if (i == currentPage) {%> 
-                        <li class='active'><a href="/category/<%= category %>/<%= i %>"><%= i %></a></li>
+                        <li class='active'><a href="<%= URL + i %>/?sort=<%= sortCriteria%>&dir=<%= sortDir%>"><%= i %></a></li>
                     <% } else {%>
-                        <li><a href="/category/<%= category %>/<%= i %>"><%= i %></a></li>
+                        <li><a href="/category/<%= category %>/<%= i %>/?sort=<%= sortCriteria%>&dir=<%= sortDir%>"><%= i %></a></li>
                     <% } %>
                 <% } %>
             <li>
@@ -170,10 +217,6 @@
           </ul>
     </nav>
 </div>
-
-
-
-
 
 <% include ../partials/footer.ejs%>
 

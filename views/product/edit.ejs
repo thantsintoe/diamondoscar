@@ -3,7 +3,7 @@
     <div class='well' id='add-product-well'>
             <h1 style="text-align: center;">Edit <%= product.name.en %></h1>
             <div class='inputForms'>
-                <form ref='uploadForm' id='uploadForm' class='form-group' action='/category/<%=category.name%>/product/<%= product._id %>?_method=PUT' method='POST' encType="multipart/form-data">
+                <form ref='uploadForm' id='uploadForm' class='form-group' action='/product/<%=category%>/<%= product._id %>?_method=PUT' method='POST' encType="multipart/form-data">
                     <!--Product ID-->
                         <div class='input-group'>
                             <label>Product ID</label>
