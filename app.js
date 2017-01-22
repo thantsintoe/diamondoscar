@@ -2,6 +2,7 @@ var express             = require('express');
 var app                 = express();
 var mongoose            = require('mongoose');
 var bodyParser          = require('body-parser');
+var nodemailer          = require("nodemailer");
 
 var ejs                 = require('ejs');
 var engine              = require('ejs-mate');
@@ -94,6 +95,15 @@ passport.authenticate('local', { failureFlash: 'Incorrect username or password.'
 var cookieParser = require('cookie-parser');
 
 app.use(cookieParser("I have a dream"));
+
+//Node Mailer Setup
+
+
+// var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
+
+
+
+
 
 //Language Localization for English and Myanmar
 var i18n = require('i18n');
@@ -196,6 +206,42 @@ app.get('/en',function(req,res) {
     res.cookie('i18n', 'en');
     res.redirect('back');
 });
+
+
+app.get('/send',function(req,res){
+    
+    
+    var smtpTransport = nodemailer.createTransport("SMTP",{
+        service: "Gmail",
+        auth: {
+            user: "mr.thantsintoe@gmail.com",
+            pass: "Patoe149201031"
+        }
+    });
+    
+    var mailOptions = {
+        from: 'mr.thantsintoe@gmail.com', // sender address
+        to: 'mr.thantsintoe@gmail.com', // list of receivers
+        subject: 'Hello ✔', // Subject line
+        text: 'Hello world ?', // plaintext body
+        html: '<b>Hello world ?</b>' // html body
+    };
+
+    
+    console.log(mailOptions);
+    
+    smtpTransport.sendMail(mailOptions, function(error, response){
+        if(error){
+            console.log(error);
+            res.end("error");
+        } else {
+            console.log("Message sent: " + response.message);
+            res.end("sent");
+        }
+    });
+});
+
+
 
 
 app.listen(process.env.PORT,process.env.IP,function() {
