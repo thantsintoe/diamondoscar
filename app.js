@@ -3,7 +3,10 @@ var app                 = express();
 var mongoose            = require('mongoose');
 var bodyParser          = require('body-parser');
 var nodemailer          = require("nodemailer");
+<<<<<<< HEAD
 var async                   = require('async');
+=======
+>>>>>>> 655dbd1d3a54759ebf1c5bb19404ccdf261042c7
 
 var ejs                 = require('ejs');
 var engine              = require('ejs-mate');
@@ -256,11 +259,6 @@ app.get('/send',function(req,res){
     
     
 });
-
-
-
-
-
 
 app.listen(process.env.PORT,process.env.IP,function() {
     console.log("Ecommerce Server is running...");
