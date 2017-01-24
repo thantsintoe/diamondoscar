@@ -154,9 +154,9 @@
                         <div class='caption'>
                             <div class='product-name-container'>
                                 <% if(currentLanguage === "mm") { %>
-                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="product-name multilanguage"><%=product.name.mm%></h4></a>
+                                <a href='/product/<%=product.category.name%>/<%=product._id%>'><h4 class="product-name multilanguage"><%=product.name.mm%></h4></a>
                                 <% } else { %>
-                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="multilanguage product-name"><%=product.name.en%></h4></a>
+                                <a href='/product/<%=product.category.name%>/<%=product._id%>'><h4 class="multilanguage product-name"><%=product.name.en%></h4></a>
                                 <% } %>
                             </div>
                             <% if(parseFloat(product.price).toFixed(1) != parseFloat(product.discountPrice).toFixed(1)) { %>
@@ -182,8 +182,8 @@
                             </div>
                         
                             <div class='seemore-addtocart'>
-                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>' class='btn btn-primary btn-sm see-more multilanguage burmese'><%= __('See Detail') %></a>
-                                <a href='/category/<%=product.category.name%>/product/<%=product._id%>' class='btn btn-primary btn-sm add-to-cart multilanguage burmese'><%= __('Add to Cart') %></a>
+                                <a href='/product/<%=product.category.name%>/<%=product._id%>' class='btn btn-primary btn-sm see-more multilanguage burmese'><%= __('See Detail') %></a>
+                                <a href='/product/<%=product.category.name%>/<%=product._id%>' class='btn btn-primary btn-sm add-to-cart multilanguage burmese'><%= __('Add to Cart') %></a>
                             </div>
                         </div>
                     </div>

@@ -4,6 +4,8 @@
 var express             = require('express');
 var router              = express.Router();
 var async               = require('async');
+var nodemailer          = require("nodemailer");
+var ejs                 = require('ejs');
 
 var passport            = require('passport');
 var passportLocalMongoose = require('passport-local-mongoose');
@@ -23,6 +25,18 @@ var middleware          = require('../middleware/middleware');
 
 //Register POST route
     router.post('/register',function(req,res,next) {
+        
+        
+        var smtpTransport = nodemailer.createTransport("SMTP",{
+            host: 'smtp.gmail.com',
+            secureConnection: false,
+            port: 587,
+            auth: {
+                user: 'mr.thantsintoe@gmail.com', //Sender Email id
+                pass: 'Patoe149201031' //Sender Email Password
+            }
+        });
+        
         
         async.waterfall([function(callback) {
                                 var newEmail = req.body.email;
@@ -51,7 +65,7 @@ var middleware          = require('../middleware/middleware');
                                     });
                                 });
             
-                        }, function(user) {
+                        }, function(user,callback) {
                                 var order = new Order();
                                 
                                 order.user      = user._id;
@@ -62,10 +76,38 @@ var middleware          = require('../middleware/middleware');
                                         console.log(err);
                                         return res.redirect('/');
                                     }
-                                    req.flash('success','Welcome to Diamond Oscar Online Shopping !');
-                                    res.redirect('/category/all/1/?sort=created&dir=desc');
+                                    callback(null,user);
+                                    
                                 });
                                 
+                        },function(user,callback) {
+
+                            ejs.renderFile('views/emails/ordershipped.ejs',{user: user},function(err,html) {
+                                if(err) console.log(err);
+                                console.log(html);
+                                callback(null,user,html);
+                            });    
+                        },function(user,html) {
+                            
+                            var mailOptions = {
+                                from: 'mr.thantsintoe@gmail.com',
+                                to: user.email, 
+                                subject: 'Welcome to Diamond Oscar Online Shopping !', 
+                                html: html
+                            };
+                            
+                            console.log(mailOptions);
+                            
+                            smtpTransport.sendMail(mailOptions, function(error, response){
+                                if(error){
+                                    console.log(error);
+                                    res.end("error");
+                                } else {
+                                    console.log("Message sent: " + response.message);
+                                    req.flash('success','Welcome to Diamond Oscar Online Shopping !');
+                                    res.redirect('/category/all/1/?sort=created&dir=desc');
+                                }
+                            });
                         }
             ]);
             
@@ -112,7 +154,7 @@ var middleware          = require('../middleware/middleware');
             },
             function(callback) {
                 Order.find({user: req.body.user_id},function(err,foundOrders) {
-                    if(err) console.log("User Cannot be Removed");
+                    if(err) console.log("Cannot find order by user to be deleted.");
                     
                     foundOrders.forEach(function(order) {
                         order.remove();
@@ -198,7 +240,7 @@ var middleware          = require('../middleware/middleware');
         if (req.body.ward) user.address.ward                = req.body.ward;
         if (req.body.township) user.address.township        = req.body.township;
         if (req.body.city) user.address.city                = req.body.city;
-        if (req.body.zip) user.address.zip                  = req.body.zip;
+        // if (req.body.zip) user.address.zip                  = req.body.zip;
         
         if (req.body.mobile) user.address.mobile            = req.body.mobile;
     

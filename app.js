@@ -2,6 +2,8 @@ var express             = require('express');
 var app                 = express();
 var mongoose            = require('mongoose');
 var bodyParser          = require('body-parser');
+var nodemailer          = require("nodemailer");
+var async                   = require('async');
 
 var ejs                 = require('ejs');
 var engine              = require('ejs-mate');
@@ -55,12 +57,12 @@ cloudinary.config({
 //========================================
 //Deployment Database
 //========================================
-mongoose.connect('mongodb://thantsintoe:patoe1492010@ds143767.mlab.com:43767/ecommerce-deployed');
+// mongoose.connect('mongodb://thantsintoe:patoe1492010@ds143767.mlab.com:43767/ecommerce-deployed');
 
 //========================================
 //Development Database
 //========================================
-// mongoose.connect('mongodb://thantsintoe:patoe1492010@ds053090.mlab.com:53090/thantsintoe-ecommerce');
+mongoose.connect('mongodb://thantsintoe:patoe1492010@ds053090.mlab.com:53090/thantsintoe-ecommerce');
 
 
 app.engine('ejs',engine);
@@ -94,6 +96,15 @@ passport.authenticate('local', { failureFlash: 'Incorrect username or password.'
 var cookieParser = require('cookie-parser');
 
 app.use(cookieParser("I have a dream"));
+
+//Node Mailer Setup
+
+
+// var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
+
+
+
+
 
 //Language Localization for English and Myanmar
 var i18n = require('i18n');
@@ -196,6 +207,59 @@ app.get('/en',function(req,res) {
     res.cookie('i18n', 'en');
     res.redirect('back');
 });
+
+
+app.get('/send',function(req,res){
+    
+    
+    
+    var smtpTransport = nodemailer.createTransport("SMTP",{
+        host: 'smtp.gmail.com',
+        secureConnection: false,
+        port: 587,
+        auth: {
+            user: 'mr.thantsintoe@gmail.com', //Sender Email id
+            pass: 'Patoe149201031' //Sender Email Password
+        }
+    });
+    
+    async.waterfall([function(callback) {
+        // var myHTML = new ejs({url: '/email.ejs'});
+        var data = "Thantsintoe";
+        
+        ejs.renderFile('views/emails/ordershipped.ejs',{name: "Pa Pa"},function(err,html) {
+            if(err) console.log(err);
+            console.log(html);
+            callback(null,html);
+        });    
+    },function(html,callback) {
+        
+        var mailOptions = {
+            from: 'mr.thantsintoe@gmail.com',
+            to: 'mr.thantsintoe@gmail.com', 
+            subject: 'Hello ✔', 
+            html: html
+        };
+        
+        console.log(mailOptions);
+        
+        smtpTransport.sendMail(mailOptions, function(error, response){
+            if(error){
+                console.log(error);
+                res.end("error");
+            } else {
+                console.log("Message sent: " + response.message);
+                res.end("sent");
+            }
+        });
+    }]);
+    
+    
+});
+
+
+
+
 
 
 app.listen(process.env.PORT,process.env.IP,function() {

@@ -21,7 +21,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <head>
         <meta charset="utf-8" />
-        <title>Myanmar Treasure Online Shopping | Admin Dashboard</title>
+        <title>Diamond Oscar Online Shopping | Admin Dashboard</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="Preview page of Metronic Admin Theme #4 for recent ecommerce statistics, charts, recent orders and sales" name="description" />
@@ -384,12 +384,13 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                 <th> Product Name </th>
                                                                 <th> Quantity </th>
                                                                 <th> Payment </th>
+                                                                <th> Status </th>
                                                                 <th> Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                               <% orders.forEach(function(order) { %>
-                                                                <% if(order.status === 'CONFIRM') { %>
+                                                                <% if(order.status !== 'CART') { %>
                                                                   <% order.line_items.forEach(function(lineItem) { %>
                                                                       <tr>
                                                                         <td><%= order.user.username%></td>
@@ -398,10 +399,40 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                         <td><%= lineItem.quantity %></td>
                                                                         <td><span class="label label-sm label-warning"> <%= order.payment_option %> </span></td>
                                                                         <td>
+                                                                            <% if(order.status === 'CONFIRM') { %>
+                                                                                <i class="fa fa-cogs" aria-hidden="true"></i> Processing </a>
+                                                                            <% } else if(order.status === 'SHIPPED') { %>
+                                                                                <i class="fa fa-ship"></i> Shipped </a>
+                                                                            <% } else if(order.status === 'DELIVERED') { %>
+                                                                                <i class="fa fa-truck"></i> Delivered </a>
+                                                                            <% } %>
+                                                                        </td>
+                                                                        <td>
                                                                           <a href="/admin-control/<%= order.user._id%>/<%= order._id%>" class="btn btn-sm btn-default">
                                                                             <i class="fa fa-search"></i> View 
                                                                           </a>
+                                                                        
+                                                                        <li class="active dropdown">
+                                                                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> Status
+                                                                                <i class="fa fa-angle-down"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu pull-right">
+                                                                                
+                                                                                <li>
+                                                                                    <form id="ship<%= order._id%>" method="post" action="/ship/<%= order._id%>?_method=PUT">
+                                                                                        <a href="javascript:{}" onclick="document.getElementById('ship<%= order._id%>').submit();"><i class="fa fa-ship"></i> Shipped </a>
+                                                                                    </form>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <form id="deliver<%= order._id%>" method="post" action="/deliver/<%= order._id%>?_method=PUT">
+                                                                                        <a href="javascript:{}" onclick="document.getElementById('deliver<%= order._id%>').submit();"><i class="fa fa-truck"></i> Delivered </a>
+                                                                                    </form>
+                                                                                </li>
+                                                                                <li class="divider"></li>
+                                                                            </ul>
+                                                                        </li>
                                                                         </td>
+                                                                          
                                                                       </tr>
                                                                   <% }); %>
                                                                 <% } %>

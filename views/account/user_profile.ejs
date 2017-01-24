@@ -61,7 +61,9 @@
                               <td><%= order.payment_option %></td>
                               <% if (order.status === "CONFIRM") { %>
                                 <td>Processing Order</td>  
-                              <% } else { %>
+                              <% } else if(order.status === "SHIPPED") { %>
+                                <td>Shipped</td>
+                              <% } else if(order.status === 'DELIVERED') { %>
                                 <td>Delivered</td>
                               <% } %>
                             </tr>

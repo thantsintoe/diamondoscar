@@ -4,6 +4,8 @@
 var express = require('express');
 var router = express.Router();
 var async = require('async');
+var nodemailer          = require("nodemailer");
+var ejs                 = require('ejs');
 
 var passport = require('passport');
 var passportLocalMongoose = require('passport-local-mongoose');
@@ -58,7 +60,6 @@ router.get('/admin-control',middleware.isAdmin, function(req, res, next) {
                 })
             .exec(function(err, foundOrders) {
                 if (err) return next(err);
-                console.log(foundOrders);
                 callback(null, foundOrders);
             });
     }, function(foundOrders, callback) {
@@ -145,6 +146,134 @@ router.get('/admin-control/:user_id/:order_id',middleware.isAdmin, function(req,
                     order: foundOrders
                 });
             });
+    }]);
+});
+
+// =============================
+// Order Delivered
+// =============================
+router.put('/deliver/:order_id',function(req,res,next) {
+    
+    var smtpTransport = nodemailer.createTransport("SMTP",{
+                            host: 'smtp.gmail.com',
+                            secureConnection: false,
+                            port: 587,
+                            auth: {
+                                user: 'mr.thantsintoe@gmail.com', //Sender Email id
+                                pass: 'Patoe149201031' //Sender Email Password
+                            }
+                        });
+    
+    async.waterfall([function(callback) {
+        Order.findOne({_id: req.params.order_id})
+        .populate('user')
+        .populate('line_items.item')
+        .exec(function(err, foundOrder) {
+            if(err) {
+              console.log("Cannot find Order to upate the status");
+              console.log(err);
+            }
+            foundOrder.status = "DELIVERED";
+            foundOrder.markModified('status');
+            foundOrder.save(function(err,updatedOrder) {
+                if(err) {
+                    console.log('Error while trying to update the Order Status!');
+                    console.log(err);
+                }
+                // console.log(updatedOrder._id);
+                // console.log(updatedOrder.line_items[0].item.name.en);
+                // console.log(updatedOrder.status);
+                callback(null,updatedOrder);
+                // res.redirect('/admin-control');
+            });
+        });    
+    },function(updatedOrder,callback) { //Render HTML file before sending
+        ejs.renderFile('views/emails/orderDelivered.ejs',{user: updatedOrder.user,order: updatedOrder},function(err,html) {
+            if(err) console.log(err);
+            callback(null,updatedOrder,html);
+        });
+    },function(updatedOrder,html) { // Send the rendered html to customer
+        
+        var mailOptions = {
+            from: 'mr.thantsintoe@gmail.com',
+            to: updatedOrder.user.email, 
+            subject: 'Ordered Item successfully delivered !', 
+            html: html
+        };
+
+        smtpTransport.sendMail(mailOptions, function(error, response){
+            if(error){
+                console.log(error);
+                res.end("error");
+            } else {
+                console.log("Email sent");
+                res.redirect('/admin-control');
+            }
+        });
+    }]);
+});
+
+// =============================
+// Order Shipped
+// =============================
+router.put('/ship/:order_id',function(req,res,next) {
+    
+    var smtpTransport = nodemailer.createTransport("SMTP",{
+                            host: 'smtp.gmail.com',
+                            secureConnection: false,
+                            port: 587,
+                            auth: {
+                                user: 'mr.thantsintoe@gmail.com', //Sender Email id
+                                pass: 'Patoe149201031' //Sender Email Password
+                            }
+                        });
+    
+    async.waterfall([function(callback) {
+        Order.findOne({_id: req.params.order_id})
+        .populate('user')
+        .populate('line_items.item')
+        .exec(function(err, foundOrder) {
+            if(err) {
+              console.log("Cannot find Order to upate the status");
+              console.log(err);
+            }
+            foundOrder.status = "SHIPPED";
+            foundOrder.markModified('status');
+            foundOrder.save(function(err,updatedOrder) {
+                if(err) {
+                    console.log('Error while trying to update the Order Status!');
+                    console.log(err);
+                }
+                // console.log(updatedOrder._id);
+                // console.log(updatedOrder.line_items[0].item.name.en);
+                // console.log(updatedOrder.status);
+                callback(null,updatedOrder);
+                // res.redirect('/admin-control');
+            });
+        });    
+    },function(updatedOrder,callback) { //Render HTML file before sending
+        ejs.renderFile('views/emails/orderShipped.ejs',{user: updatedOrder.user,order: updatedOrder},function(err,html) {
+            if(err) console.log(err);
+            callback(null,updatedOrder,html);
+        });
+    },function(updatedOrder,html) { // Send the rendered html to customer
+        
+        var mailOptions = {
+            from: 'mr.thantsintoe@gmail.com',
+            to: updatedOrder.user.email, 
+            subject: 'Ordered Item shipped !', 
+            html: html
+        };
+
+        smtpTransport.sendMail(mailOptions, function(error, response){
+            if(error){
+                console.log(error);
+                res.end("error");
+            } else {
+                console.log("Email sent");
+                res.redirect('/admin-control');
+            }
+        });
     }]);
 });
 
