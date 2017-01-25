@@ -1,7 +1,8 @@
 /*TYPOGRAPHY SETTING*/
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: rgb(238, 238, 238)
+    background-color: rgb(238, 238, 238);
+    overflow-y: hidden;
 }
 
 .burmese {
