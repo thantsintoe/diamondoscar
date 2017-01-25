@@ -117,7 +117,6 @@ router.post('/product/add',multipartMiddleware, function(req, res, next) {
             product.description.en = req.body.description_en;
             product.description.mm = req.body.description_mm;
             
-            
             for (var b = 0; b < req.body.color_quantity; b++) {
                 product.colors.push(availableColors[b]);
             }
