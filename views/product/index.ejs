@@ -119,6 +119,18 @@
     					    <% } %>
     					<% }); %>
 					</div>
+					
+					<!--Automobiles-->
+                    <li class='list-category multilanguage burmese'><a href="/main-category/Automobiles/1/?sort=created&dir=desc"><%=__("Automobiles")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='automobiles-plus-button'></i></li>
+                    <div id='automobiles-plus-group'>
+                        <% categories.forEach(function(category) { %>
+    					    <% if(!category.main_category) { %>
+    					        <% if(category.parent_category.name === "Automobiles") { %>
+    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
+    						    <% } %>
+    					    <% } %>
+    					<% }); %>
+					</div>
                 </ul>
             </div><!-- End of shop-by-categories-->
             

@@ -142,6 +142,19 @@ License: You must have a valid license purchased only from themeforest(the above
 							
 							<li class="col-sm-3">
 								<ul class='sub-menu'>
+									<li class="dropdown-header category-header multilanguage"><a href="/main-category/Automobiles/1/?sort=created&dir=desc"><%= __("Automobiles")%></a></li>
+									<% categories.forEach(function(category) { %>
+									    <% if(!category.main_category) { %>
+									        <% if(category.parent_category.name === "Automobiles") { %>
+										        <li class='multilanguage'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name)%></a></li>
+										    <% } %>
+									    <% } %>
+									<% }); %>
+								</ul>
+							</li>
+							
+							<li class="col-sm-3">
+								<ul class='sub-menu'>
 									<li class="dropdown-header category-header multilanguage"><a href='/category/all/1/?sort=created&dir=desc'><%= __('All Categories') %></a></li>
 								</ul>
 							</li>

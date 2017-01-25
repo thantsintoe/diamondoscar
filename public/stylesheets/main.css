@@ -348,11 +348,11 @@ aside.col-md-2.col-xs-0 {
     text-shadow: 0px 2px 2px #888888;
 }
 
-#men-plus-button,#women-plus-button,#bags-plus-button,#shoes-plus-button,#jewellery-plus-button {
+#men-plus-button,#women-plus-button,#bags-plus-button,#shoes-plus-button,#jewellery-plus-button,#automobiles-plus-button {
     margin-right: 15px
 }
 
-#men-plus-group,#women-plus-group,#bags-plus-group,#shoes-plus-group,#jewellery-plus-group {
+#men-plus-group,#women-plus-group,#bags-plus-group,#shoes-plus-group,#jewellery-plus-group,#automobiles-plus-group {
     display: none;
 }
 

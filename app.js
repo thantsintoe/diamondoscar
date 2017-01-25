@@ -97,13 +97,6 @@ var cookieParser = require('cookie-parser');
 
 app.use(cookieParser("I have a dream"));
 
-//Node Mailer Setup
-
-
-// var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
-
-
-
 
 
 //Language Localization for English and Myanmar

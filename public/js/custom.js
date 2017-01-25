@@ -145,6 +145,16 @@ $('.color-circle').on('click',function(e) {
             $( "#jewellery-plus-button" ).removeClass( "glyphicon-minus-sign" );
          }
     });
+    
+    $('#automobiles-plus-button').click(function() {
+        if ( $("#automobiles-plus-group").is( ":hidden" ) ) {
+            $( "#automobiles-plus-group" ).slideDown( "slow" );
+            $( "#automobiles-plus-button" ).toggleClass( "glyphicon-minus-sign" );
+         } else {
+            $( "#automobiles-plus-group" ).hide('slow');
+            $( "#automobiles-plus-button" ).removeClass( "glyphicon-minus-sign" );
+         }
+    });
 
 //Toggle Burmese Class when language is changed
  $(document).ready(function(){
