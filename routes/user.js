@@ -57,7 +57,14 @@ var middleware          = require('../middleware/middleware');
                                 });
                                 
                                 User.register(newUser,req.body.password,function(err,user) {
-                                    if(err) {console.log(err);return res.redirect('/register');}
+                                    
+                                    if(err) {
+                                    console.log(err);
+                                    req.flash('error',err.message);
+                                    return res.redirect('/register');
+                                        
+                                    }
+                                    
                                     passport.authenticate('local')(req,res,function() {
                                         console.log('User successfully registered');
                                         console.log(req.user);
@@ -65,26 +72,35 @@ var middleware          = require('../middleware/middleware');
                                     });
                                 });
             
-                        }, function(user,callback) {
+                        },function(user,callback) {
+                            Order.find({}, function(err , foundOrders){
+                              var currentNumOfOrder = foundOrders.length;
+                              console.log(currentNumOfOrder);
+                              callback(err, user,currentNumOfOrder);
+                            });
+                        }, function(user,currentNumOfOrder,callback) {
                                 var order = new Order();
+                                var newOrderNum = 20001 + currentNumOfOrder;
                                 
                                 order.user      = user._id;
                                 order.status    = 'CART';
+                                order.order_code = "OD " + newOrderNum;
                                 
-                                order.save(function(err) {
+                                order.save(function(err,savedOrder) {
                                     if(err) {
                                         console.log(err);
                                         return res.redirect('/');
                                     }
+                                    console.log(savedOrder);
                                     callback(null,user);
                                     
                                 });
                                 
                         },function(user,callback) {
 
-                            ejs.renderFile('views/emails/ordershipped.ejs',{user: user},function(err,html) {
+                            ejs.renderFile('views/emails/welcome.ejs',{user: user},function(err,html) {
                                 if(err) console.log(err);
-                                console.log(html);
+                                // console.log(html);
                                 callback(null,user,html);
                             });    
                         },function(user,html) {
@@ -96,7 +112,7 @@ var middleware          = require('../middleware/middleware');
                                 html: html
                             };
                             
-                            console.log(mailOptions);
+                            // console.log(mailOptions);
                             
                             smtpTransport.sendMail(mailOptions, function(error, response){
                                 if(error){

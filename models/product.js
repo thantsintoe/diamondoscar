@@ -1,10 +1,12 @@
 var mongoose = require('mongoose');
+// var textSearch = require('mongoose-text-search');
 
 //Product Schema
 var productSchema = new mongoose.Schema({
+    searchable: {type: String,unique: true},
     name            : {
-                        en : {type: String,unique: true},
-                        mm : {type: String,unique: true}
+                        en : String,
+                        mm : String
                       },
     price           : Number,
     discountPrice  : Number,
@@ -13,13 +15,11 @@ var productSchema = new mongoose.Schema({
     image           : [String],
     pictureName     : String,
     created         : {type: Date,default: Date.now},
-    totalReview    : Number,
+    totalReview     : Number,
     rating          : Number,
     like            : Number,
-    description     : {
-                        en : {type: String,index: true},
-                        mm : {type: String}
-                      },
+    descriptionEN   : String,
+    descriptionMM   : String,
     detail          : {
                         serial_num   : {type: String,unique: true},
                         brand       : String
@@ -40,6 +40,6 @@ var productSchema = new mongoose.Schema({
     
 });
 
-productSchema.index({"$**": 'text'});
+productSchema.index({searchable: 'text'});
 
 module.exports = mongoose.model('Product',productSchema);

@@ -1,157 +1,170 @@
 <% include ../partials/header.ejs %>
 
-<div class='row mybreadcrumb'>
-        <div class='col-md-9'>
-            <ol class="breadcrumb">
-              <li><a href="#">Product</a></li>
-              <% if (parent_category) { %>
-              <li><a href="#"><%= parent_category%></a></li>
-              <% } %>
-              <% if (category === 'all') { %>
-              <li><a href="#">All Products</a></li>
-              <% } else { %>
-              <li class="active"><%= category%></li>
-              <% } %>
-            </ol>
-            <hr>
-        </div>
-        <!-- Single button -->
-        <div class='col-md-3 sort-by'>
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>  Sort By <span class="caret"></span>
-              </button>
-              <% if(category) { %>
-                  <% if(category.main_category) { %>
-                      <ul class="dropdown-menu">
-                        <li><a href="/main-category/<%= category%>/1/?sort=created&dir=desc"> Date: Latest to Oldest </a></li>
-                        <li><a href="/main-category/<%= category%>/1/?sort=created&dir=asc"> Date: Oldest to Latest </a></li>
-                        <li><a href="/main-category/<%= category%>/1/?sort=price&dir=desc"> Price: Highest to Lowest </a></li>
-                        <li><a href="/main-category/<%= category%>/1/?sort=price&dir=asc"> Price: Lowest to Highest </a></li>
-                      </ul>
-                  <% } else { %>
-                      <ul class="dropdown-menu">
-                        <li><a href="/category/<%= category%>/1/?sort=created&dir=desc"> Date: Latest to Oldest </a></li>
-                        <li><a href="/category/<%= category%>/1/?sort=created&dir=asc"> Date: Oldest to Latest </a></li>
-                        <li><a href="/category/<%= category%>/1/?sort=price&dir=desc"> Price: Highest to Lowest </a></li>
-                        <li><a href="/category/<%= category%>/1/?sort=price&dir=asc"> Price: Lowest to Highest </a></li>
-                      </ul>
-                  <% } %>
-              <% }  else {%>
-                      <ul class="dropdown-menu">
-                        <li><a href="/brand/<%= brand%>/1/?sort=created&dir=desc"> Date: Latest to Oldest </a></li>
-                        <li><a href="/brand/<%= brand%>/1/?sort=created&dir=asc"> Date: Oldest to Latest </a></li>
-                        <li><a href="/brand/<%= brand%>/1/?sort=price&dir=desc"> Price: Highest to Lowest </a></li>
-                        <li><a href="/brand/<%= brand%>/1/?sort=price&dir=asc"> Price: Lowest to Highest </a></li>
-                      </ul>
-              <% } %>
-              
-            </div><!--End Btn-Group-->
-           
-        </div><!--End End Col-md-3-->
-</div><!--End Breadcramp-->
-
-
-<div class='row text-center'>
-    <aside class='col-md-2 col-xs-0'>
-            <div class='shop-by-categories'>
-                <p class='shop-by-categories-title multilanguage burmese'><%= __('Shop by Categories') %></p>
-                <ul>
-                         
-                    <li class='list-category multilanguage burmese'><a href="/category/all/1/?sort=created&dir=desc"><%= __('All Categories') %></a></li>
-                    
-                    <!--Men's Clothing-->
-                    <li class='list-category multilanguage burmese'><a href="/main-category/Men's Clothing/1/?sort=created&dir=desc"><%= __("Men's Clothing") %></a> <i class='glyphicon glyphicon-plus-sign pull-right' id='men-plus-button'></i></li>
-                    <div id='men-plus-group'>
-                        <% categories.forEach(function(category) { %>
-    					    <% if(!category.main_category) { %>
-    					        <% if(category.parent_category.name === "Men's Clothing") { %>
-    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
-    						    <% } %>
-    					    <% } %>
-    					<% }); %>
-					</div>
-					
-					<!--Women's Clothing-->
-                    <li class='list-category multilanguage burmese'><a href="/main-category/Women's Clothing/1/?sort=created&dir=desc"><%=__("Women's Clothing")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='women-plus-button'></i></li>
-                    <div id='women-plus-group'>
-                        <% categories.forEach(function(category) { %>
-    					    <% if(!category.main_category) { %>
-    					        <% if(category.parent_category.name === "Women's Clothing") { %>
-    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
-    						    <% } %>
-    					    <% } %>
-    					<% }); %>
-					</div>
-					
-					<!--Bags-->
-                    <li class='list-category multilanguage burmese'><a href="/main-category/Bags/1/?sort=created&dir=desc"><%=__("Bags")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='bags-plus-button'></i></li>
-                    <div id='bags-plus-group'>
-                        <% categories.forEach(function(category) { %>
-    					    <% if(!category.main_category) { %>
-    					        <% if(category.parent_category.name === "Bags") { %>
-    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
-    						    <% } %>
-    					    <% } %>
-    					<% }); %>
-					</div>
-					
-					<!--Shoes-->
-                    <li class='list-category multilanguage burmese'><a href="/main-category/Shoes/1/?sort=created&dir=desc"><%=__("Shoes")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='shoes-plus-button'></i></li>
-                    <div id='shoes-plus-group'>
-                        <% categories.forEach(function(category) { %>
-    					    <% if(!category.main_category) { %>
-    					        <% if(category.parent_category.name === "Shoes") { %>
-    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
-    						    <% } %>
-    					    <% } %>
-    					<% }); %>
-					</div>
-					
-					<!--Jewellery-->
-                    <li class='list-category multilanguage burmese'><a href="/main-category/Jewellery/1/?sort=created&dir=desc"><%=__("Jewellery")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='jewellery-plus-button'></i></li>
-                    <div id='jewellery-plus-group'>
-                        <% categories.forEach(function(category) { %>
-    					    <% if(!category.main_category) { %>
-    					        <% if(category.parent_category.name === "Jewellery") { %>
-    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
-    						    <% } %>
-    					    <% } %>
-    					<% }); %>
-					</div>
-					
-					<!--Automobiles-->
-                    <li class='list-category multilanguage burmese'><a href="/main-category/Automobiles/1/?sort=created&dir=desc"><%=__("Automobiles")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='automobiles-plus-button'></i></li>
-                    <div id='automobiles-plus-group'>
-                        <% categories.forEach(function(category) { %>
-    					    <% if(!category.main_category) { %>
-    					        <% if(category.parent_category.name === "Automobiles") { %>
-    						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
-    						    <% } %>
-    					    <% } %>
-    					<% }); %>
-					</div>
-                </ul>
-            </div><!-- End of shop-by-categories-->
-            
-            
-            <!--Shop By Brand-->
-            <div class='shop-by-categories'>
-                <p class='shop-by-categories-title multilanguage burmese'><%= __('Shop by Brand') %></p>
-                <ul>
-                         
-                        <li class='list-category'><a href="/category/all/1/?sort=created&dir=desc">All Brands</a></li>
-                    <% brandArray.forEach(function(brand) { %>
-                        <li class='list-category'><a href="/brand/<%= brand%>/1/?sort=created&dir=desc"><%= brand%></a></li>
-                    <% }); %>
-                </ul>
-            </div><!-- End of shop-by-brands-->
-    </aside>
-        
+<div class='index-container'>
     
-    <div class='col-md-10 thumbnail-container'>
-            <% products.forEach(function(product) { %>
-            <div class='col-lg-3 col-md-4 col-sm-6'>
+    <hr class='seperator-line'>
+    <div class='row mybreadcrumb'>
+            <div class='col-md-9'>
+                <ol class="breadcrumb">
+                  <li><a href="#">Product</a></li>
+                  <% if (parent_category) { %>
+                  <li><a href="#"><%= parent_category%></a></li>
+                  <% } %>
+                  <% if (category === 'all') { %>
+                  <li><a href="#">All Products</a></li>
+                  <% } else { %>
+                  <li class="active"><%= category%></li>
+                  <% } %>
+                </ol>
+               
+            </div>
+            <!-- Single button -->
+            <div class='col-md-3 sort-by'>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>  Sort By <span class="caret"></span>
+                  </button>
+                  <% if(category) { %>
+                      <% if(category.main_category) { %>
+                          <ul class="dropdown-menu">
+                            <li><a href="/main-category/<%= category%>/1/?sort=created&dir=desc"> Date: Latest to Oldest </a></li>
+                            <li><a href="/main-category/<%= category%>/1/?sort=created&dir=asc"> Date: Oldest to Latest </a></li>
+                            <li><a href="/main-category/<%= category%>/1/?sort=price&dir=desc"> Price: Highest to Lowest </a></li>
+                            <li><a href="/main-category/<%= category%>/1/?sort=price&dir=asc"> Price: Lowest to Highest </a></li>
+                          </ul>
+                      <% } else { %>
+                          <ul class="dropdown-menu">
+                            <li><a href="/category/<%= category%>/1/?sort=created&dir=desc"> Date: Latest to Oldest </a></li>
+                            <li><a href="/category/<%= category%>/1/?sort=created&dir=asc"> Date: Oldest to Latest </a></li>
+                            <li><a href="/category/<%= category%>/1/?sort=price&dir=desc"> Price: Highest to Lowest </a></li>
+                            <li><a href="/category/<%= category%>/1/?sort=price&dir=asc"> Price: Lowest to Highest </a></li>
+                          </ul>
+                      <% } %>
+                  <% }  else {%>
+                          <ul class="dropdown-menu">
+                            <li><a href="/brand/<%= brand%>/1/?sort=created&dir=desc"> Date: Latest to Oldest </a></li>
+                            <li><a href="/brand/<%= brand%>/1/?sort=created&dir=asc"> Date: Oldest to Latest </a></li>
+                            <li><a href="/brand/<%= brand%>/1/?sort=price&dir=desc"> Price: Highest to Lowest </a></li>
+                            <li><a href="/brand/<%= brand%>/1/?sort=price&dir=asc"> Price: Lowest to Highest </a></li>
+                          </ul>
+                  <% } %>
+                  
+                </div><!--End Btn-Group-->
+               
+            </div><!--End End Col-md-3-->
+    </div><!--End Breadcramp-->
+    
+    
+    <div class='row text-center'>
+        <aside class='col-md-2 col-xs-0' id='side-bar'>
+                <div class='shop-by-categories'>
+                    <div class='category-header multilanguage'>
+                        <p class='shop-by-categories-title multilanguage burmese'><%= __('Shop by Categories') %></p>    
+                    </div>
+                    
+                    <div class='category-body'>
+                        <ul>
+                            <!--Men's Clothing-->
+                            <li class='list-category multilanguage burmese'><a href="/main-category/Men's Clothing/1/?sort=created&dir=desc"><%= __("Men's Clothing") %></a> <i class='glyphicon glyphicon-plus-sign pull-right' id='men-plus-button'></i></li>
+                            <div id='men-plus-group'>
+                                <% categories.forEach(function(category) { %>
+            					    <% if(!category.main_category) { %>
+            					        <% if(category.parent_category.name === "Men's Clothing") { %>
+            						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
+            						    <% } %>
+            					    <% } %>
+            					<% }); %>
+        					</div>
+        					
+        					<!--Women's Clothing-->
+                            <li class='list-category multilanguage burmese'><a href="/main-category/Women's Clothing/1/?sort=created&dir=desc"><%=__("Women's Clothing")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='women-plus-button'></i></li>
+                            <div id='women-plus-group'>
+                                <% categories.forEach(function(category) { %>
+            					    <% if(!category.main_category) { %>
+            					        <% if(category.parent_category.name === "Women's Clothing") { %>
+            						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
+            						    <% } %>
+            					    <% } %>
+            					<% }); %>
+        					</div>
+        					
+        					<!--Bags-->
+                            <li class='list-category multilanguage burmese'><a href="/main-category/Bags/1/?sort=created&dir=desc"><%=__("Bags")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='bags-plus-button'></i></li>
+                            <div id='bags-plus-group'>
+                                <% categories.forEach(function(category) { %>
+            					    <% if(!category.main_category) { %>
+            					        <% if(category.parent_category.name === "Bags") { %>
+            						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
+            						    <% } %>
+            					    <% } %>
+            					<% }); %>
+        					</div>
+        					
+        					<!--Shoes-->
+                            <li class='list-category multilanguage burmese'><a href="/main-category/Shoes/1/?sort=created&dir=desc"><%=__("Shoes")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='shoes-plus-button'></i></li>
+                            <div id='shoes-plus-group'>
+                                <% categories.forEach(function(category) { %>
+            					    <% if(!category.main_category) { %>
+            					        <% if(category.parent_category.name === "Shoes") { %>
+            						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
+            						    <% } %>
+            					    <% } %>
+            					<% }); %>
+        					</div>
+        					
+        					<!--Jewellery-->
+                            <li class='list-category multilanguage burmese'><a href="/main-category/Jewellery/1/?sort=created&dir=desc"><%=__("Jewellery")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='jewellery-plus-button'></i></li>
+                            <div id='jewellery-plus-group'>
+                                <% categories.forEach(function(category) { %>
+            					    <% if(!category.main_category) { %>
+            					        <% if(category.parent_category.name === "Jewellery") { %>
+            						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
+            						    <% } %>
+            					    <% } %>
+            					<% }); %>
+        					</div>
+        					
+        					<!--Automobiles-->
+                            <li class='list-category multilanguage burmese'><a href="/main-category/Automobiles/1/?sort=created&dir=desc"><%=__("Automobiles")%></a><i class='glyphicon glyphicon-plus-sign pull-right' id='automobiles-plus-button'></i></li>
+                            <div id='automobiles-plus-group'>
+                                <% categories.forEach(function(category) { %>
+            					    <% if(!category.main_category) { %>
+            					        <% if(category.parent_category.name === "Automobiles") { %>
+            						        <li class='list-category-submenu multilanguage burmese'><a href="/category/<%= category.name%>/1/?sort=created&dir=desc"><%= __(category.name) %></a></li>
+            						    <% } %>
+            					    <% } %>
+            					<% }); %>
+        					</div>
+        					
+        					<li class='list-category multilanguage burmese'><a href="/category/all/1/?sort=created&dir=desc"><%= __('All Categories') %></a></li>
+                        </ul>   
+                    </div>
+     
+                </div><!-- End of shop-by-categories-->
+                
+                
+                <!--Shop By Brand-->
+                <div class='shop-by-categories'>
+                    <div class='brand-header'>
+                        <p class='shop-by-categories-title multilanguage burmese'><%= __('Shop by Brand') %></p>
+                    </div>
+                    <div class='brand-body'>
+                        <ul>
+                            <li class='list-category'><a href="/category/all/1/?sort=created&dir=desc">All Brands</a></li>
+                            <% brandArray.forEach(function(brand) { %>
+                            <li class='list-category'><a href="/brand/<%= brand%>/1/?sort=created&dir=desc"><%= brand%></a></li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                    
+                    
+                </div><!-- End of shop-by-brands-->
+        </aside>
+            
+        
+        <div class='col-md-10 thumbnail-container' id='main-content'>
+                <% products.forEach(function(product) { %>
+                <div class='col-lg-4 col-md-4 col-sm-6'>
                     <div class='thumbnail'>
                         <a href='/product/<%=product.category.name%>/<%=product._id%>'><img src='<%=product.image[0]%>'></a>
                         <input type='hidden' name='source1' value='<%=product.image[0]%>'>
@@ -171,11 +184,13 @@
                                 <a href='/product/<%=product.category.name%>/<%=product._id%>'><h4 class="multilanguage product-name"><%=product.name.en%></h4></a>
                                 <% } %>
                             </div>
-                            <% if(parseFloat(product.price).toFixed(1) != parseFloat(product.discountPrice).toFixed(1)) { %>
-                                <p class='product-price'>Ks <%=  parseFloat(product.discountPrice).toLocaleString() %><span class='index-original-price'>        Ks <%= parseFloat(product.price).toLocaleString() %></span></p>
 
+                            <% if(parseFloat(product.price).toFixed(1) != parseFloat(product.discountPrice).toFixed(1)) { %>
+                                <p class='product-price'>Ks <%=  parseFloat(product.discountPrice).toLocaleString() %><span class='discount-percent'>      (Save <%= (100-((parseFloat(product.discountPrice).toFixed(1)/parseFloat(product.price))*100)).toFixed(1).toLocaleString() %> % )</span></p>
+                                <div class="original-price"><span>        Ks <%= parseFloat(product.price) %></span></div>
                             <% } else { %>
                                 <p class='product-price'>Ks <%=  parseFloat(product.price).toLocaleString() %></p>
+                                <div class="original-price"></div>
                             <% } %>
                             <div class="rating-stars">
                                 <table>
@@ -194,21 +209,27 @@
                             </div>
                         
                             <div class='seemore-addtocart'>
-                                <a href='/product/<%=product.category.name%>/<%=product._id%>' class='btn btn-primary btn-sm see-more multilanguage burmese'><%= __('See Detail') %></a>
+                                <a href='/product/<%=product.category.name%>/<%=product._id%>' class='btn btn-sm see-more multilanguage burmese'><%= __('See Detail') %></a>
                                 <a href='/product/<%=product.category.name%>/<%=product._id%>' class='btn btn-primary btn-sm add-to-cart multilanguage burmese'><%= __('Add to Cart') %></a>
                             </div>
                         </div>
                     </div>
-                    
-                    
-            </div>
-        <% }); %> 
+                        
+                        
+                </div>
+            <% }); %> 
+            
+        </div> <!--End Thumbnail Container-->
         
-    </div> <!--End Thumbnail Container-->
+        
+    </div> <!--End Row Text Center-->
+    
     
     <!--Pagination-->
-    <nav class='text-center' aria-label="Page navigation">
-          <ul class="pagination">
+    <div class='text-center page_navigation' aria-label="Page navigation">
+
+        <div class="pagination-position">
+           <ul class="pagination">
             <li>
               <a href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
@@ -226,8 +247,10 @@
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
-          </ul>
-    </nav>
+          </ul> 
+        </div><!--End Pagination Position-->
+          
+    </div> <!--End Page_Navigation-->
 </div>
 
 <% include ../partials/footer.ejs%>

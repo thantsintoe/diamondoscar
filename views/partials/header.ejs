@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>E-Commerce</title>
+	<title>Diamond Oscar Online Shopping</title>
 	<meta content="text/html; charset=utf-8">
 	<meta name='viewport' content='width=device-width,initial-scale=1'>
 	<link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet'>
-	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Muli:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/earlyaccess/notosansmyanmar.css" rel="stylesheet">
 	<!--<link href="http://fonts.googleapis.com/earlyaccess/notosansmyanmarui.css" rel="stylesheet">-->
 	
@@ -32,8 +32,10 @@
 	
 	<link rel="stylesheet" href="/stylesheets/main.css">
 	<link rel="stylesheet" href="/stylesheets/dropdown.css">
-	<link rel="stylesheet" href="/stylesheets/ShowPage.css">
 	<link rel="stylesheet" href="/stylesheets/jcarousel.connected-carousels.css">
+	<link rel="stylesheet" href="/stylesheets/ShowPage.css">
+
+	
 
 </head>
 <body>
@@ -54,11 +56,11 @@
     
     
         <div class='collapse navbar-collapse' id="bs-example-navbar-collapse-1">
-            <ul class='nav navbar-nav navbar-right'>
+            <ul class='nav navbar-nav navbar-right menu' id='menu-bar'>
                     <!--HOME-->
-                <li><a class='main-menu multilanguage' href='/'><%= __('Home') %></a></li>
+                <li class='main-menu-list'><a class='main-menu multilanguage' href='/'><%= __('Home') %></a></li>
 
-			    <li class="dropdown dropdown-large">
+			    <li class="dropdown dropdown-large main-menu-list">
 					<a href="#" class="dropdown-toggle main-menu multilanguage" data-toggle="dropdown"><%= __('Product') %><b class="caret"></b></a>
 					
 					<ul class="dropdown-menu dropdown-menu-large row">
@@ -148,10 +150,10 @@
 					</ul>
 				</li>
                 <!--HOME-->
-                <li><a href='#' class='main-menu multilanguage'><%= __('Customer Care') %></a></li>
-                <li><a href='#' class='main-menu multilanguage'><%= __('About Us') %></a></li>
+                <li class='main-menu-list'><a href='#' class='main-menu multilanguage'><%= __('Customer Care') %></a></li>
+                <li class='main-menu-list'><a href='#' class='main-menu multilanguage last-main-menu'><%= __('About Us') %></a></li>
                 <% if(currentUser && currentUser.isAdmin) { %>
-                <li><a href='/admin-control' class='main-menu multilanguage'>ADMIN</a></li>
+                <li class='main-menu-list'><a href='/admin-control' class='main-menu multilanguage'>ADMIN</a></li>
                 <% } %>
                 
             </ul>
@@ -166,7 +168,7 @@
     <div class='container-fluid'>
     <form action='/search' method='POST' class="navbar-form navbar-left">
             <div class="input-group search-group">
-                  <input type="text" class="form-control" id='search-box' aria-label="Search" name='q' placeholder="Search">
+                  <input type="text" class="form-control" id='search-box' aria-label="Search" name='q' placeholder="Type to search products...">
                   <div class="input-group-btn">
                         
                         <button type="submit" class="btn btn-default multilanguage" id='search-button'><%= __('Search') %></button>
@@ -179,23 +181,32 @@
                     <% if(!currentUser) { %>
 	                	<a href='/mm' id='mm_language_icon'><img src="/images/homepage/myanmar_icon.png" style="width:30px;height:20px"></a>
 	                	<a href='/en' id='en_language_icon'><img src="/images/homepage/uk_icon.png" style="width:30px;height:20px"></a>
+	                	<a href='/cart'><img src='/images/homepage/shopping-cart.svg' style="width:33px;height:33px"></a>
                         <a href='/register'><button type="button" class="btn btn-default navbar-btn signup-btn multilanguage"><%= __('Sign Up') %></button></a>
                         <a href='/login'><button type="button" class="btn btn-default navbar-btn signin-btn multilanguage"><%= __('Log In') %></button></a>
-                        <a href='/cart' class='glyphicon glyphicon-shopping-cart'><span class='badge'>0</span></a>
-                    <% } else { %>
-                        <a href='/mm' id='mm_language_icon'><img src="/images/homepage/myanmar_icon.png" style="width:30px;height:20px"></a>
-	                	<a href='/en' id='en_language_icon'><img src="/images/homepage/uk_icon.png" style="width:30px;height:20px"></a>
-                        <a href='/profile'>Signed In as <%= currentUser.username %></a>
-                        <a href='/logout'><button type="button" class="btn btn-default navbar-btn signup-btn">Log Out</button></a>
-                        <a href='/profile' class='glyphicon glyphicon glyphicon-user'></a>
-                        <a href='/cart' class='glyphicon glyphicon-shopping-cart'><span class='badge'><%= cart %></span></a>
+                    <% } else if(currentUser) { %>
+	                        <% if(currentUser.isAdmin) { %>
+	                        	<a href='/mm' id='mm_language_icon'><img src="/images/homepage/myanmar_icon.png" style="width:30px;height:20px"></a>
+			                	<a href='/en' id='en_language_icon'><img src="/images/homepage/uk_icon.png" style="width:30px;height:20px"></a>
+		                        <!--<a href='/profile'><img src='/images/homepage/user.svg' style="width:33px;height:33px"></a>-->
+		                        <!--<a href='/cart'><img src='/images/homepage/shopping-cart.svg' style="width:33px;height:33px"><span class='badge'><%= cart %></span></a>-->
+		                        <a href='/logout'><button type="button" class="btn btn-default navbar-btn signup-btn">Log Out</button></a>
+		                        <a href='/product/add'><button type="button" class="btn btn-default navbar-btn signin-btn">Add New Product</button></a>
+	                        <% } else { %>
+	                        	<a href='/mm' id='mm_language_icon'><img src="/images/homepage/myanmar_icon.png" style="width:30px;height:20px"></a>
+			                	<a href='/en' id='en_language_icon'><img src="/images/homepage/uk_icon.png" style="width:30px;height:20px"></a>
+		                        <a href='/profile'><img src='/images/homepage/user.svg' style="width:33px;height:33px"></a>
+		                        <a href='/cart'><img src='/images/homepage/shopping-cart.svg' style="width:33px;height:33px"><span class='badge'><%= cart %></span></a>
+		                        <a href='/logout'><button type="button" class="btn btn-default navbar-btn signup-btn">Log Out</button></a>
+	                        <% } %>
+	                        
                     <% } %>
             </ul>
         </div>
     </div>
 </div>
-
 <input type=hidden name='lg-setting' id='lg-setting' value='<%=  currentLanguage%>'>
+
 
 <div class='row flash-message-notification'>
     <% if(error && error.length > 0) { %>
@@ -216,3 +227,4 @@
     <% } %>
     
 </div>
+

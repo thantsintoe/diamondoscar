@@ -7,23 +7,27 @@ var async                   = require('async');
 
 var ejs                 = require('ejs');
 var engine              = require('ejs-mate');
-var flash      = require('connect-flash');
+var flash               = require('connect-flash');
 
 var passport            = require('passport');
 var passportLocalMongoose = require('passport-local-mongoose');
 var LocalStrategy       = require('passport-local');
+var compressor          = require('node-minify');
+var minifyNow           = require('./api/minifyNow');
+// var minifyHTML = require('express-minify-html');
 
 var User = require('./models/user');
 var Category = require('./models/category');
 var Product = require('./models/product');
 
-var indexRoutes = require('./routes/index');
+
 var cartRoutes = require('./routes/cart');
 var userRoutes = require('./routes/user');
 var productRoutes = require('./routes/product');
 var commentRoutes = require('./routes/comment');
 var categoryRoutes = require('./routes/category');
 var adminRoutes = require('./routes/admin');
+var indexRoutes = require('./routes/index');
 
 // var uploadRoutes = require('./routes/upload');
 var cloudinary = require('cloudinary');
@@ -97,7 +101,7 @@ var cookieParser = require('cookie-parser');
 
 app.use(cookieParser("I have a dream"));
 
-
+// minifyNow();
 
 //Language Localization for English and Myanmar
 var i18n = require('i18n');
@@ -117,6 +121,19 @@ i18n.configure({
 });
 
 app.use(i18n.init);
+
+// app.use(minifyHTML({
+//     override:      true,
+//     exception_url: false,
+//     htmlMinifier: {
+//         removeComments:            true,
+//         collapseWhitespace:        true,
+//         collapseBooleanAttributes: true,
+//         removeAttributeQuotes:     true,
+//         removeEmptyAttributes:     true,
+//         minifyJS:                  true
+//     }
+// }));
 
 //Middleware to pass the Current User info to every request
 app.use(function(req,res,next) {
@@ -180,13 +197,14 @@ app.use(function(req,res,next) {
 
 
 app.use(cartRoutes);
-app.use(indexRoutes);
+
 app.use(userRoutes);
 app.use(categoryRoutes);
 app.use(productRoutes);
 // app.use(uploadRoutes);
 app.use(adminRoutes);
 app.use(commentRoutes);
+
 
 //Language Routes
 app.get('/mm',function(req,res) {
@@ -249,6 +267,9 @@ app.get('/send',function(req,res){
     
     
 });
+
+
+app.use(indexRoutes);
 
 app.listen(process.env.PORT,process.env.IP,function() {
     console.log("Ecommerce Server is running...");

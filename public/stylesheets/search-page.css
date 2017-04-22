@@ -1,0 +1,18 @@
+.col-lg-4.col-md-4.col-sm-6 {
+    margin-bottom: 10px;
+    width: 290px;
+    height: 494px;
+    padding: 0px;
+    margin-left: 10px;
+    margin-right: 0px;
+}
+
+#no-result {
+   height: 180px;
+    text-align: center;
+    padding-top: 30px;
+}
+
+#no-result img {
+    width: 100px;
+}

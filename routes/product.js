@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var async = require('async');
+var express             = require('express');
+var router              = express.Router();
+var async               = require('async');
+
 
 var methodOverride      = require('method-override');
 var middleware          = require('../middleware/middleware');
@@ -43,7 +44,16 @@ cloudinary.config({
 //========================================
 
 router.get('/product/add', function(req, res) {
-    res.render('product/new-product');
+    Product.find({},function(err,foundProduts) {
+        if(err) {console.log(err);}
+        console.log("Current number of Total Products " + foundProduts.length);
+        var newProductNumber = foundProduts.length + 1;
+        var newProductID = "DM "+ 10000 + newProductNumber;
+        console.log("New Product ID " + newProductID);
+        
+        res.render('product/new-product',{newProductID: newProductID});
+    });
+    
 });
 
 
@@ -87,9 +97,43 @@ router.post('/product/add',multipartMiddleware, function(req, res, next) {
     if (req.body.size_xl) {
         availableSizes.push('XL');
     }
+    if (req.body.size_na) {
+        availableSizes.push('-');
+    }
+    if(availableSizes.length < 1) {
+        availableSizes.push('-');
+    }
 
 
     async.waterfall([
+        function(callback) {
+            Product.findOne({"name.en": req.body.name_en},function(err,existingProduct) {
+               if(err) {console.log(err);}
+               if(existingProduct) {
+                   console.log("Product Name already Existed");
+                   console.log(existingProduct);
+                   
+                   req.flash('error','Product Name already existed !');
+                   res.redirect('/product/add');
+               } else {
+                   callback(null);
+               }
+            });
+        },
+        function(callback) {
+            Product.findOne({"detail.serial_num": req.body.product_serial},function(err,existingProduct) {
+               if(err) {console.log(err);}
+               if(existingProduct) {
+                   console.log("Product Serial Number already Existed");
+                   console.log(existingProduct);
+                   
+                   req.flash('error','Product ID already existed !');
+                   res.redirect('/product/add');
+               } else {
+                   callback(null);
+               }
+            });
+        },
         function(callback) {
             // console.log(req.body.category);
             Category.findOne({name: req.body.category}, function(err, foundCategory) {
@@ -108,14 +152,16 @@ router.post('/product/add',multipartMiddleware, function(req, res, next) {
             product.category = foundCategory._id;
             product.name.en = req.body.name_en;
             product.name.mm = req.body.name_mm;
+            product.searchable = req.body.name_en;
             product.detail.brand = req.body.brand;
             product.detail.serial_num = req.body.product_serial;
             product.price = req.body.price;
             product.discountPrice = req.body.discount_price;
             product.rating = req.body.rating;
             product.pictureName = filename[0];
-            product.description.en = req.body.description_en;
-            product.description.mm = req.body.description_mm;
+            product.descriptionEN = req.body.description_en;
+            product.descriptionMM = req.body.description_mm; 
+            
             
             for (var b = 0; b < req.body.color_quantity; b++) {
                 product.colors.push(availableColors[b]);
@@ -181,7 +227,7 @@ router.get('/product/:category_name/:product_id', function(req, res) {
                     console.log("Connot find Similar Items...");
                     console.log(err);
                 }
-                console.log(similarItems);
+                // console.log(similarItems);
                 callback(null,similarItems);
         });
     }
@@ -204,8 +250,7 @@ router.get('/product/:category_name/:product_id', function(req, res) {
                         similarItems: similarItems
                     });
                 });
-                
-                
+              
         });
     }]);
     
@@ -220,11 +265,17 @@ router.get('/product/:category_name/:product_id/edit', function(req, res) {
 
     Product.findById(req.params.product_id)
         .populate('category')
+        .populate({
+                    path: 'category',
+                    // Get parent_category of product.category
+                    populate: { path: 'parent_category' }
+         })
         .exec(function(err, foundProduct) {
             if (err) {
                 console.log(err);
                 return res.render('/');
             }
+            console.log(foundProduct.category.parent_category);
             res.render('product/edit', {
                 product: foundProduct,
                 category: req.params.category_name,
@@ -289,6 +340,12 @@ router.put('/product/:category_name/:product_id',multipartMiddleware, function(r
     if (req.body.size_xl) {
         availableSizes.push('XL');
     }
+    if (req.body.size_na) {
+        availableSizes.push('-');
+    }
+    if(availableSizes.length < 1) {
+        availableSizes.push('-');
+    }
     
    
     //Find the category, update the product into database and upload the new images to cloudinary
@@ -315,14 +372,15 @@ router.put('/product/:category_name/:product_id',multipartMiddleware, function(r
                     foundProduct.category        = foundCategory._id;
                     foundProduct.name.en            = req.body.name_en;
                     foundProduct.name.mm            = req.body.name_mm;
+                    foundProduct.searchable = req.body.name_en;
                     foundProduct.detail.brand    = req.body.brand;
                     foundProduct.detail.serial_num = req.body.product_serial;
                     foundProduct.price           = req.body.price;
                     foundProduct.discountPrice   = req.body.discount_price;
                     foundProduct.rating          = req.body.rating;
                     foundProduct.pictureName     = filename[0];
-                    foundProduct.description.en     = req.body.description_en;
-                    foundProduct.description.mm     = req.body.description_mm;
+                    foundProduct.descriptionEN     = req.body.description_en;
+                    foundProduct.descriptionMM     = req.body.description_mm;
                     
                 
                     async.waterfall([function(callback) {
@@ -431,6 +489,52 @@ router.delete('/product/:category_name/:product_id', function(req, res, next) {
 
 });
 
+//========================================
+//Update Product ID
+//========================================
+
+// router.get('/update-product-id', function(req, res) {
+    
+//     Product.find({},function(err,foundProducts) {
+      
+//       if(err) {console.log('Cannot find Products');}
+       
+//       for(var i = 0; i<foundProducts.length; i++) {
+//           foundProducts[i].detail.serial_num = "DM " + 10001 + i;
+//           foundProducts[i].markModified('detail.serial_num');
+//           foundProducts[i].save(function(err,savedProduct) {
+//               if(err) {console.log('cannot save product');}
+//               console.log(savedProduct);
+//           });
+//       }
+//     });
+// });
+
+
+
+//========================================
+//Assign Name Searchable
+//========================================
+
+// router.get('/assign-name-searchable', function(req, res) {
+    
+//     Product.find({},function(err,foundProducts) {
+      
+//       if(err) {console.log('Cannot find Products');}
+       
+//       for(var i = 0; i<foundProducts.length; i++) {
+          
+//           foundProducts[i].searchable = foundProducts[i].name.en;
+//           foundProducts[i].markModified('searchable');
+//           foundProducts[i].save(function(err,savedProduct) {
+//               if(err) {console.log('cannot save product');}
+//               console.log(savedProduct);
+//           });
+//       }
+//     });
+// });
+
+
 
 //========================================
 //SEARCH POST route
@@ -452,55 +556,37 @@ router.get('/search', function(req, res) {
     var totalPages = 1.0;
     var requestedURL = "/search?q=" + req.query.q + "&page=";
     
+    console.log('Req.query is ' + req.query.q);
+    
+    
     if (req.query.q) {
-    //     Product.find({$text: {$search: req.query.q}}, {score: {$meta: "textScore"}})
-    //         .sort({
-    //             score: {
-    //                 $meta: 'textScore'
-    //             }
-    //         })
-    //         .skip(perPage * (pageNo - 1))
-    //         .limit(perPage)
-    //         .populate('category')
-    //         .exec(function(err, foundProducts) {
-                
-    //             console.log(foundProducts);
-                
-    //             if (err) {
-    //                 console.log(err);
-    //                 return res.render('error/404');
-    //             }
-                
-    //             var count = foundProducts.length;
-                
-    //             if (parseInt(count) % parseInt(perPage) === 0) {
-    //                 totalPages = parseInt(parseInt(count) / parseInt(perPage));
-    //             }
-    //             else {
-    //                 totalPages = (Math.floor(parseInt(count) / parseInt(perPage))) + 1;
-    //             }
-    //             res.render('product/index', {
-    //                 products: foundProducts,
-    //                 category: null,
-    //                 parent_category: null,
-    //                 totalPages: totalPages,
-    //                 currentPage: pageNo,
-    //                 URL: requestedURL
-    //             });
-    //         });
-            
-            
-            Product.find({$text: {$search: req.query.q}})
-            .exec(function(err, foundCategory) {
-                if(err)
-                {console.log(err);}
-                console.log(foundCategory);
-                res.redirect('back');
-               
-            }); 
-            
-            
-            
+        Product.find({
+                $text: {
+                    $search: req.query.q
+                }
+            }, {
+                score: {
+                    $meta: "textScore"
+                }
+            })
+            .sort({
+                score: {
+                    $meta: 'textScore'
+                }
+            })
+            .limit(12)
+            .populate('category')
+            .exec(function(err, foundProducts) {
+                if (err) {
+                    console.log(err);
+                    return res.redirect('/');
+                }
+                console.log(foundProducts);
+                res.render('product/search-results', {
+                    query: req.query.q,
+                    products: foundProducts
+                });
+            });
     }
 });
 

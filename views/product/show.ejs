@@ -26,12 +26,13 @@
 </div>
 
 
-
-    <div class='row'>
-        <div class='col-md-6'>
+<!--Show Page width 1200px-->
+<div class="showpage-container">
+    <div class='row showpage-row'>
+        <div class="col-md-6" id="show-page-picture">
                <!--Start of Carousel  -->
                 <div class="mycontainer">
-                <div id='carousel-custom' class='carousel slide' data-ride='carousel'>
+                <div id='carousel-custom' class='carousel slide' class="show-picture" data-ride='carousel'>
                     <div class='carousel-outer'>
                         <!-- me art lab slider -->
                         <div class='carousel-inner '>
@@ -92,7 +93,8 @@
                         <% } %>
                     </div>
                     <div id='showpage-product-brand'>
-                        <p class="multilanguage burmese"><%= __('Brand')%> - <%=  product.detail.brand  %></p>
+                        <img src="/images/homepage/price-tag.svg" style="width:16px;height:16px"><span>Giordano</span>
+                         
                     </div>
                     
                     <div class='showpage-admin-buttons'>
@@ -121,8 +123,8 @@
                     <div>
                         
                         <% if(parseFloat(product.price).toFixed(1) != parseFloat(product.discountPrice).toFixed(1)) { %>
-                            <p id='showpage-unit-price'>Ks <%=  parseFloat(product.discountPrice).toLocaleString() %></p>
-                            <span id='saving-percent'>Save <%= (100 - (parseFloat(product.discountPrice).toFixed(1)*100/parseFloat(product.price).toFixed(1))).toFixed(1) %>%</span>
+                            <span id='showpage-unit-price'>Ks <%=  parseFloat(product.discountPrice).toLocaleString() %><span>
+                            <span id='saving-percent'>(Save <%= (100 - (parseFloat(product.discountPrice).toFixed(1)*100/parseFloat(product.price).toFixed(1))).toFixed(1) %>%)</span>
                             <p id='showpage-unit-price-original'>Ks <%=  parseFloat(product.price).toLocaleString()  %></p>
                         <% } else { %>
                             <p id='showpage-unit-price'>Ks <%=  parseFloat(product.price).toLocaleString() %></p>
@@ -153,7 +155,7 @@
                             <h4 id='priceValue' class='pull-left multilanguage burmese'><%= __('Total Price')%> -  Ks <%= parseFloat(product.discountPrice).toFixed(0).toLocaleString() %></h4>
                         </div>
                         <div class='row sub-row'>
-                            <div class='col-sm-4'>
+                            <div class='col-sm-4' id='size-container'>
                                 <p class='showpage-subheaders multilanguage burmese'><%= __('Size')%></p>
                                 <div class='btn-group quantity-control' role='group' arial-label='...'>
                                         <input type='hidden' name='selected_size' id='selected-size' value='M'>
@@ -200,10 +202,15 @@
                                   </div>
                                   <div class="modal-footer">
                                     
-                                    <form action='/product/<%=product.category.name%>/<%=product._id%>/add-wishlist' method="POST">
-                                        <!--<button type="button" class="modal-submit-button" data-dismiss="modal">Close</button>-->
-                                        <button class='modal-submit-button multilanguage burmese'><%= __('Add to Favourites')%></button>
-                                    </form>
+                                     
+                                   
+                                    
+                                        <form action='/product/<%=product.category.name%>/<%=product._id%>/add-wishlist' method="POST">
+                                            <button type="button" class="modal-submit-button" data-dismiss="modal">Close</button>
+                                            <button class='modal-submit-button multilanguage burmese'><%= __('Add to Favourites')%></button>
+                                        </form>
+                                    
+                                    
                                   </div>
                                 </div>
                               </div>
@@ -222,12 +229,12 @@
     
     
     <div class="row detailAndReview">
-    	<div class="detailAndReview">
+    	<!--<div class="detailAndReview">-->
             <div class="panel with-nav-tabs panel-default">
                 <div class="panel-heading">
                         <ul class="nav nav-tabs">
-                            <li class="active showpage-subheaders multilanguage burmese"><a href="#tab1default" data-toggle="tab"><%= __('Product Detail')%></a></li>
-                            <li class='showpage-subheaders multilanguage burmese'><a href="#tab2default" data-toggle="tab"><%= __('User Reviews')%></a></li>
+                            <li class="active multilanguage burmese" id='tab-product-detail'><a href="#tab1default" data-toggle="tab"><%= __('Product Detail')%></a></li>
+                            <li class='multilanguage burmese' id='tab-user-review'><a href="#tab2default" data-toggle="tab"><%= __('User Reviews')%></a></li>
                             
                         </ul>
                 </div>
@@ -237,9 +244,9 @@
                         <div class="tab-pane fade in active" id="tab1default">
                             <div id="details" class='multilanguage burmese'>
                 				<% if(currentLanguage === "mm") { %>
-                                    <p class='multilanguage burmese' class='product-description'><%-  product.description.mm  %></p>
+                                    <p class='multilanguage burmese' class='product-description'><%-  product.descriptionMM  %></p>
                                 <% } else { %>
-                                    <p class='' class='product-description'><%-  product.description.en  %></p>
+                                    <p class='' class='product-description'><%-  product.descriptionEN  %></p>
                                 <% } %>
                 			</div>
                         </div>
@@ -359,7 +366,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        <!--</div>-->
         </div>
 	</div>  <!--End ROW  -->
     
@@ -420,8 +427,8 @@
                                                     </div>
                                                 
                                                     <div class='seemore-addtocart'>
-                                                        <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm see-more'>See Detail</a>
-                                                        <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm add-to-cart'>Add to Cart</a>
+                                                        <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm see-more multilanguage'><%= __('See Detail') %></a>
+                                                        <a href='/product/<%=similarItems[i].category.name%>/<%=similarItems[i]._id%>' class='btn btn-primary btn-sm add-to-cart multilanguage'><%= __('Add to Cart') %></a>
                                                     </div>
                                                 </div>
                                 	        </div>
@@ -484,7 +491,8 @@
 		</div>
 	</div><!--.End Row Related-Items-->
 
-
+</div><!-- End showpage-container-->
+    
 
 
 <script>

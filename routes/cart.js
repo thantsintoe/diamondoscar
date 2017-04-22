@@ -34,7 +34,7 @@ router.post('/cart/product/:product_id', middleware.isLoggedIn, function(req, re
         return res.redirect('back');
       }
       if (order) {
-        console.log(order);
+        // console.log(order);
         callback(null);
       }
       else {
@@ -63,6 +63,7 @@ router.post('/cart/product/:product_id', middleware.isLoggedIn, function(req, re
       }]
     }, function(err, order) {
       if (err) console.log(err);
+      
       order.line_items.push({
         item: req.body.product_id,
         quantity: req.body.quantity,
@@ -150,6 +151,16 @@ router.post('/payment-card', middleware.isLoggedIn, function(req, res, next) {
   var currentCharges = Math.round(req.body.stripeMoney * 100);
   var deliveryFee = parseFloat(req.body.deliveryFee);
   var grandTotal = parseFloat(req.body.stripeMoney);
+  
+  var smtpTransport = nodemailer.createTransport("SMTP",{
+      host: 'smtp.gmail.com',
+      secureConnection: false,
+      port: 587,
+      auth: {
+          user: 'mr.thantsintoe@gmail.com', //Sender Email id
+          pass: 'Patoe149201031' //Sender Email Password
+      }
+  });
 
   stripe.customers.create({source: stripeToken,})
   .then(function(customer) {
@@ -207,47 +218,93 @@ router.post('/payment-card', middleware.isLoggedIn, function(req, res, next) {
         var d = new Date();
         var todayDate = d.toDateString();
 
-        Order.findOne({$and: [{user: req.user._id}, {status: 'CART'}]}, function(err, foundOrder) {
-            if (err) {
-              console.log('Cannot find order');
-              console.log(err);
-              return next();
-            }
-            
-            foundOrder.status = 'CONFIRM';
-            foundOrder.order_date = todayDate;
-            foundOrder.delivery_fee = deliveryFee;
-            foundOrder.grand_total = grandTotal;
-            foundOrder.payment_option = "PAID";
-            
-            foundOrder.markModified('status');
-            foundOrder.markModified('order_date');
-            foundOrder.markModified('delivery_fee');
-            foundOrder.markModified('grand_total');
-            foundOrder.markModified('payment_option');
-            foundOrder.save(function(err,updated) {
-              if(err) {
-                console.log('Error while trying to process the payment!');
+        Order.findOne({$and: [{user: req.user._id}, {status: 'CART'}]})
+        .populate('line_items.item')
+        .exec(function(err, foundOrder) {
+              if (err) {
+                console.log('Cannot find order');
                 console.log(err);
-              } else {
-                console.log(updated);
-                callback(err, user);
+                return next();
               }
-            });
+              
+              foundOrder.status = 'CONFIRM';
+              foundOrder.order_date = todayDate;
+              foundOrder.delivery_fee = deliveryFee;
+              foundOrder.grand_total = grandTotal;
+              foundOrder.payment_option = "Cash On Delivery";
+              
+              foundOrder.markModified('status');
+              foundOrder.markModified('order_date');
+              foundOrder.markModified('delivery_fee');
+              foundOrder.markModified('grand_total');
+              foundOrder.markModified('payment_option');
+              foundOrder.save(function(err,order) {
+                if(err) {
+                  console.log('Error while trying to process the payment!');
+                  console.log(err);
+                } else {
+                  
+                  callback(null, order,user);
+                }
+              });
+          });
+      }
+      ,function(order,user,callback) {
+    
+        console.log(order);
+        
+        ejs.renderFile('views/emails/orderSummary.ejs',{user: user,order: order},function(err,html) {
+            if(err) console.log(err);
+            callback(null,order,user,html);
+        });
+        
+      },function(order,user,html,callback) {
+        
+        var mailOptions = {
+            from: 'mr.thantsintoe@gmail.com',
+            to: user.email, 
+            subject: 'Your Order is confirmed, Thank you !', 
+            html: html
+        };
+        
+    
+        smtpTransport.sendMail(mailOptions, function(error, response){
+            if(error){
+                console.log(error);
+                res.end("error");
+            } else {
+                console.log("Message sent");
+                callback(null,user);
+            }
         });
       },
-      function(user) {
+      function(user,callback) {
+        Order.find({}, function(err , foundOrders){
+          if(err) {
+            console.log(err);
+          }
+          
+          var currentNumOfOrder = foundOrders.length;
+          
+          callback(null, user,currentNumOfOrder);
+        });
+      },
+      function(user,currentNumOfOrder) {
         var order = new Order();
-
+        var newOrderNum = 20001 + currentNumOfOrder;
+        
         order.user = user._id;
         order.status = 'CART';
-
-        order.save(function(err) {
+        order.order_code = "OD " + newOrderNum;
+    
+        order.save(function(err,savedOrder) {
           if (err) {
             console.log(err);
             req.flash('error','Internal Server Error...We apologise.');
             return res.redirect('/category/all/1');
           }
+          console.log("New order successfully created as follow: ");
+          console.log(savedOrder);
           req.flash('success','Your Order is successful! Thank you, we will deliver to you soon !');
           res.redirect('/profile');
         });
@@ -381,18 +438,36 @@ router.post('/payment-cash', middleware.isLoggedIn, function(req, res, next) {
         }
     });
   }
-  ,function(user) {
+  ,
+  function(user,callback) {
+    Order.find({}, function(err , foundOrders){
+      if(err) {
+        console.log(err);
+      }
+      
+      var currentNumOfOrder = foundOrders.length;
+      
+      callback(null, user,currentNumOfOrder);
+    });
+  }
+  ,function(user,currentNumOfOrder) {
+      
       var order = new Order();
-
+      var newOrderNum = 20001 + currentNumOfOrder;
+      
       order.user = user._id;
       order.status = 'CART';
+      order.order_code = "OD " + newOrderNum;
 
-      order.save(function(err) {
+      order.save(function(err,savedOrder) {
         if (err) {
           console.log(err);
           req.flash('error','Internal Server Error...We apologise.');
           return res.redirect('/category/all/1');
         }
+        
+        // console.log('New order successfully createt as follow: ');
+        // console.log(savedOrder);
         req.flash('success','Your Order is successful ! Thank you, we will deliver to you soon !');
         res.redirect('/profile');
       });
@@ -402,6 +477,32 @@ router.post('/payment-cash', middleware.isLoggedIn, function(req, res, next) {
 
 });
 
+
+//========================================
+//Update Product ID
+//========================================
+
+// router.get('/update-order-id', function(req, res) {
+    
+//     Order.find({},function(err,foundOrders) {
+      
+//       if(err) {console.log('Cannot find Products');}
+       
+//       for(var i = 0; i<foundOrders.length; i++) {
+//           var temp_j = 20001 + i;
+//           foundOrders[i].order_code = "OD " + temp_j;
+//           foundOrders[i].markModified('order_code');
+//           foundOrders[i].save(function(err,savedOrder) {
+//               if(err) {console.log('cannot save order');}
+//               console.log(savedOrder);
+//           });
+//       }
+//     });
+// });
+
+//========================================
+//Email Preview
+//========================================
 
 
 router.get("/preview",function(req,res) {

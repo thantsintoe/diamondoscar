@@ -1,15 +1,25 @@
 <% include ../partials/header.ejs %>
 <link rel="stylesheet" href="/stylesheets/Forms.css">
+<link rel="stylesheet" href="/stylesheets/login.css">
 
 
+    <div id='add-product-alert' class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <!--Product Name must not contain Special Characters !-->
+    </div>
+
+    
     <div class='well' id='add-product-well'>
-            <h2 style="text-align: center;">Add a New Product</h2>
+            <div id='new-product-header'>
+                <h2 style="text-align: center;">Add a New Product</h2> 
+            </div>
+           
             <div class='inputForms'>
                 <form ref='uploadForm' id='uploadForm' class='form-group' action='/product/add' method='POST' enctype="multipart/form-data">
                 <!--Product ID-->
                         <div class='input-group'>
                             <label>Product ID</label>
-                            <input type='text' class='form-control' name='product_serial' placeholder='Product ID' required>
+                            <input type='text' class='form-control' name='product_serial' placeholder='Product ID' value="<%= newProductID%>" required>
                         </div>
                 <!--Name-->
                         <div class='input-group'>
@@ -24,12 +34,12 @@
                         </div>
                 <!--Price-->            
                         <div class='input-group'>
-                            <label>Price</label>
+                            <label>Price (Ks.)</label>
                             <input type='text' class='form-control' name='price' placeholder='Original Price' required>
                         </div>
                 <!--Discount-Price-->            
                         <div class='input-group'>
-                            <label>Discount Price</label>
+                            <label>Discount Price (Ks.)</label>
                             <input type='text' class='form-control' name='discount_price' placeholder='Discount Price' required>
                         </div>
                         
@@ -100,15 +110,89 @@
                               <% }); %>
                             </select>
                         </div>
+                        
+                          <% categories.forEach(function(category) { %>
+                                <% if(!category.main_category) { %>
+                                    
+                                    <% if(category.parent_category.name === "Men's Clothing") { %>
+                                        <input type="hidden" name='<%= category.name %>' class='men-clothing-subcategory'>
+                                    <% } %>
+                                    <% if(category.parent_category.name === "Women's Clothing") { %>
+                                        <input type="hidden" name='<%= category.name %>' class='women-clothing-subcategory'>
+                                    <% } %>
+                                    <% if(category.parent_category.name === "Bags") { %>
+                                        <input type="hidden" name='<%= category.name %>' class='bag-subcategory'>
+                                    <% } %>
+                                    <% if(category.parent_category.name === "Shoes") { %>
+                                        <input type="hidden" name='<%= category.name %>' class='shoe-subcategory'>
+                                    <% } %>
+                                    <% if(category.parent_category.name === "Jewellery") { %>
+                                        <input type="hidden" name='<%= category.name %>' class='jewellery-subcategory'>
+                                    <% } %>
+                                    <% if(category.parent_category.name === "Automobiles") { %>
+                                        <input type="hidden" name='<%= category.name %>' class='automobile-subcategory'>
+                                    <% } %>
+                                  
+                                <% } %>
+                          <% }); %>  
+                         
+                        
+                        <script>
+                           
+                          
+                            function start(){
+                                 
+                                  var activities = document.getElementById("category-selector");
+                                  var subCategoryArray = [];
+                                  
+                                  activities.addEventListener("change",function() {
+                                    //   alert(this.value);
+                                     
+                                    if(this.value === "Men's Clothing") {
+                                        subCategoryArray = document.getElementsByClassName('men-clothing-subcategory');
+                                    } else if(this.value === "Women's Clothing") {
+                                        subCategoryArray = document.getElementsByClassName('women-clothing-subcategory');
+                                    } else if(this.value === "Bags") {
+                                        subCategoryArray = document.getElementsByClassName('bag-subcategory');
+                                    } else if(this.value === "Shoes") {
+                                        subCategoryArray = document.getElementsByClassName('shoe-subcategory');
+                                    } else if(this.value === "Jewellery") {
+                                        subCategoryArray = document.getElementsByClassName('jewellery-subcategory');
+                                    } else if(this.value === "Automobiles") {
+                                        subCategoryArray = document.getElementsByClassName('automobile-subcategory');
+                                    }
+                                      
+                                    
+                                      var myList = document.getElementById('subcategory-selector');
+                                      var optionString = "";
+                                      
+                                      for(var i = 0; i < subCategoryArray.length; i++) {
+                                          optionString = optionString + '<option>'+ subCategoryArray[i].name + '</option>'
+                                      }
+                                      
+                                      myList.innerHTML = optionString;
+                                          
+                                    
+                                      
+                                  });
+                            }
+                            window.addEventListener("load", start, false);
+                        </script>
+                        
+                        
                         <div class='input-group'>    
                             <label>Sub Category</label>
-                            <select class='form-control' id='category-selector' name='category'>
+                            <select class='form-control' id='subcategory-selector' name='category'>
                               <% categories.forEach(function(category) { %>
                                     <% if(!category.main_category) { %>
-                                      <option name="table1" value="<%= category.name%>"><%= category.name%></option>
+                                      <% if(category.parent_category.name === "Men's Clothing") {%>
+                                          <option name="table1" value="<%= category.name%>"><%= category.name%></option>
+                                     <% } %>
+                                      
                                     <% } %>
                               <% }); %>
                             </select>
+                            
                         </div>
                 <!--Description-->
                         <div class='input-group'>
@@ -130,8 +214,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src='/js/custom.js'></script>
 <script src='/js/add-picture.js'></script>
+<script src='/js/custom-add-product.js'></script>
 
 <script src='/js/jquery.jcarousel.min.js'></script>
-    <script src='/js/jcarousel.connected-carousels.js'></script>
+<script src='/js/jcarousel.connected-carousels.js'></script>
 </body>
 </html>

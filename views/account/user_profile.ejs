@@ -3,10 +3,10 @@
 
 
   <div class="row row-profile-page">
-    <div class="col-sm-4 col-md-4">
+    <div class="col-sm-4 col-md-4" id='panel-user-profile'>
         <div class='panel panel-info panel-profile'>
               <div class="panel-heading"><h2>User Profile</h2></div>
-              <img class="img-circle img-responsive img-center" id='profile-picture' src="<%= user.picture %>" alt="">
+              
     
               <br />
               <label>Username:</label>
@@ -29,12 +29,12 @@
         
               <% } %>
         
-              <a href="/edit-profile" class="btn">Update Address</a>
+              <a href="/edit-profile" class="btn" id='update-address-btn'>Update User Detail</a>
         </div> <!--End of Well-->
       
     </div>
 
-    <div class="col-sm-8 col-md-8">
+    <div class="col-sm-8 col-md-8" id='panel-order-history'>
       <div class='panel panel-info panel-history'>
           
           <div class="panel-heading"><h2>Order History</h2></div>
@@ -54,7 +54,7 @@
                     <% if (order.status !== "CART") { %>
                         <% order.line_items.forEach(function(lineItem) { %>              
                             <tr>
-                              <td><a href='product/<%= lineItem.item.category.name +"/"+ lineItem.item._id %>'><%= lineItem.item.name.en %></a></td>
+                              <td class='product-name-col'><a href='product/<%= lineItem.item.category.name +"/"+ lineItem.item._id %>'><%= lineItem.item.name.en %></a></td>
                               <td>Ks <%= parseFloat(lineItem.item.price).toLocaleString() %></td>
                               <td><%= parseFloat(lineItem.quantity) %></td>
                               <td>Ks <%= parseFloat(lineItem.price).toLocaleString() %></td>
@@ -83,14 +83,14 @@
           <table class="table table-striped sticky-header">
             <thead>
             <tr>
-              <th>Item</th>
-              <th>Item's Name</th>
+              <th>Product</th>
+              <th>Product Name</th>
               <th>Price</th>
             </tr>
             <tbody>
               <% for(var i = 0; i < user.favourite.length; i++) {%>
                 <tr>
-                  <td><img class="media-object" src="<%= user.favourite[i].image[0]%>" style="width: 72px; height: 72px;"></td>
+                  <td><img class="media-object" src="<%= user.favourite[i].image[0]%>"></td>
                   <td><a href='/product/<%=user.favourite[i].category.name + "/" +  user.favourite[i]._id%>'><%= user.favourite[i].name.en %></a></td>
                   <td>Ks <%= parseFloat(user.favourite[i].price).toLocaleString() %></td>
                   <td>

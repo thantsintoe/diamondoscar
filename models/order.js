@@ -8,6 +8,7 @@ var orderSchema = new mongoose.Schema({
                         ref: "User"
                     },
     total_price : {type: Number, default: 0},
+    order_code  : String,
     grand_total : {type: Number, default: 0},
     delivery_fee: {type: Number, default: 0},
     status      : String,

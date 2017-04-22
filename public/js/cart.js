@@ -147,5 +147,28 @@ $(function() {
     // Prevent the form from submitting with the default action
     return false;
   });
+  
+  
+  $('#edit-address-form').submit(function(event) {
+    var $form = $(this);
+
+    // Disable the submit button to prevent repeated clicks
+    // $form.find('button').prop('disabled', true);
+
+    var township = document.getElementById("township-selector");
+    
+    if(township.value === "") {
+        alert("Please select a township to update your address. . .");
+        // Prevent the form from submitting with the default action
+        return false;
+    }
+    
+
+    
+  });
+  
+  
+ 
+  
 
 });

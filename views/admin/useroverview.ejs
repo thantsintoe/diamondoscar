@@ -67,11 +67,11 @@ License: You must have a valid license purchased only from themeforest(the above
           
           
               <div class='collapse navbar-collapse' id="bs-example-navbar-collapse-1">
-                  <ul class='nav navbar-nav navbar-right'>
+                  <ul class='nav navbar-nav navbar-right' id='menu-bar'>
                           <!--HOME-->
-                      <li><a class='main-menu multilanguage' href='/'><%= __('Home') %></a></li>
+                      <li class='main-menu-list'><a class='main-menu multilanguage' href='/'><%= __('Home') %></a></li>
       
-      			    <li class="dropdown dropdown-large">
+      			    <li class="dropdown dropdown-large main-menu-list">
       					<a href="#" class="dropdown-toggle main-menu multilanguage" data-toggle="dropdown"><%= __('Product') %><b class="caret"></b></a>
       					
       					<ul class="dropdown-menu dropdown-menu-large row">
@@ -161,16 +161,60 @@ License: You must have a valid license purchased only from themeforest(the above
 					    </ul>
       				</li>
                       <!--HOME-->
-                      <li><a href='#' class='main-menu multilanguage'><%= __('Customer Care') %></a></li>
-                      <li><a href='#' class='main-menu multilanguage'><%= __('About Us') %></a></li>
+                      <li class='main-menu-list'><a href='#' class='main-menu multilanguage'><%= __('Customer Care') %></a></li>
+                      <li class='main-menu-list'><a href='#' class='main-menu multilanguage'><%= __('About Us') %></a></li>
                       <% if(currentUser && currentUser.isAdmin) { %>
-                      <li><a href='/admin-control' class='main-menu multilanguage'>ADMIN</a></li>
+                      <li class='main-menu-list'><a href='/admin-control' class='main-menu multilanguage'>ADMIN</a></li>
                       <% } %>
                       
                   </ul>
               </div>
           </div>
-      </nav>
+        </nav>
+        
+        <div class='second-navbar'>
+            <div class='container-fluid'>
+            <form action='/search' method='POST' class="navbar-form navbar-left">
+                    <div class="input-group search-group">
+                          <input type="text" class="form-control" id='search-box' aria-label="Search" name='q' placeholder="Type to search products...">
+                          <div class="input-group-btn">
+                                
+                                <button type="submit" class="btn btn-default multilanguage" id='search-button'><%= __('Search') %></button>
+                          </div>
+                    </div>
+            </form>
+        
+                <div class='collapse navbar-collapse' id="bs-example-navbar-collapse-1">
+                    <ul class='nav navbar-nav navbar-right'>
+                            <% if(!currentUser) { %>
+        	                	<a href='/mm' id='mm_language_icon'><img src="/images/homepage/myanmar_icon.png" style="width:30px;height:20px"></a>
+        	                	<a href='/en' id='en_language_icon'><img src="/images/homepage/uk_icon.png" style="width:30px;height:20px"></a>
+        	                	<a href='/cart'><img src='/images/homepage/shopping-cart.svg' style="width:33px;height:33px"></a>
+                                <a href='/register'><button type="button" class="btn btn-default navbar-btn signup-btn multilanguage"><%= __('Sign Up') %></button></a>
+                                <a href='/login'><button type="button" class="btn btn-default navbar-btn signin-btn multilanguage"><%= __('Log In') %></button></a>
+                            <% } else if(currentUser) { %>
+        	                        <% if(currentUser.isAdmin) { %>
+        	                        	<a href='/mm' id='mm_language_icon'><img src="/images/homepage/myanmar_icon.png" style="width:30px;height:20px"></a>
+        			                	<a href='/en' id='en_language_icon'><img src="/images/homepage/uk_icon.png" style="width:30px;height:20px"></a>
+        		                        <!--<a href='/profile'><img src='/images/homepage/user.svg' style="width:33px;height:33px"></a>-->
+        		                        <!--<a href='/cart'><img src='/images/homepage/shopping-cart.svg' style="width:33px;height:33px"><span class='badge'><%= cart %></span></a>-->
+        		                        <a href='/logout'><button type="button" class="btn btn-default navbar-btn signup-btn">Log Out</button></a>
+        		                        <a href='/product/add'><button type="button" class="btn btn-default navbar-btn signin-btn">Add New Product</button></a>
+        	                        <% } else { %>
+        	                        	<a href='/mm' id='mm_language_icon'><img src="/images/homepage/myanmar_icon.png" style="width:30px;height:20px"></a>
+        			                	<a href='/en' id='en_language_icon'><img src="/images/homepage/uk_icon.png" style="width:30px;height:20px"></a>
+        		                        <a href='/profile'><img src='/images/homepage/user.svg' style="width:33px;height:33px"></a>
+        		                        <a href='/cart'><img src='/images/homepage/shopping-cart.svg' style="width:33px;height:33px"><span class='badge'><%= cart %></span></a>
+        		                        <a href='/logout'><button type="button" class="btn btn-default navbar-btn signup-btn">Log Out</button></a>
+        	                        <% } %>
+        	                        
+                            <% } %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <input type=hidden name='lg-setting' id='lg-setting' value='<%=  currentLanguage%>'>
         <!-- END HEADER -->
         <!-- BEGIN HEADER & CONTENT DIVIDER -->
         <div class="clearfix"> </div>
@@ -190,7 +234,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                    <ul class="page-sidebar-menu   " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+                    <ul class="page-sidebar-menu" id="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
                         
                         
                         
@@ -246,102 +290,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 <!-- BEGIN CONTENT BODY -->
                 <div class="page-content">
                     <!-- BEGIN PAGE HEAD-->
-                    <div class="page-head">
-                        <!-- BEGIN PAGE TITLE -->
-                        <div class="page-title">
-                            <h1>Admin Dashboard
-                                <small>recent ecommerce statistics, charts, recent orders and sales</small>
-                            </h1>
-                        </div>
-                        <!-- END PAGE TITLE -->
-                        <!-- BEGIN PAGE TOOLBAR -->
-                        <div class="page-toolbar">
-                            <!-- BEGIN THEME PANEL -->
-                            <div class="btn-group btn-theme-panel">
-                                <a href="javascript:;" class="btn dropdown-toggle" data-toggle="dropdown">
-                                    <i class="icon-settings"></i>
-                                </a>
-                                <div class="dropdown-menu theme-panel pull-right dropdown-custom hold-on-click">
-                                    <div class="row">
-                                        <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <h3>HEADER</h3>
-                                            <ul class="theme-colors">
-                                                <li class="theme-color theme-color-default active" data-theme="default">
-                                                    <span class="theme-color-view"></span>
-                                                    <span class="theme-color-name">Dark Header</span>
-                                                </li>
-                                                <li class="theme-color theme-color-light " data-theme="light">
-                                                    <span class="theme-color-view"></span>
-                                                    <span class="theme-color-name">Light Header</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-8 col-sm-8 col-xs-12 seperator">
-                                            <h3>LAYOUT</h3>
-                                            <ul class="theme-settings">
-                                                <li> Layout
-                                                    <select class="layout-option form-control input-small input-sm">
-                                                        <option value="fluid" selected="selected">Fluid</option>
-                                                        <option value="boxed">Boxed</option>
-                                                    </select>
-                                                </li>
-                                                <li> Header
-                                                    <select class="page-header-option form-control input-small input-sm">
-                                                        <option value="fixed" selected="selected">Fixed</option>
-                                                        <option value="default">Default</option>
-                                                    </select>
-                                                </li>
-                                                <li> Top Dropdowns
-                                                    <select class="page-header-top-dropdown-style-option form-control input-small input-sm">
-                                                        <option value="light">Light</option>
-                                                        <option value="dark" selected="selected">Dark</option>
-                                                    </select>
-                                                </li>
-                                                <li> Sidebar Mode
-                                                    <select class="sidebar-option form-control input-small input-sm">
-                                                        <option value="fixed">Fixed</option>
-                                                        <option value="default" selected="selected">Default</option>
-                                                    </select>
-                                                </li>
-                                                <li> Sidebar Menu
-                                                    <select class="sidebar-menu-option form-control input-small input-sm">
-                                                        <option value="accordion" selected="selected">Accordion</option>
-                                                        <option value="hover">Hover</option>
-                                                    </select>
-                                                </li>
-                                                <li> Sidebar Position
-                                                    <select class="sidebar-pos-option form-control input-small input-sm">
-                                                        <option value="left" selected="selected">Left</option>
-                                                        <option value="right">Right</option>
-                                                    </select>
-                                                </li>
-                                                <li> Footer
-                                                    <select class="page-footer-option form-control input-small input-sm">
-                                                        <option value="fixed">Fixed</option>
-                                                        <option value="default" selected="selected">Default</option>
-                                                    </select>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- END THEME PANEL -->
-                        </div>
-                        <!-- END PAGE TOOLBAR -->
-                    </div>
-                    <!-- END PAGE HEAD-->
-                    <!-- BEGIN PAGE BREADCRUMB -->
-                    <ul class="page-breadcrumb breadcrumb">
-                        <li>
-                            <a href="index.html">Admin</a>
-                            <i class="fa fa-circle"></i>
-                        </li>
-                        <li>
-                            <span class="active">User Overview</span>
-                        </li>
-                    </ul>
-                    <!-- END PAGE BREADCRUMB -->
+                    
                     <!-- BEGIN PAGE BASE CONTENT -->
                     
                     <div class="row">
@@ -350,8 +299,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <div class="portlet light bordered">
                                 <div class="portlet-title">
                                     <div class="caption">
-                                        <i class="icon-share font-blue"></i>
-                                        <span class="caption-subject font-blue bold uppercase">User Overview</span>
+                                        <h4>User Overview</h4>
                                     </div>
                                     
                                 </div>

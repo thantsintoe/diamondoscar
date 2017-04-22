@@ -6,39 +6,154 @@
 /*font-family: 'Roboto', sans-serif;*/
 /*}*/
 
-.login-card {
+body{
+  font-family: 'Muli';
+}
+
+.card-container{
+  width: 1200px;
+  margin: 0 auto;
   padding: 0px;
-  padding-top: 50px;
-  width: 90%;
+}
+
+.login-card.col-md-3>.card1-header{
+  width: 360px;
+  height: 45px;
+  border: 1px solid #ffb02d;
+  background-color: #ffb02d;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.login-card.col-md-3 {
+  padding: 0px;
+  width: 360px;
+  height: auto;
   background-color: #F7F7F7;
-  margin: 0 auto 10px;
   margin-top: 50px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px 0px rgba(51, 51, 51, 0.46);
+  /*overflow: hidden;*/
+}
+
+.options {
+  /*border: 1px solid red;*/
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.delivery {
+  /*border: 1px solid brown;*/
+  float: left;
+}
+
+.payment {
+  /*border: 1px solid brown;*/
+  margin-left: 150px;
+}
+
+
+.address{
+  /*border: 1px solid blue;*/
+  margin-left: 20px;
+  margin-top: 28px;
+
+}
+
+.deli {
+    font-size: 11px;
+    color: #333333;
+    font-weight: normal;
+}
+
+.deli>label {
+    font-size: 11px;
+    color: #333333;
+    font-weight: normal;
+    position: relative;
+    top: -3px;
+}
+
+.login-card.col-md-9>.card2-header{
+  width: 830px;
+  height: 45px;
+  border: 1px solid #ffb02d;
+  background-color: #ffb02d;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.login-card.col-md-9 {
+  padding: 0px;
+  width: 830px;
+  height: auto;
+  min-height: 400px;
+  background-color: #F7F7F7;
+  margin-top: 50px;
+  margin-left: 8px;
   margin-bottom: 100px;
   border-radius: 5px;
-  border: 1px solid lightgray;
-  box-shadow: 0px 6px 2px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
+  box-shadow: 0px 2px 4px 0px rgba(51, 51, 51, 0.46);
+}
+
+.col-md-9.login-card .row {
+  width: 830px;
+  margin-left: 0px;
+}
+
+.col-md-9.login-card .col-sm-12{
+  /*width: 830px;*/
+  margin-left: 0px;
+  padding: 0px;
+}
+
+.table {
+  width: 800px;  
+  margin: 0 auto;
+  
+}
+
+thead {
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: bold;
+  color: #ffb02d;
+  /*margin-top: 20px;*/
 }
 
 .login-card h2 {
   text-align: center;
-  color: rgba(96,96,96,1.0);
-  font-weight: lighter;
+  margin: 16px 0px;
+  font-size: 13px;
+  line-height: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
   
 }
 
+
+
+
+
+/*.login-card .col-md-3 {*/
+/*  border: 2px solid red;*/
+/*}*/
+
 hr {
     width: 80%;
-    border: 0;
+    /*border: 1;*/
     height: 2px;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(96,96,96,1.0), rgba(0, 0, 0, 0));
 }
 
 .login-card h4 {
-  font-size: 1.1em;
+  font-size: 12px;
+  line-height: 12px;
   font-weight: bold;
-  color: rgba(96,96,96,1.0);
-  text-decoration: underline;
+  color: #ffb02d;
+  text-decoration: none;
+  margin-top: 0px;
+  margin-bottom: 15px
+  
   
 }
 
@@ -47,21 +162,95 @@ hr {
   margin-right: 20px;
 }
 
-.media>.pull-left:hover {
+/*.media>.pull-left:hover {*/
+/*  padding: 0px;*/
+/*}*/
+
+.media .thumbnail img {
+  width: auto;
+  height: 72px;
+  margin: 0 auto;
   padding: 0px;
 }
 
-.media .thumbnail img {
-  width: 72px;
-  height: 72px;
-  margin: 0px;
-  padding: 0px;
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+     border: 0px; 
+     font-size: 11px;
+}
+
+.table>thead>tr>th {
+    padding-top: 17px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+h4.media-heading{
+  font-size: 11px;
+}
+
+h5.media-heading{
+  font-size: 11px;
+}
+
+.media-heading>a {
+  color: #333333;
+}
+
+.media-body>span {
+  font-size: 11px;
+}
+
+.text-success{
+  padding-right: 30px;
+}
+
+h5 strong{
+  font-weight: bold;
+  font-size: 12px;
+  color: #333333;
+}
+
+.h5, h5 {
+    font-size: 11px;
+}
+
+#grand-margin{
+  margin-top: 10px;
+}
+
+.border-line {
+  border-top: 1px solid rgba(51, 51, 51, 0.1);
+}
+
+.border-top-bottom {
+  border-top: 1px solid rgba(51, 51, 51, 0.1);
+  border-bottom: 1px solid rgba(51, 51, 51, 0.1);
+}
+
+#trash-btn {
+  width: 100px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid rgba(255, 176, 45, 0.5);
+  border-radius: 5px;
+  font-size: 11px;
+  margin-right: 10px;
+}
+
+.form-control {
+    width: 40px;
+    height: 25px;
+    font-size: 11px;
+    text-align: center;
+}
+
+#trash-color {
+  color: #f92331;
 }
 
 .table .tbody .tr #unit-price-column {
   width: 150px;
 }
-
 
 .login-card #unit-price-column {
   width: 150px;
@@ -87,40 +276,60 @@ hr {
 }
 
 .btn.btn-primary.ecommerceButtons {
-    width: auto;
-    height: 35px;
+    width: 150px;
+    height: 50px;
     background: transparent;
-    /*color: : #363939;*/
-    color: #999999;
-    border-radius: 0px;
-    border: 2px solid #999999;
-    margin-left: 0px;
-    margin-right: 10px;
+    border: 2px solid rgba(255, 176, 45, 0.5);
+    margin: 10px 10px 20px 0px;
     padding-bottom: 5px;
-    outline:none;
-    padding-top: 5px;
+    outline: none;
+    /*padding-top: 5px;*/
     transition: 0.4s;
+    font-size: 10px;
+    font-weight: bold;
+    color: #ffba47;
+    text-transform: uppercase;
 }
 
 .btn.btn-primary.ecommerceButtons:hover {
-  border-radius: 0px;
-  
+  border-radius: 15px;
+}
+
+.table>tbody>tr>td>h5{
+  margin-top: 10px;
+}
+
+
+
+.btn.btn-primary.ecommerceButtons.confirmButton {
+  background-image: linear-gradient(0deg, #f9a51a 0%, #ffba47 100%);
+  color: #fff;
 }
 
 .btn.btn-primary.ecommerceButtons.buyButton {
+  background-image: linear-gradient(0deg, #f9a51a 0%, #ffba47 100%);
+  color: #fff;
+}
+
+
+.btn.btn-primary.ecommerceButtons.buyButton {
   display: none;
-  background-color: transparent;
-  color: #f5a623;
+  background-image: linear-gradient(0deg, #f9a51a 0%, #ffba47 100%);
+  color: #fff;
   border: 2px solid #f5a623;
 }
 
-.btn.btn-primary.ecommerceButtons.confirmButton {
+/*.btn.btn-primary.ecommerceButtons.confirmButton {*/
   /*display: none;*/
-  background-color: transparent;
-  color: #f5a623;
-  border: 2px solid #f5a623;
-}
+/*  background-color: transparent;*/
+/*  color: white;*/
+/*  border: 2px solid #f5a623;*/
+/*  text-transform: uppercase;*/
+/*}*/
 
 .modal .modal-footer {
   padding: 10px;
 }
+
+
+

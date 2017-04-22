@@ -1,69 +1,77 @@
 <% include ../partials/header.ejs %>
 
-<div class='container'>
+<link rel="stylesheet" href="/stylesheets/search-page.css">
+
+<div class='index-container'>
     
+    <hr class='seperator-line'>
     <% if (products.length=== 0) { %>
-        <h1 id='Search-Result-Title'>Found No Result for <%= query %></h1>
+        <h3 id='Search-Result-Title'>Found No Result for "<%= query %>"</h3>
+        <div id="no-result">
+            <img src="images/homepage/sad.png" alt="sorry">
+        </div>
     <% } else { %>
-        <h1 id='Search-Result-Title'>Search Results for <%= query %></h1>
+        <h3 id='Search-Result-Title'>Search Results for "<%= query %>"</h3>
         <div class='row text-center thumbnail-container'>
             <% products.forEach(function(product) { %>
-                <div class='col-lg-3 col-md-4 col-sm-6'>
-                        <div class='thumbnail'>
-                            <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><img src='<%=product.image[0]%>'></a>
-                            <div class='caption'>
-                                <div class='product-name-container'>
-                                    <a href='/category/<%=product.category.name%>/product/<%=product._id%>'><h4 class="burmese product-name"><%=product.name%></h4></a>
-                                </div>
-                                <p class='product-price'>$ <%=product.price%></p>
-                                <div class="rating-stars">
-                                    <table>
-                                      <tr>
-                                        <td>
-                                          <input id="input-3" name="input-3" value="<%= product.rating%>" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
-                                        </td>
-                                      </tr>
-                                    </table>
-                                    <script>
-                                    // $(document).on('ready', function(){
-                                        $('.input-3').rating({displayOnly: true, step: 0.1});
-                                    // });
-                                    </script>
-                                    <br>
-                                </div>
-                            
-                                <div class='seemore-addtocart'>
-                                    <a href='/category/<%=product.category.name%>/product/<%=product._id%>' class='btn btn-primary btn-sm see-more'>See Detail</a>
-                                    <a href='/category/<%=product.category.name%>/product/<%=product._id%>' class='btn btn-primary btn-sm add-to-cart'>Add to Cart</a>
-                                </div>
+                <div class='col-lg-4 col-md-4 col-sm-6'>
+                    <div class='thumbnail'>
+                        <a href='/product/<%=product.category.name%>/<%=product._id%>'><img src='<%=product.image[0]%>'></a>
+                        <input type='hidden' name='source1' value='<%=product.image[0]%>'>
+                        
+                        <% if(product.image.length >2) { %>
+                            <input type='hidden' name='source2' value='<%=product.image[2]%>'>
+                        <% } else if(product.image.length >1) { %>
+                            <input type='hidden' name='source2' value='<%=product.image[1]%>'>
+                        <% } else { %>
+                        <input type='hidden' name='source2' value='<%=product.image[0]%>'>
+                        <% } %>
+                        <div class='caption'>
+                            <div class='product-name-container'>
+                                <% if(currentLanguage === "mm") { %>
+                                <a href='/product/<%=product.category.name%>/<%=product._id%>'><h4 class="product-name multilanguage"><%=product.name.mm%></h4></a>
+                                <% } else { %>
+                                <a href='/product/<%=product.category.name%>/<%=product._id%>'><h4 class="multilanguage product-name"><%=product.name.en%></h4></a>
+                                <% } %>
+                            </div>
+
+                            <% if(parseFloat(product.price).toFixed(1) != parseFloat(product.discountPrice).toFixed(1)) { %>
+                                <p class='product-price'>Ks <%=  parseFloat(product.discountPrice).toLocaleString() %><span class='discount-percent'>      (Save <%= (100-((parseFloat(product.discountPrice).toFixed(1)/parseFloat(product.price))*100)).toFixed(1).toLocaleString() %> % )</span></p>
+                                <div class="original-price"><span>        Ks <%= parseFloat(product.price) %></span></div>
+                            <% } else { %>
+                                <p class='product-price'>Ks <%=  parseFloat(product.price).toLocaleString() %></p>
+                                <div class="original-price"></div>
+                            <% } %>
+                            <div class="rating-stars">
+                                <table>
+                                  <tr>
+                                    <td>
+                                      <input id="input-3" name="input-3" value="<%= product.rating%>" class="rating rating-loading input-3" displayOnly="true" data-size="xs">
+                                    </td>
+                                  </tr>
+                                </table>
+                                <script>
+                                // $(document).on('ready', function(){
+                                    $('.input-3').rating({displayOnly: true, step: 0.1});
+                                // });
+                                </script>
+                                <br>
+                            </div>
+                        
+                            <div class='seemore-addtocart'>
+                                <a href='/product/<%=product.category.name%>/<%=product._id%>' class='btn btn-sm see-more multilanguage burmese'><%= __('See Detail') %></a>
+                                <a href='/product/<%=product.category.name%>/<%=product._id%>' class='btn btn-primary btn-sm add-to-cart multilanguage burmese'><%= __('Add to Cart') %></a>
                             </div>
                         </div>
+                    </div>
+                        
+                        
                 </div>
-           <% }); %>  <!--End Product Thumbnail-->
+            <% }); %>  <!--End Product Thumbnail-->
         </div> <!--End ROW-->
         
         <!--Pagination-->
-            <nav class='text-center' aria-label="Page navigation">
-                  <ul class="pagination">
-                    <li>
-                      <a href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-                        <% for (var i=1;i<=totalPages;i++) { %>
-                            <%if (i == currentPage) {%> 
-                                <li class='active'><a href="/<%= i %>/search?q=<%= query%>"><%= i %></a></li>
-                            <% } else {%>
-                                <li><a href="/<%= i %>/search?q=<%= query%>"><%= i %></a></li>
-                            <% } %>
-                        <% } %>
-                    <li>
-                      <a href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-                  </ul>
-            </nav>
+            
         
         
     <% } %>

@@ -41,3 +41,166 @@
 .credit-card-box .panel-heading img {
     min-width: 180px;
 }
+
+#stripeModal .modal-dialog {
+    width: 475px;
+}
+
+#stripeModal .modal-header {
+    background-image: linear-gradient(0deg, #f9a51a 0%, #ffba47 100%);
+    border-radius: 5px 5px 0px 0px;
+}
+
+
+#model-body-container .panel-default .panel-heading {
+    width: auto;
+    margin: 0px;
+    padding: 0px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+#model-body-container .panel-default {
+    height: 180px;
+}
+
+#model-body-container .panel-default .panel-body {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+}
+
+
+#model-body-container .panel-default .panel-body input[name="cardNumber"] {
+    margin-bottom: 0px;
+    height: 30px;
+    border-radius: 5px 0px 0px 5px;
+}
+
+#model-body-container {
+    margin: 0px;
+    padding: 20px;
+}
+
+.credit-cards {
+    display: block;
+}
+
+#exp-date-and-cv-code-row {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#expire-date-group label {
+    display: block;
+}
+
+#expire-date-group input[type="text"] {
+    width: 50px;
+    margin: 0 auto;
+    display: inline-block;
+    margin-right: 10px;
+    border-radius: 5px;
+    height: 30px;
+}
+
+#cv-code-group label {
+    display: block;
+}
+
+#cv-code-group input[type="password"] {
+    width: 50px;
+    margin: 0 auto;
+    display: inline-block;
+    margin-right: 10px;
+    border-radius: 5px;
+    height: 30px;
+}
+
+#stripeModal .btn.btn-success {
+   background-image: linear-gradient(0deg, #f9a51a 0%, #ffba47 100%);
+   border: none;
+}
+
+/*Edit Address Form*/
+
+#upde-delivery-address .modal-dialog {
+    width: 475px;
+}
+
+#upde-delivery-address .modal-header {
+    background-image: linear-gradient(0deg, #f9a51a 0%, #ffba47 100%);
+    border-radius: 5px 5px 0px 0px;
+}
+
+#edit-address-form {
+    width: 100%;
+}
+
+#edit-address-form input[type='text'] {
+    width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 12px;
+}
+
+#edit-address-form select {
+    width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 12px;
+}
+
+#edit-address-form .btn.btn-success {
+    background-image: linear-gradient(0deg, #f9a51a 0%, #ffba47 100%);
+    border: none;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    height: 45px;
+    margin-top: 30px;
+}
+
+#empty-cart-row {
+  position: relative;
+  min-height: 400px;
+  height: auto;
+}
+
+
+#empty-message {
+    width: 100%;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#empty-cart-text {
+
+    height: 24px;
+    font-size: 24px;
+    font-weight: normal;
+    text-align: center;
+    width: 100%;
+    margin: 0px;
+}
+
+#empty-btn {
+    display: block;
+    /*height: 50px;*/
+    width: 150px;
+    background-image: linear-gradient(0deg, #f9a51a 0%, #ffba47 100%);
+    color: #fff;
+    border: 2px solid rgba(255, 176, 45, 0.5);
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 15px 20px;
+    outline: none;
+    transition: 0.4s;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    
+}

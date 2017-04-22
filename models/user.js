@@ -23,7 +23,7 @@ var userSchema = new mongoose.Schema({
                         township    : {type: String, default: ''},
                         city        : {type: String, default: ''},
                         zip         : {type: Number, default: '111111'},
-                        mobile      : {type: Number, default: '0'}
+                        mobile      : {type: Number, default: ''}
                    },
     order           : [{type: mongoose.Schema.Types.ObjectId, ref: 'Order'}],
     payment_methods : [{

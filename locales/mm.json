@@ -44,12 +44,14 @@
 	"Boots": "ဘွတ် ဖိနပ်များ",
 	"Necklace": "လည်ဆွဲ",
 	"Jackets": "အနွေးထည်",
-    "Latest Arrivals": "နောက်ဆုံးရောက် ပစ္စည်းများ",
-    "Bestselling Items": "ရောင်းအားအကောင်းဆုံး ပစ္စည်းများ",
-    "Hot Brands": "နာမည်ကြီး အမှတ်တံဆိပ်များ",
-    "Popular Woman Fashions": "လူကြိုက်များသော အမျိုးသမီးဖက်ရှင် ပစ္စည်းများ",
-    "Popular Man Fashions": "လူကြိုက်များသော အမျိုးသားဖက်ရှင် ပစ္စည်းများ",
-    "See All Categories": "အမျိုးအစားအားလုံး ကြည့်ရှုရန်",
-    "Automobiles": "မော်တော်ယာဉ်",
-    "Car Accessorries": "မော်တော်ယာဉ် ဆက်စပ်ပစ္စည်းများ"
+	"Latest Arrivals": "နောက်ဆုံးရောက် ပစ္စည်းများ",
+	"Bestselling Items": "ရောင်းအားအကောင်းဆုံး ပစ္စည်းများ",
+	"Hot Brands": "နာမည်ကြီး အမှတ်တံဆိပ်များ",
+	"Popular Woman Fashions": "လူကြိုက်များသော အမျိုးသမီးဖက်ရှင် ပစ္စည်းများ",
+	"Popular Man Fashions": "လူကြိုက်များသော အမျိုးသားဖက်ရှင် ပစ္စည်းများ",
+	"See All Categories": "အမျိုးအစားအားလုံး ကြည့်ရှုရန်",
+	"Automobiles": "မော်တော်ယာဉ်",
+	"Car Accessorries": "မော်တော်ယာဉ် ဆက်စပ်ပစ္စည်းများ",
+	"Highlights and Promotions": "Highlights and Promotions",
+	"Shop By Categories": "Shop By Categories"
 }

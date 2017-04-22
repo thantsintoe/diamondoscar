@@ -3,23 +3,81 @@
     <link rel="stylesheet" href="/stylesheets/payment_form.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
+    
+<div class='card-container'>
 
-    <div class="login-card">
+    <!--<div class="login-card">-->
+      <div class='col-md-3 login-card'>
+        <div class='card1-header'>
+         <h2>Options</h2> 
+        </div><!-- End of 'card1-header' -->
+        
+        <div class='options'>
+          <div class='delivery'>
+            <h4>Delivery Option</h4>
+            <div class='deli'>
+            <input type="radio" id="deliverRadio01" name="deliveryOptionRadio" checked='checked' value='0' />
+            <label for="radio01"><span></span>Home Delivery</label>
+            </div>
+      
+            <div class='deli'>
+             <input type="radio" id="deliverRadio02" name="deliveryOptionRadio" value='1'/>
+             <label for="radio02"><span></span>Self-Collect</label>
+            </div>
+          </div><!-- End of 'delivery' -->
+          
+          <div class='payment'>
+             <h4>Payment Option</h4>
+            <div class='deli'>
+              <input type="radio" id="paymentRadio01" name="paymentOptionRadio" checked='checked' value='0' />
+              <label for="radio01"><span>Cash on Delivery</span></label>
+            </div>
+            
+            <div class='deli'>
+             <input type="radio" id="paymentRadio02" name="paymentOptionRadio" value='1'/>
+             <label for="radio02"><span>Pay with Credit Card</span></label>
+            </div>
+          </div><!-- End of 'payment' -->
+        </div><!-- End of 'options' -->
+        <div class='address'>
+          <h4>Delivery Address</h4>
+          
+          <% if (currentUser.address.city === "" || typeof currentUser.address.city === 'undefined')  { %>
+              <p><span style="color: #c0392b; font-weight: bold">Please Update your Delivery Address.</span></p>
+              <button type="button" class="btn btn-primary ecommerceButtons multilanguage burmese" data-toggle="modal" data-target="#upde-delivery-address">Update Address</button>
+          <% } else { %>
+            <p class='deli'>Room No: <%= currentUser.address.room_no %>, Floor: <%= currentUser.address.floor %></p>
+            <p class='deli'>Building: <%= currentUser.address.building_no %>, Street: <%= currentUser.address.street %></p>
+            <p class='deli'><%= currentUser.address.ward %>, <%= currentUser.address.township %> Township, <span id='addressCity'><%= currentUser.address.city %></span></p>
+            <button type="button" class="btn btn-primary ecommerceButtons multilanguage burmese" data-toggle="modal" data-target="#upde-delivery-address">Update Address</button>
+          <% } %>
+        
+        </div><!-- End of 'address' -->
+        
+      </div><!-- End of 'col-md-3 login-card' -->
+    
+      <div class='col-md-9 login-card'>
+        <div class='card2-header'>
+         <h2>Your Shopping Cart</h2> 
+        </div><!-- End of 'card2-header' -->
         <div class="row">
-            <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <div class="col-sm-12 col-md-offset-1" id='empty-cart-row'>
                 <% if(cart === 0) { %>
-                  <h4>Your Shopping Cart is Empty...let's go shopping !</h4>
+                <div id="empty-message">
+                  <h4 id='empty-cart-text'>Your Shopping Cart is Empty...let's go some Shopping !</h4>
+                  <a href="category/all/1/?sort=created&dir=desc" id='empty-btn' class="btn btn-primary">See All Products</a>
+                </div>
+                  
                 <% } else { %>
-                <h2>YOUR SHOPPING CART</h2>
-                <hr>
-                <table class="table table-hover">
+                
+                <table class="table">
                     <thead>
                         <tr>
-                            <th>Product</th>
+                            <th class='table-head'>Product Details</th>
                             <th></th>
                             <th class="text-center">Quantity</th>
                             <th class="text-center">Unit Price</th>
-                            <th>Total</th>
+                            <th style='text-align: center'>Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,26 +102,35 @@
                                                     <%= lineItem.item.detail.brand%>
                                                 </a>
                                             </h5>
-                                            <span>Size : </span><span class="text-success"><strong><%= lineItem.size%></strong></span>
-                                            <span>Color : </span><span class="text-success"><strong><%= lineItem.item.colors[0].name%></strong></span>
+                                            <span>Size : </span><span class="text-success"><%= lineItem.size%></span>
+                                            <span>Color : </span><span class="text-success"><%= lineItem.item.colors[0].name%></span>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="col-sm-1 col-md-1" style="text-align: center">
+                                <td class="text-center">
+                                  <form action='/cart?_method=DELETE' method='POST'>
+                                        <input type=hidden name='item' value='<%= lineItem._id %>'>
+                                        <input type=hidden name='price' value='<%= lineItem.price %>'>
+                                        <button id='trash-btn'><span id='trash-color'>Remove  </span><img src="/images/homepage/trash.svg" style="width:16px;height:16px"></button>
+                                      </form>
+                                  
                                 </td>
-                                <td class="col-sm-1 col-md-1" style="text-align: center">
+                                <td class="text-center">
                                     <input type="text" class="form-control" id="exampleInputEmail1" value="<%= lineItem.quantity%>">
                                 </td>
-                                <td class="col-sm-1 col-md-1 text-center" style="max-width:100px; min-width:100px; max-height:50px; min-height:50px; width:100px; height:10px;"><strong>Ks <%=lineItem.item.price.toLocaleString()%></strong></td>                                
-                                <td class="col-sm-1 col-md-1">
-                                    <div class="col-sm-9">
-                                      <strong>Ks <%=  lineItem.price.toLocaleString() %></strong>
-                                    </div>
+                                <td class="text-center" style="max-width:100px; min-width:100px; max-height:50px; min-height:50px; width:100px; height:10px;">
+                                  <h5>
+                                  Ks <%=lineItem.item.price.toLocaleString()%>
+                                </h5></td>                                
+                                <td class="text-center">
+                                    <h5>
+                                       Ks <%=  lineItem.price.toLocaleString() %>
+                                    </h5>
                                     <div class="col-sm-3">
                                       <form action='/cart?_method=DELETE' method='POST'>
                                         <input type=hidden name='item' value='<%= lineItem._id %>'>
                                         <input type=hidden name='price' value='<%= lineItem.price %>'>
-                                        <button class='btn btn-danger btn-sm'><span class="glyphicon glyphicon-remove"></span></button>
+                                        
                                       </form>
                                     </div>
                                     
@@ -73,15 +140,16 @@
                             <% }); %>
 
                         <!--=========Row - Sub Total ==============-->
-                            <tr>
+                            <!--<hr>-->
+                            <tr class='border-line'>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>
-                                    <h5>Subtotal</h5>
+                                <td style='text-align: center'>
+                                    <h5><strong>Subtotal</strong></h5>
                                 </td>
-                                <td class="text-right">
-                                    <h5><strong>Ks <span id='subTotal'><%= order.total_price%></span></strong></h5>
+                                <td class="text-center">
+                                    <h5 style='font-size: 11px'>Ks <span id='subTotal'><%= order.total_price%></span></h5>
                                 </td>
                             </tr>
                         <!--=========Row - Delovery Option ==============-->        
@@ -94,71 +162,31 @@
                             <!--</tr>-->
                         <!--=========Row - Delivery Fee ==============-->        
                             <tr id='deliveryFeeRow'>
-                                <td>
-                                    <h4>Delivery Address</h4>
-                                    <% if (currentUser.address.city === "" || typeof currentUser.address.city === 'undefined')  { %>
-                                        <p><span style="color: #c0392b; font-weight: bold">Please Update your Delivery Address.</span></p>
-                                        <button type="button" class="btn btn-primary ecommerceButtons multilanguage burmese" data-toggle="modal" data-target="#upde-delivery-address">Update Address</button>
-                                    <% } else { %>
-                                      <p>Room No: <%= currentUser.address.room_no %>, Floor: <%= currentUser.address.floor %></p>
-                                      <p>Building: <%= currentUser.address.building_no %>, Street: <%= currentUser.address.street %></p>
-                                      <p><%= currentUser.address.ward %>, <%= currentUser.address.township %> Township, <span id='addressCity'><%= currentUser.address.city %></span></p>
-                                      <button type="button" class="btn btn-primary ecommerceButtons multilanguage burmese" data-toggle="modal" data-target="#upde-delivery-address">Update Address</button>
-                                    <% } %>
-                                </td>
                                 <td>   </td>
                                 <td>   </td>
-                                <td><h5>Delivery Fee</h5></td>
-                                <td class="text-right">
+                                <td>   </td>
+                                <td style='text-align: center'><h5><strong>Delivery Fee</strong></h5></td>
+                                <td class="text-center">
                                   <% if (currentUser.address.city === "" || typeof currentUser.address.city === 'undefined')  { %>
-                                  <h5><strong>Ks <span id='deliveryFee'>0.0</span></strong></h5>
+                                  <h5 style='font-size: 11px'>Ks <span id='deliveryFee'>0.0</span></h5>
                                   <% } else { %>
-                                  <h5><strong>Ks <span id='deliveryFee'>2000</span></strong></h5>
+                                  <h5>Ks <span id='deliveryFee'>2000</span></h5>
                                   <% } %>
                                 </td>
                             </tr>
 
                         <!--=========Row - Grand Total ==============-->
-                            <tr>
-                                <td> 
-                                    <div class='row'>
-                                        <div class='col-sm-6'>
-                                            <h4>Delivery Option</h4>
-                                            <div>
-                                              <input type="radio" id="deliverRadio01" name="deliveryOptionRadio" checked='checked' value='0' />
-                                              <label for="radio01"><span></span>Home Delivery</label>
-                                            </div>
-                                            
-                                            <div>
-                                             <input type="radio" id="deliverRadio02" name="deliveryOptionRadio" value='1'/>
-                                             <label for="radio02"><span></span>Self-Collect</label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class='col-sm-6'>
-                                            <h4>Payment Option</h4>
-                                            <div>
-                                              <input type="radio" id="paymentRadio01" name="paymentOptionRadio" checked='checked' value='0' />
-                                              <label for="radio01"><span>Cash on Delivery</span></label>
-                                            </div>
-                                            
-                                            <div>
-                                             <input type="radio" id="paymentRadio02" name="paymentOptionRadio" value='1'/>
-                                             <label for="radio02"><span>Pay with Credit Card</span></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                </td>
+                            <tr class='border-top-bottom'>
                                 <td>
                                     
                                 </td>
                                 <td>   </td>
-                                <td>
-                                    <h3>Total</h3>
+                                <td>   </td>
+                                <td style='text-align: center'>
+                                    <h5><strong>Grand Total</strong></h5>
                                 </td>
-                                <td class="text-right">
-                                    <h3><strong>Ks <span class='grandTotal'></span></strong></h3>
+                                <td class="text-center">
+                                    <h3 style='font-size: 13px'  id='grand-margin'><strong>Ks <span class='grandTotal'></span></strong></h3>
                                 </td>
                             </tr>
                         <!--=========Row - Payment BUttons==============-->
@@ -192,8 +220,11 @@
                 </table>
                 <% } %>
             </div>
-        </div>
-    </div>
+        </div><!--End of 'row'-->
+      </div><!--End of 'Col-md-9'-->
+      
+</div><!-- End of 'card-container' -->      
+    <!--</div>End of 'Login-Card'-->
     
     <!--Update Delivery Address Modal-->
     <div class="modal fade" id="upde-delivery-address" tabindex="-1" role="dialog" aria-labelledby="upde-delivery-address">
@@ -204,49 +235,59 @@
             <h4 class="modal-title multilanguage burmese" id="upde-delivery-address-header">Update Delivery Address</h4>
           </div>
           <div class="modal-body">
-            <div class='inputForms edit-comment-form'>
+            <div class='inputForms' id='edit-address-form'>
                 <form class='form-group' action='/edit-profile' method='POST'>
                     <div class="form-group">
                       <!--<label="name">Name: </label>-->
                       <input type='hidden' class="form-control" value="<%= currentUser.username %>" name="name">
                     </div>
                     <div class="form-group">
-                      <label="name">Mobile Number: </label>
-                      <input type="text" class="form-control" value="<%= currentUser.address.mobile %>" name="mobile">
+                      <label>Mobile Number: </label>
+                      <input type="text" class="form-control" value="<%= currentUser.address.mobile %>" name="mobile" required>
                     </div>
                     <div class="form-group">
-                      <h4>Address</h4>
                       <!--Room No-->
-                      <label="name">Room No: </label>
+                      <label>Room No: </label>
                       <input type="text" class="form-control" value="<%= currentUser.address.room_no %>" name="room_no">
                       
                       <!--Floor-->
-                      <label="name">Floor: </label>
+                      <label>Floor: </label>
                       <input type="text" class="form-control" value="<%= currentUser.address.floor %>" name="floor">
                       
                       <!--Building No-->
-                      <label="name">Build No: </label>
-                      <input type="text" class="form-control" value="<%= currentUser.address.building_no %>" name="building_no">
+                      <label>Build No: </label>
+                      <input type="text" class="form-control" value="<%= currentUser.address.building_no %>" name="building_no" required>
                       
                       <!--Street-->
-                      <label="name">Street: </label>
+                      <label>Street: </label>
                       <input type="text" class="form-control" value="<%= currentUser.address.street %>" name="street">
                       
                       <!--Ward-->
-                      <label="name">Ward: </label>
+                      <label>Ward: </label>
                       <input type="text" class="form-control" value="<%= currentUser.address.ward %>" name="ward">
-                      
-                      <!--Township-->
-                      <label="name">Township: </label>
-                      <input type="text" class="form-control" value="<%= currentUser.address.township %>" name="township">
+                     
+                     <label>Township</label>
+                      <select class='form-control' id='township-selector' name='township'>
+                        <% var twnship = ["Ahlon","Bahan","Botataung","Dagon Seikkan","Dagon","Dala","Dawbon","East Dagon","Hlaing","Hlaing Thar Yar","Insein","Kamayut","Kyauktada","Kyi Myin Daing","Lanmadaw","La Thar","Mayangone","Mingala Taung Nyunt","Mingaladon","North Dagon","North Okkalapa","Pabedan","Pazundaung","Sanchaung","Shwe Pyi Thar","South Dagon","South Okkalapa","Tamwe","Thaketa","Thingangyun","Yankin"]%>
+                        <% if(currentUser.address.township === "") { %>
+                          <option name="table2" value="" selected="selected" required></option>
+                        <% } %>
+                        <% for(var i=0;i<twnship.length;i++) { %>
+                          <% if(currentUser.address.township === twnship[i]) { %>
+                            <option name="table2" value="<%= twnship[i]%>" selected="selected"><%= twnship[i]%></option>
+                          <% } else { %>
+                            <option name="table2" value="<%= twnship[i]%>"><%= twnship[i]%></option>
+                          <% }%>
+                        <% } %>  
+                      </select>
                       
                       <!--City-->
-                      <label="name">City: </label>
-                      <input type="text" class="form-control" value="<%= currentUser.address.city %>" name="city">
+                      <label>City: </label>
+                      <input type="text" class="form-control" value="<%= currentUser.address.city %>" name="city" required>
 
                     </div>
               
-                    <button type="submit" class="btn btn-success">Submit</button>                    
+                    <button type="submit" class="btn btn-success">Update Address</button>                    
                 </form>
             </div>
           </div>
@@ -262,17 +303,19 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Pay with Stripe</h4>
+                <h4 class="modal-title" id="myModalLabel">Pay with Credit Card</h4>
               </div>
               
                 <div class="modal-body">
                 <!-- Credit card form -->
-                <div class="container">
+                
                   <div class="row">
-                    <div class="col-xs-12 col-md-4">
+                    <div class="col-xs-12" id="model-body-container">
                       <div class="panel panel-default">
                         <div class="panel-heading">
-                          <h3 class="panel-title"><img class="pull-right" src="http://i76.imgup.net/accepted_c22e0.png">Payment Details</h3>
+                          <!--<h3 class="panel-title">-->
+                            <img class="credit-cards" src="http://i76.imgup.net/accepted_c22e0.png">
+                          <!--</h3>-->
                         </div>
                         <div class="panel-body">
                           <form role="form" id="payment-form" action="/payment-card" method="POST">
@@ -289,20 +332,20 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="row">
+                            <div class="row" id='exp-date-and-cv-code-row'>
                               <div class="col-xs-7 col-md-7">
-                                <div class="form-group">
+                                <div class="form-group" id="expire-date-group">
                                   <label for="expMonth">EXPIRATION DATE</label>
-                                  <div class="col-xs-6 col-lg-6 pl-ziro">
+                                  <!--<div class="col-xs-6 col-lg-6 pl-ziro">-->
                                     <input type="text" class="form-control" name="expMonth" placeholder="MM" required data-stripe="exp_month" />
-                                  </div>
-                                  <div class="col-xs-6 col-lg-6 pl-ziro">
+                                  <!--</div>-->
+                                  <!--<div class="col-xs-6 col-lg-6 pl-ziro">-->
                                     <input type="text" class="form-control" name="expYear" placeholder="YY" required data-stripe="exp_year" />
-                                  </div>
+                                  <!--</div>-->
                                 </div>
                               </div>
                               <div class="col-xs-5 col-md-5 pull-right">
-                                <div class="form-group">
+                                <div class="form-group" id='cv-code-group'>
                                   <label for="cvCode">CV CODE</label>
                                   <input type="password" class="form-control" name="cvCode" placeholder="CV" required data-stripe="cvc" />
                                 </div>
@@ -323,7 +366,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                
 
               </div>
 

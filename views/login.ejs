@@ -2,17 +2,38 @@
 	<link rel="stylesheet" href="/stylesheets/login.css">
 
 
-        <div class="login-card">
-          <h1>LOG IN</h1><br>
-          <form class='form-group' action='/login' method='POST'>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="submit" name="login" class="login login-submit" value="LOG IN">
-          </form>
+        <!--<div class="login-card">-->
+        <!--  <h1>LOG IN</h1><br>-->
+        <!--  <form class='form-group' action='/login' method='POST'>-->
+        <!--    <input type="email" name="email" placeholder="Email" required>-->
+        <!--    <input type="password" name="password" placeholder="Password" required>-->
+        <!--    <input type="submit" name="login" class="login login-submit" value="LOG IN">-->
+        <!--  </form>-->
             
-          <div class="login-help">
-            <a href="/register">Register</a> • <a href="#">Forgot Password</a>
+        <!--  <div class="login-help">-->
+        <!--    <a href="/register">Register</a> • <a href="#">Forgot Password</a>-->
+        <!--  </div>-->
+        <!--</div>-->
+        
+        
+        <div class="login-card login-card-2">
+          <div class='login-header'>
+             <h4>Log In</h4>
           </div>
+          <div class='login-body login-body-2'>
+            <form class='form-group' action='/login' method='POST'>
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="Email" required>
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="submit" name="login" class="login login-submit" value="LOG IN">
+            </form>
+            
+            <!--<div class="login-help">-->
+            <!--    <p>Already Register ? </p> <a href="/login">Log In</a>-->
+            <!--</div> -->
+          </div><!--End of Login-body-->
+          
         </div>
 
 

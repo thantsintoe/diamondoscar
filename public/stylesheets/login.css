@@ -3,51 +3,89 @@ body {
   /*-webkit-background-size: cover;*/
   /*-moz-background-size: cover;*/
   /*-o-background-size: cover;*/
-  background: #003973; /* fallback for old browsers */
-background: -webkit-linear-gradient(to left, #003973 , #E5E5BE); /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to left, #003973 , #E5E5BE); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #efefef; /* fallback for old browsers */
   background-size: cover;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Muli', sans-serif;
   /*height: 100%;*/
 }
 
 .login-card {
-  padding: 40px;
-  width: 30%;
-  background-color: #F7F7F7;
-  /*background-color: #dbdbdb;*/
+  padding: 0px;
+  width: 400px;
+  height: 420px;
+  background-color: white;
   margin: 0 auto 10px;
   margin-top: 100px;
   margin-bottom: 300px;
-  border-radius: 15px;
-  border: 1px solid lightgray;
-  box-shadow: 0px 6px 2px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0px 2px 4px 0px rgba(51, 51, 51, 0.46);
+  /*overflow: hidden;*/
 }
 
-.login-card h1 {
-  font-weight: 100;
-  text-align: center;
-  font-size: 2.3em;
+.login-header {
+  position: relative;
+  top: 0px;
+  width: 100%;
+  height: 45px;
+  background-color: #ffb02d;
+  margin: 0px 0px 0px 0px;
+  border-radius: 5px 5px 0px 0px;
 }
+
+
+.login-header h4 {
+  font-family: "Muli";
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: white;
+  text-align: center;
+  margin: 0px;
+  padding-top: 17px;
+  
+}
+
+.login-body {
+  width: 100%;
+  height: 375px;
+  /*height: 45px;*/
+  background-color: white;
+  margin: 0px;
+  padding: 20px;
+  padding-bottom: 0px;
+  border-radius: 0px 0px 5px 5px;
+}
+
+.login-body form {
+  margin-bottom: 0px;
+}
+
+.login-body label {
+  font-family: "Muli";
+  font-weight: bold;
+  font-size: 12px;
+  color: #ffb02d;
+  
+}
+
 
 .login-card input[type=submit] {
   width: 100%;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   position: relative;
 }
 
 .login-card input[type=text],input[type=email], input[type=password] {
-  height: 44px;
-  font-size: 16px;
-  width: 100%;
+  height: 40px;
+  font-size: 11px;
+  width: 360px;
   margin-bottom: 10px;
   -webkit-appearance: none;
   background: #fff;
-  border: 1px solid #d9d9d9;
-  border-radius: 0px;
-  border-top: 1px solid #c0c0c0;
+  border: 2px solid #dddddd;
+  border-radius: 5px;
   /* border-radius: 2px; */
   padding: 0 8px;
   outline: none;
@@ -55,16 +93,26 @@ background: linear-gradient(to left, #003973 , #E5E5BE); /* W3C, IE 10+/ Edge, F
   -moz-box-sizing: border-box;
 }
 
-.login-card input[type=text],input[type=email]:hover, input[type=password]:hover {
-  border: 1px solid #b9b9b9;
-  border-top: 1px solid #a0a0a0;
-  -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+.login-card input[type=text]:focus,input[type=email]:focus, input[type=password]:focus {
+  border: 2px solid #c3c3c3;
   -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 }
 
-.login-card label {
-  font-weight: lighter;
+#radio-group {
+  margin-bottom: 36px;
+}
+
+#male-radio {
+  width: 90px;
+  float: left;
+  margin-bottom: 0px;
+}
+
+
+#female-radio {
+  float: left;
+   margin-bottom: 0px;
 }
 
 .login {
@@ -80,18 +128,24 @@ background: linear-gradient(to left, #003973 , #E5E5BE); /* W3C, IE 10+/ Edge, F
 }
 
 .login-submit {
-  border: 2px solid rgba(0, 83, 111,0.8); 
-  border-radius: 0px;
+  width: 360px;
+  height: 50px;
+  background-image: linear-gradient(0deg, #f9a51a 0%, #ffba47 100%);
   color: white;
-  text-shadow: 0 1px rgba(0,0,0,0.1); 
-  background-color: rgba(0, 83, 111,0.8);
+  font-family: "Muli","San Serif";
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 5px;
+  margin-top: 18px;
+  margin-bottom: 0px;
+  border: none;
+  float: none;
+  transition: 0.3s;
 }
 
 .login-submit:hover {
-  border: 2px solid rgba(0, 83, 111,0.8); 
-  color: white;
-  text-shadow: 0 1px rgba(0,0,0,0.1); 
-  background-color: rgba(0, 83, 111,0.8);
+  border-radius: 15px;
 }
 
 .login-card a {
@@ -112,6 +166,19 @@ background: linear-gradient(to left, #003973 , #E5E5BE); /* W3C, IE 10+/ Edge, F
   width: 100%;
   text-align: center;
   font-size: 12px;
+}
+
+.login-card-2 {
+  height: 295px;
+}
+
+.login-body-2 {
+  height: 253px;
+}
+
+
+.color-selector .btn.btn-default {
+    border-radius: 30px;
 }
 
 

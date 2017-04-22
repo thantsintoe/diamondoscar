@@ -19,22 +19,59 @@ body {
   font-family: 'Roboto', sans-serif;
   
   
-
-
-
 background: #003973; /* fallback for old browsers */
 background: -webkit-linear-gradient(to left, #003973 , #E5E5BE); /* Chrome 10-25, Safari 5.1-6 */
 background: linear-gradient(to left, #003973 , #E5E5BE); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
                 
 }
 
+#add-product-alert {
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+}
+
+#add-product-alert {
+    display: none;
+}
+
 #add-product-well {
     width: 50%;
     margin: 30px auto;
     padding: 0px;
-    border-radius: 15px;
-    border: 1px solid lightgray;
-    box-shadow: 0px 6px 2px rgba(0, 0, 0, 0.3);
+    padding-bottom: 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+    box-shadow: 0px 2px 4px 0px rgba(51, 51, 51, 0.46);
+}
+
+
+#add-product-well a {
+    color: #333;
+    margin-top: 20px;
+    display: block;
+}
+
+#add-product-well a:hover {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#new-product-header {
+    background-color: #ffb02d;
+    height: 60px;
+    margin-bottom: 20px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+#add-product-well h2 {
+    color: white;
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 20px;
+    margin: 0 auto;
 }
 
 #add-product-well .inputForms {
@@ -44,10 +81,28 @@ background: linear-gradient(to left, #003973 , #E5E5BE); /* W3C, IE 10+/ Edge, F
 
 #add-product-well .inputForms input {
     margin-left: 0px;
+    border-radius: 5px;
+    height: 40px;
+    
 }
 
+#add-product-well .inputForms input[type=text] {
+    border: 2px solid #dddddd;
+    text-align: left;
+    outline: none;
+    font-size: 12px;
+    
+}
+
+#add-product-well .inputForms input[type=text].color-name {
+    text-align: center;
+}
+
+
 #add-product-well .inputForms label {
-    font-weight: lighter;
+    font-weight: bold;
+    color: #ffb02d;
+
 }
 
 .form-group label {
@@ -91,6 +146,30 @@ background: linear-gradient(to left, #003973 , #E5E5BE); /* W3C, IE 10+/ Edge, F
     border:none;
 }
 
+#plus-color {
+    border-radius: 40px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 0px;
+    background-color: #f1f1f1;
+    font-size: 18px;
+    padding-bottom: 2px;
+    outline: none;
+}
+
+#plus-image {
+    border-radius: 40px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 0px;
+    background-color: #f1f1f1;
+    font-size: 18px;
+    padding-bottom: 2px;
+    outline: none;
+}
+
 .color-group {
     display: block;
     margin: 20px;
@@ -112,21 +191,26 @@ textarea.form-control {
 }
 
 #add-product-button{
+  width: 170px;
+  height: 50px;
   display: block;
-  height: 40px;
-  width: 30%;
-  margin: 20px auto;
-  border-radius: 0px;
-  border: 2px solid rgba(96,96,96,1.0);
-  color: rgba(96,96,96,1.0);
-  text-shadow: 0 1px rgba(0,0,0,0.1); 
-  background-color: transparent;
+  background-image: linear-gradient(0deg, #f9a51a 0%, #ffba47 100%);
+  color: white;
+  font-family: "Muli","San Serif";
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-top: 20px;
+  border: none;
+  float: none;
 }
 
 #add-product-button:hover {
-  border: 2px solid rgba(96,96,96,1.0);
-  color: white;
-  text-shadow: 0 1px rgba(0,0,0,0.1); 
-  background-color: rgba(96,96,96,1.0);
+  /*border: 2px solid rgba(96,96,96,1.0);*/
+  /*color: white;*/
+  /*text-shadow: 0 1px rgba(0,0,0,0.1); */
+  /*background-color: rgba(96,96,96,1.0);*/
 }
 
