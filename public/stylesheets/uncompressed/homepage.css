@@ -175,7 +175,7 @@ hgroup {
 /*       Slides backgrounds     */
 /********************************/
 .fade-carousel .slides .slide-1 {
-  background: linear-gradient(rgba(51, 51, 51,0.4), rgba(51, 51, 51,0.4)),url('/images/homepage/Hero_1.jpg');
+  background: linear-gradient(rgba(51, 51, 51,0.4), rgba(51, 51, 51,0.4)),url('http://res.cloudinary.com/dzxsfe54s/image/upload/q_54/v1492855114/Ecommerce/Hero_1.png');
 }
 
 
