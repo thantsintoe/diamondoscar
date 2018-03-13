@@ -1,43 +1,18 @@
-var express             = require('express');
-var router              = express.Router();
-var async               = require('async');
-
-
-var methodOverride      = require('method-override');
-var middleware          = require('../middleware/middleware');
-var cloudinary          = require('cloudinary');
-
-var multipart           = require('connect-multiparty');
-var multipartMiddleware = multipart();
-
-var Category            = require('../models/category');
-var Product             = require('../models/product');
-var User                = require('../models/user');
-
-// default options 
+let express             = require('express');
+let router              = express.Router();
+let async               = require('async');
+let methodOverride      = require('method-override');
+let middleware          = require('../middleware/middleware');
+let cloudinary          = require('cloudinary');
+let multipart           = require('connect-multiparty');
+let multipartMiddleware = multipart();
+let Category            = require('../models/category');
+let Product             = require('../models/product');
+let User                = require('../models/user');
+let cloudinaryConfig = require('../config/cloudinary')
 
 router.use(methodOverride("_method"));
-
-//========================================
-//Deployment Cloud Storage
-//========================================
-cloudinary.config({ 
-  cloud_name: 'dzxsfe54s', 
-  api_key: '343496594473383', 
-  api_secret: '39yXvsQZMFG5q124Jslc8G8OkEA' 
-});
-
-
-//========================================
-//Development Cloud Storage
-//========================================
-// cloudinary.config({ 
-//   cloud_name: 'thantsintoewebdevelopment', 
-//   api_key: '965369685249298', 
-//   api_secret: 'wpugp-nIMZAikstsnNAXStSqFe8' 
-// });
-
-
+cloudinary.config(cloudinaryConfig);
 
 //========================================
 //NEW route for Category (Form)
@@ -47,8 +22,8 @@ router.get('/product/add', function(req, res) {
     Product.find({},function(err,foundProduts) {
         if(err) {console.log(err);}
         console.log("Current number of Total Products " + foundProduts.length);
-        var newProductNumber = foundProduts.length + 1;
-        var newProductID = "DM "+ 10000 + newProductNumber;
+        let newProductNumber = foundProduts.length + 1;
+        let newProductID = "DM "+ 10000 + newProductNumber;
         console.log("New Product ID " + newProductID);
         
         res.render('product/new-product',{newProductID: newProductID});
@@ -62,19 +37,19 @@ router.get('/product/add', function(req, res) {
 //========================================
 router.post('/product/add',multipartMiddleware, function(req, res, next) {
     
-    var filename = [];
-    var availableColors = [];
-    var availableSizes = [];
-    var newFile = [];
+    let filename = [];
+    let availableColors = [];
+    let availableSizes = [];
+    let newFile = [];
 
   
-    for (var z = 1; z <= req.body.image_quantity; z++) {
+    for (let z = 1; z <= req.body.image_quantity; z++) {
         newFile.push(req['files']['newImage' + z]['path']);
     }
 
     // filename = upload(req, res, next).slice();
 
-    for (var z = 1; z <= req.body.color_quantity; z++) {
+    for (let z = 1; z <= req.body.color_quantity; z++) {
         availableColors.push({
             name: req['body']['color_name' + z],
             hex_code: req['body']['color' + z]
@@ -103,7 +78,6 @@ router.post('/product/add',multipartMiddleware, function(req, res, next) {
     if(availableSizes.length < 1) {
         availableSizes.push('-');
     }
-
 
     async.waterfall([
         function(callback) {
@@ -147,7 +121,7 @@ router.post('/product/add',multipartMiddleware, function(req, res, next) {
         },
         function(foundCategory, callback) {
 
-            var product = new Product();
+            let product = new Product();
 
             product.category = foundCategory._id;
             product.name.en = req.body.name_en;
@@ -163,13 +137,13 @@ router.post('/product/add',multipartMiddleware, function(req, res, next) {
             product.descriptionMM = req.body.description_mm; 
             
             
-            for (var b = 0; b < req.body.color_quantity; b++) {
+            for (let b = 0; b < req.body.color_quantity; b++) {
                 product.colors.push(availableColors[b]);
             }
-            for (var c = 0; c < availableSizes.length; c++) {
+            for (let c = 0; c < availableSizes.length; c++) {
                 product.sizes.push(availableSizes[c]);
             }
-            for (var a = 0; a < req.body.image_quantity; a++) {
+            for (let a = 0; a < req.body.image_quantity; a++) {
                 
                 cloudinary.uploader.upload(newFile[a],function(result) { 
                    console.log(result);
@@ -196,9 +170,6 @@ router.post('/product/add',multipartMiddleware, function(req, res, next) {
            
         }
     ]);
-
-    // res.redirect('/admin-control');
-
 });
 
 //========================================
@@ -250,12 +221,8 @@ router.get('/product/:category_name/:product_id', function(req, res) {
                         similarItems: similarItems
                     });
                 });
-              
         });
     }]);
-    
-    
-    
 });
 
 //========================================
@@ -288,12 +255,12 @@ router.get('/product/:category_name/:product_id/edit', function(req, res) {
 //========================================
 router.put('/product/:category_name/:product_id',multipartMiddleware, function(req, res, next) {
 
-    var filename = [];
-    var availableColors = [];
-    var availableSizes = [];
-    var isUpdateImage = false;
+    let filename = [];
+    let availableColors = [];
+    let availableSizes = [];
+    let isUpdateImage = false;
     
-    var newFile = [];
+    let newFile = [];
 
 
     if(req.files.newImage1.name === '') {
@@ -301,13 +268,13 @@ router.put('/product/:category_name/:product_id',multipartMiddleware, function(r
     } else {
         isUpdateImage = true;
         
-        for (var z = 1; z <= req.body.image_quantity; z++) {
+        for (let z = 1; z <= req.body.image_quantity; z++) {
             newFile.push(req['files']['newImage' + z]['path']);
         }
             
         Product.findById(req.params.product_id,function(err,foundProduct) {
             if(err) {console.log('cannot find product');console.log(err); return res.redirect('/category/all/1/?sort=created&dir=desc');}
-            for (var j=0; j<foundProduct.image.length; j++) {
+            for (let j=0; j<foundProduct.image.length; j++) {
                 cloudinary.uploader.destroy('Ecommerce/'+ foundProduct.name.en+j, function(err,result) {
                     if(err) {console.log(err);}
                 },{invalidate: true});
@@ -316,7 +283,7 @@ router.put('/product/:category_name/:product_id',multipartMiddleware, function(r
         });
     }
     //Saving color data into Product Data
-    for (var z = 1; z <= req.body.color_quantity; z++) {
+    for (let z = 1; z <= req.body.color_quantity; z++) {
         availableColors.push({
             name: req['body']['color_name' + z],
             hex_code: req['body']['color' + z]
@@ -400,10 +367,10 @@ router.put('/product/:category_name/:product_id',multipartMiddleware, function(r
                             });
                             
                         },function(foundProduct,callback) {
-                            for (var b = 0; b < req.body.color_quantity; b++) {
+                            for (let b = 0; b < req.body.color_quantity; b++) {
                                 foundProduct.colors.push(availableColors[b]);
                             }
-                            for (var c = 0; c < availableSizes.length; c++) {
+                            for (let c = 0; c < availableSizes.length; c++) {
                                 foundProduct.sizes.push(availableSizes[c]);
                             }
                             
@@ -417,7 +384,7 @@ router.put('/product/:category_name/:product_id',multipartMiddleware, function(r
                         },function(foundProduct,callback) {
                             if (isUpdateImage) {
                                 
-                                for (var a = 0; a < req.body.image_quantity; a++) {
+                                for (let a = 0; a < req.body.image_quantity; a++) {
     
                                     cloudinary.uploader.upload(newFile[a],function(result) { 
                                        console.log(' a is '+ a);
@@ -466,7 +433,7 @@ router.delete('/product/:category_name/:product_id', function(req, res, next) {
         }
         
         //Remove Image from Cloudinary
-        for (var j=0; j<originalProduct.image.length; j++) {
+        for (let j=0; j<originalProduct.image.length; j++) {
             cloudinary.uploader.destroy('Ecommerce/'+ originalProduct.name+j, function(err,result) {
                 if(err) {console.log('cannot delete product image');console.log(err);}
             },{invalidate: true});
@@ -490,57 +457,9 @@ router.delete('/product/:category_name/:product_id', function(req, res, next) {
 });
 
 //========================================
-//Update Product ID
-//========================================
-
-// router.get('/update-product-id', function(req, res) {
-    
-//     Product.find({},function(err,foundProducts) {
-      
-//       if(err) {console.log('Cannot find Products');}
-       
-//       for(var i = 0; i<foundProducts.length; i++) {
-//           foundProducts[i].detail.serial_num = "DM " + 10001 + i;
-//           foundProducts[i].markModified('detail.serial_num');
-//           foundProducts[i].save(function(err,savedProduct) {
-//               if(err) {console.log('cannot save product');}
-//               console.log(savedProduct);
-//           });
-//       }
-//     });
-// });
-
-
-
-//========================================
-//Assign Name Searchable
-//========================================
-
-// router.get('/assign-name-searchable', function(req, res) {
-    
-//     Product.find({},function(err,foundProducts) {
-      
-//       if(err) {console.log('Cannot find Products');}
-       
-//       for(var i = 0; i<foundProducts.length; i++) {
-          
-//           foundProducts[i].searchable = foundProducts[i].name.en;
-//           foundProducts[i].markModified('searchable');
-//           foundProducts[i].save(function(err,savedProduct) {
-//               if(err) {console.log('cannot save product');}
-//               console.log(savedProduct);
-//           });
-//       }
-//     });
-// });
-
-
-
-//========================================
 //SEARCH POST route
 //========================================
 
-//?q=shirt&page=2
 router.post('/search', function(req, res) {
     res.redirect('/search?q=' + req.body.q + '&page=1');
 });
@@ -551,10 +470,10 @@ router.post('/search', function(req, res) {
 //========================================
 router.get('/search', function(req, res) {
     
-    var perPage = 12.0;
-    var pageNo = req.query.page;
-    var totalPages = 1.0;
-    var requestedURL = "/search?q=" + req.query.q + "&page=";
+    let perPage = 12.0;
+    let pageNo = req.query.page;
+    let totalPages = 1.0;
+    let requestedURL = "/search?q=" + req.query.q + "&page=";
     
     console.log('Req.query is ' + req.query.q);
     
@@ -595,7 +514,6 @@ router.get('/search', function(req, res) {
 //Wish List route
 //========================================
 
- 
     router.post('/product/:category_name/:product_id/add-wishlist',middleware.isLoggedIn,function(req,res,next) {
             
             async.waterfall([
@@ -633,22 +551,19 @@ router.get('/search', function(req, res) {
             ]);
     });
 
-
 //========================================
 //Find Parent Category Name FUNCTION
 //========================================
 
-var findParentCategoryName = function(childName,callback) { //Using callback to return value from the inside of async. mongoose query
+let findParentCategoryName = function(childName,callback) { //Using callback to return value from the inside of async. mongoose query
     
     Category.findOne({name: childName})
     .populate('parent_category')
     .exec(function(err,foundCategory) {
        if(err) {console.log(err);}
-       var parentName = foundCategory.parent_category.name;
+       let parentName = foundCategory.parent_category.name;
        callback(parentName);
     });
-    
-    
 };
 
 module.exports = router;

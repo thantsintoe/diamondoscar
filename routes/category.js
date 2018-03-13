@@ -1,20 +1,13 @@
-
-var express                 = require('express');
-var router                  = express.Router();
-
-var passport                = require('passport');
-var passportLocalMongoose   = require('passport-local-mongoose');
-var LocalStrategy           = require('passport-local');
-var async                   = require('async');
-
-var mongoose                = require('mongoose');
-
-var User                    = require('../models/user');
-var Category                = require('../models/category');
-var Product                 = require('../models/product');
-
-
-
+let express                 = require('express');
+let router                  = express.Router();
+let passport                = require('passport');
+let passportLocalMongoose   = require('passport-local-mongoose');
+let LocalStrategy           = require('passport-local');
+let async                   = require('async');
+let mongoose                = require('mongoose');
+let User                    = require('../models/user');
+let Category                = require('../models/category');
+let Product                 = require('../models/product');
 
 //========================================
 //Home Page
@@ -88,7 +81,7 @@ router.get('/',function(req,res) {
                             console.log(err);
                             return next();
                         }
-                        var category = new Category();
+                        let category = new Category();
     
                         category.parent_category = parentCategory._id;
                         category.name = req.body.name;
@@ -99,7 +92,7 @@ router.get('/',function(req,res) {
                     });
                 },
                 function(category, callback) {
-                    // var id = category.parent_category;
+                    // let id = category.parent_category;
     
                     Category.findOne({
                         name: req.body.parent_name
@@ -142,16 +135,16 @@ router.get('/',function(req,res) {
 
     router.get('/category/all/:page_no/*', function(req, res, next) {
     
-        var name    = req.query.sort;
-        var dir     = req.query.dir;
+        let name    = req.query.sort;
+        let dir     = req.query.dir;
         
-        var Sort = {};
+        let Sort = {};
         Sort[name] = dir;
         
-        var perPage = 12;
-        var pageNo = req.params.page_no;
-        var totalPages = 1;
-        var requestedURL = '/category/all/';
+        let perPage = 12;
+        let pageNo = req.params.page_no;
+        let totalPages = 1;
+        let requestedURL = '/category/all/';
     
         Product.find({})
             .sort(Sort)
@@ -196,17 +189,17 @@ router.get('/',function(req,res) {
 
     router.get('/category/:category_name/:page_no/', function(req, res, next) {
         
-        var name    = req.query.sort;
-        var dir     = req.query.dir;
+        let name    = req.query.sort;
+        let dir     = req.query.dir;
         
-        var Sort = {};
+        let Sort = {};
         Sort[name] = dir;
         
-        var perPage = 12;
-        var pageNo = req.params.page_no;
-        var totalPages = 1;
-        var parentCategory = '';
-        var requestedURL = '/category/'+ req.params.category_name + '/';
+        let perPage = 12;
+        let pageNo = req.params.page_no;
+        let totalPages = 1;
+        let parentCategory = '';
+        let requestedURL = '/category/'+ req.params.category_name + '/';
     
         async.waterfall([
             function(callback) {
@@ -224,7 +217,7 @@ router.get('/',function(req,res) {
             },
             function(foundCategory, callback) {
     
-                var found_id = foundCategory._id;
+                let found_id = foundCategory._id;
     
     
                 Product.find({
@@ -282,17 +275,17 @@ router.get('/',function(req,res) {
     
     router.get('/main-category/:category_name/:page_no/', function(req, res, next) {
         
-        var name    = req.query.sort;
-        var dir     = req.query.dir;
+        let name    = req.query.sort;
+        let dir     = req.query.dir;
         
-        var Sort = {};
+        let Sort = {};
         Sort[name] = dir;
         
-        var perPage = 12;
-        var pageNo = req.params.page_no;
-        var totalPages = 1;
-        var parentCategory = '';
-        var requestedURL = '/main-category/'+ req.params.category_name + '/';
+        let perPage = 12;
+        let pageNo = req.params.page_no;
+        let totalPages = 1;
+        let parentCategory = '';
+        let requestedURL = '/main-category/'+ req.params.category_name + '/';
             
             async.waterfall([
                 function(callback) {
@@ -309,7 +302,7 @@ router.get('/',function(req,res) {
                 },
                 function(foundCategory, callback) {
 
-                    var found_id = foundCategory._id;
+                    let found_id = foundCategory._id;
 
                     Product.find()
                         .sort(Sort)
@@ -328,7 +321,7 @@ router.get('/',function(req,res) {
                                 return res.render('/');
                             }
                             
-                                var count = foundProducts.length;
+                                let count = foundProducts.length;
                                 
                                 if (parseInt(count) % parseInt(perPage) === 0) {
                                     totalPages = parseInt(parseInt(count) / parseInt(perPage));
@@ -358,17 +351,17 @@ router.get('/',function(req,res) {
 
     router.get('/brand/:brand_name/:page_no/', function(req, res, next) {
         
-        var name    = req.query.sort;
-        var dir     = req.query.dir;
+        let name    = req.query.sort;
+        let dir     = req.query.dir;
         
-        var Sort = {};
+        let Sort = {};
         Sort[name] = dir;
         
-        var perPage = 12;
-        var pageNo = req.params.page_no;
-        var totalPages = 1;
-        var parentCategory = '';
-        var requestedURL = '/brand/'+ req.params.brand_name + '/';
+        let perPage = 12;
+        let pageNo = req.params.page_no;
+        let totalPages = 1;
+        let parentCategory = '';
+        let requestedURL = '/brand/'+ req.params.brand_name + '/';
     
         async.waterfall([
             function(callback) {

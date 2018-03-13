@@ -1,73 +1,42 @@
-var express             = require('express');
-var app                 = express();
-var mongoose            = require('mongoose');
-var bodyParser          = require('body-parser');
-var nodemailer          = require("nodemailer");
-var async                   = require('async');
+let express             = require('express');
+let app                 = express();
+let mongoose            = require('mongoose');
+let bodyParser          = require('body-parser');
+let nodemailer          = require("nodemailer");
+let async                   = require('async');
 
-var ejs                 = require('ejs');
-var engine              = require('ejs-mate');
-var flash               = require('connect-flash');
+let ejs                 = require('ejs');
+let engine              = require('ejs-mate');
+let flash               = require('connect-flash');
 
-var passport            = require('passport');
-var passportLocalMongoose = require('passport-local-mongoose');
-var LocalStrategy       = require('passport-local');
-var compressor          = require('node-minify');
-var minifyNow           = require('./api/minifyNow');
-// var minifyHTML = require('express-minify-html');
+let passport            = require('passport');
+let passportLocalMongoose = require('passport-local-mongoose');
+let LocalStrategy       = require('passport-local');
+let compressor          = require('node-minify');
+let minifyNow           = require('./api/minifyNow');
 
-var User = require('./models/user');
-var Category = require('./models/category');
-var Product = require('./models/product');
-
-
-var cartRoutes = require('./routes/cart');
-var userRoutes = require('./routes/user');
-var productRoutes = require('./routes/product');
-var commentRoutes = require('./routes/comment');
-var categoryRoutes = require('./routes/category');
-var adminRoutes = require('./routes/admin');
-var indexRoutes = require('./routes/index');
-
-// var uploadRoutes = require('./routes/upload');
-var cloudinary = require('cloudinary');
-
-var cartLength = require('./middleware/cartlength');
-var preferredLanguage = "en";
+let User = require('./models/user');
+let Category = require('./models/category');
+let Product = require('./models/product');
 
 
-//========================================
-//Deployment Cloud Storage
-//========================================
-cloudinary.config({ 
-  cloud_name: 'dzxsfe54s', 
-  api_key: '343496594473383', 
-  api_secret: '39yXvsQZMFG5q124Jslc8G8OkEA' 
-});
+let cartRoutes = require('./routes/cart');
+let userRoutes = require('./routes/user');
+let productRoutes = require('./routes/product');
+let commentRoutes = require('./routes/comment');
+let categoryRoutes = require('./routes/category');
+let adminRoutes = require('./routes/admin');
+let indexRoutes = require('./routes/index');
+let cloudinary = require('cloudinary');
 
+let cartLength = require('./middleware/cartlength');
+let preferredLanguage = "en";
 
-//========================================
-//Development Cloud Storage
-//========================================
-// cloudinary.config({ 
-//   cloud_name: 'thantsintoewebdevelopment', 
-//   api_key: '965369685249298', 
-//   api_secret: 'wpugp-nIMZAikstsnNAXStSqFe8' 
-// });
+const mongoURL = process.env.MONGO_URL;
+mongoose.connect(mongoURL);
 
-
-// mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost/ecommerce');
-
-//========================================
-//Deployment Database
-//========================================
-// mongoose.connect('mongodb://thantsintoe:patoe1492010@ds143767.mlab.com:43767/ecommerce-deployed');
-
-//========================================
-//Development Database
-//========================================
-mongoose.connect('mongodb://thantsintoe:patoe1492010@ds053090.mlab.com:53090/thantsintoe-ecommerce');
-
+let cloudinaryConfig = require('../config/cloudinary')
+cloudinary.config(cloudinaryConfig);
 
 app.engine('ejs',engine);
 app.set('view engine','ejs');
@@ -81,8 +50,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(require('express-session')({
     secret: 'I have a dream',
     resave: false,
-    saveUninitialized: false,
-    // cookie: { maxAge: 600000 }
+    saveUninitialized: false
 }));
 
 app.use(passport.initialize());
@@ -97,14 +65,14 @@ passport.deserializeUser(User.deserializeUser());
 passport.authenticate('local', { failureFlash: 'Incorrect username or password.' });
 
 //Section and Cookie Parser
-var cookieParser = require('cookie-parser');
+let cookieParser = require('cookie-parser');
 
 app.use(cookieParser("I have a dream"));
 
 // minifyNow();
 
 //Language Localization for English and Myanmar
-var i18n = require('i18n');
+let i18n = require('i18n');
 
 i18n.configure({
       //define how many languages we would support in our application
@@ -121,19 +89,6 @@ i18n.configure({
 });
 
 app.use(i18n.init);
-
-// app.use(minifyHTML({
-//     override:      true,
-//     exception_url: false,
-//     htmlMinifier: {
-//         removeComments:            true,
-//         collapseWhitespace:        true,
-//         collapseBooleanAttributes: true,
-//         removeAttributeQuotes:     true,
-//         removeEmptyAttributes:     true,
-//         minifyJS:                  true
-//     }
-// }));
 
 //Middleware to pass the Current User info to every request
 app.use(function(req,res,next) {
@@ -168,10 +123,10 @@ app.use(function(req,res,next) {
 
 //Middleware to pass the Brand info to every request
 app.use(function(req,res,next) {
-    var brandArray = [];
+    let brandArray = [];
    
    function contains(ar, obj) {
-        for (var i = 0; i < ar.length; i++) {
+        for (let i = 0; i < ar.length; i++) {
             if (ar[i] === obj) {
                 return true;
             }
@@ -197,11 +152,9 @@ app.use(function(req,res,next) {
 
 
 app.use(cartRoutes);
-
 app.use(userRoutes);
 app.use(categoryRoutes);
 app.use(productRoutes);
-// app.use(uploadRoutes);
 app.use(adminRoutes);
 app.use(commentRoutes);
 
@@ -221,10 +174,8 @@ app.get('/en',function(req,res) {
 
 
 app.get('/send',function(req,res){
-    
-    
-    
-    var smtpTransport = nodemailer.createTransport("SMTP",{
+
+    let smtpTransport = nodemailer.createTransport("SMTP",{
         host: 'smtp.gmail.com',
         secureConnection: false,
         port: 587,
@@ -235,8 +186,8 @@ app.get('/send',function(req,res){
     });
     
     async.waterfall([function(callback) {
-        // var myHTML = new ejs({url: '/email.ejs'});
-        var data = "Thantsintoe";
+        // let myHTML = new ejs({url: '/email.ejs'});
+        let data = "Thantsintoe";
         
         ejs.renderFile('views/emails/ordershipped.ejs',{name: "Pa Pa"},function(err,html) {
             if(err) console.log(err);
@@ -245,7 +196,7 @@ app.get('/send',function(req,res){
         });    
     },function(html,callback) {
         
-        var mailOptions = {
+        let mailOptions = {
             from: 'mr.thantsintoe@gmail.com',
             to: 'mr.thantsintoe@gmail.com', 
             subject: 'Hello ✔', 
@@ -264,10 +215,7 @@ app.get('/send',function(req,res){
             }
         });
     }]);
-    
-    
 });
-
 
 app.use(indexRoutes);
 
